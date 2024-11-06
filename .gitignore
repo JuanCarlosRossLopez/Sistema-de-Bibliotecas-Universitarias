@@ -1,0 +1,6 @@
+# Ignore the Visual Studio folder
+.vs/
+
+# Ignore build outputs and package dependencies
+bin/
+obj/
