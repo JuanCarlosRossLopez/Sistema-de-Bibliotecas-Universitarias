@@ -3,10 +3,10 @@ require('dotenv').config();  // Asegúrate de cargar las variables de entorno
 
 // Crear la conexión
 const pool = mysql.createPool({
-    host: process.env.DB_HOST || '127.0.0.1',  // O 'localhost'
-    user: process.env.DB_USER || 'root',  // Usuario de MySQL
-    password: process.env.DB_PASSWORD || '',  // Contraseña vacía si no tienes
-    database: process.env.DB_NAME || 'biblioteca',  // Nombre de la base de datos
+    host: process.env.DB_HOST,  // O 'localhost'
+    user: process.env.DB_USER,  // Usuario de MySQL
+    password: process.env.DB_PASSWORD,  // Contraseña vacía si no tienes
+    database: process.env.DB_NAME,  // Nombre de la base de datos
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0
