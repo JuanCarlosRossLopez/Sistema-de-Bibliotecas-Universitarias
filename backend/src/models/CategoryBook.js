@@ -1,15 +1,15 @@
-const  {Datatypes} = require('sequelize')
+const  {DataTypes,Model} = require('sequelize')
 
 const sequelize = require('../config/db');
 
 const CategoryBooks = sequelize.define('CategoryBooks',{
     id_category:{
-        type:Datatypes.INTEGER,
+        type:DataTypes.INTEGER,
         autoIncrement:true,
         primaryKey:true
     },
     category:{
-        type:Datatypes.STRING(100),
+        type:DataTypes.STRING(100),
         allowNull:false
     }
 },{
