@@ -1,9 +1,12 @@
 const express = require("express");
-const route = express.Router();
-const categoryBooksCOntroller= require("../controllers/catergoryBooksController");
+const router = express.Router();
+const categoryBooksController = require("../controllers/catergoryBooksController");
 
 
-route.get("/",categoryBooksCOntroller.getCategorys);
+router.get("/", categoryBooksController.getCategorysBooks);
+router.get("/:id", categoryBooksController.getCategoryById);
+router.post("/post",categoryBooksController.createCategoryBook)
+router.put("/update/:id", categoryBooksController.updateCategoryBook);
+router.delete("/delete/:id", categoryBooksController.deleteCategory);
 
-
-module.exports= route;
+module.exports = router;

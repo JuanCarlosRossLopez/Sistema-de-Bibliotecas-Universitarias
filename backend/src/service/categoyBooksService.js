@@ -2,8 +2,8 @@
 const CategoryBooks= require('../repositories/categoryBooksRepository');
 
 
-const findCategory = async() =>{
-const category= await CategoryBooks.findCategory();
+const findCategory = async(body) =>{
+const category= await CategoryBooks.findCategory(body);
 if(!category){
 throw new Error("No se encontraron categorias")
 }
@@ -37,14 +37,13 @@ const updateCategoryBook = async (body,id) =>{
     return category
 }
 
-const deleteCategoryBook = async (id) =>{
-    console.info(id)
-    const category = await CategoryBooks.deleteCategoryBook(id)
-    if(!category){
-        throw new Error("No se enconmtro el id")
+const deleteCategoryBook = async (id) => {
+    const result = await CategoryBooks.deleteCategoryBook(id);
+    if (!result) {
+        throw new Error("No se encontró el id");
     }
-    return category
-}
+    return result;
+};
 
 module.exports={
     findCategory,
