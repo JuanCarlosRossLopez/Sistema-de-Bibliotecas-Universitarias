@@ -1,8 +1,8 @@
 const categoryBooks = require('../models/CategoryBook');
 
-const findCategory= async ()=>{
+const findCategory= async (body)=>{
     try{
-        return await categoryBooks.findAll();
+        return await categoryBooks.findAll(body);
     }catch(error){
         console.error("Error en repository all",error)
         throw error;
@@ -27,32 +27,31 @@ try{
     throw error
 }}
 
-const updateCategoryBook = async(body,id)=>{
-    try{
-        return await categoryBooks.update(body,{
-            where:{
-                id_category:id
+const updateCategoryBook = async (body, id) => {
+    try {
+        return await categoryBooks.update(body, {
+            where: {
+                id_category: id
             }
-        })
-    }catch(error){
-        console.error("Error al actualizar en el service")
-        throw error
+        });
+    } catch (error) {
+        console.error("Error al actualizar en el service", error);
+        throw error;
     }
-}
+};
 
-const deleteCategoryBook = async(id) =>{
-    try{
+const deleteCategoryBook = async (id) => {
+    try {
         return await categoryBooks.destroy({
-            where:{
-                id_category:id
+            where: {
+                id_category: id
             }
-        })
-    }catch(error){
-console.error("Error en eliminar en service",error)
-throw error
+        });
+    } catch (error) {
+        console.error("Error en eliminar en service", error);
+        throw error;
     }
-}
-
+};
 
 module.exports={
     findCategory,
