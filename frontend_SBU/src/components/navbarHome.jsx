@@ -1,3 +1,6 @@
+
+
+
 function NavbarHome() {
     return (
         <nav class="bg-transparent py-9 fixed top-0 left-0 w-full">
