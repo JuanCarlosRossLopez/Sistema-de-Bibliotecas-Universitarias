@@ -35,16 +35,16 @@ function Signup() {
             className="mx-4 sm:mx-8 md:mx-10 flex items-center space-y-4 py-8 sm:py-10 md:py-16 px-4 sm:px-10 md:px-20 font-semibold text-gray-500 flex-col"
             onSubmit={handleSubmit(onSubmit)}
           >
-            <h1 className="text-black font-semibold text-4xl">Inicio de Sesión</h1>
+            <h1 className="text-black font-semibold text-4xl">Registro</h1>
 
             <input
-              className="w-full p-2 bg-[#e9d2c4] rounded-md border border-gray-700 focus:border-yellow-00 hover:border-yellow-500 transition-all duration-200"
+              className="w-full p-2 placeholder-white bg-[#e9d2c4] rounded-md border border-gray-700 focus:border-yellow-00 hover:border-yellow-500 transition-all duration-200"
               placeholder="Correo"
               {...register("example")}
             />
 
             <input
-              className="w-full p-2 bg-[#e9d2c4] rounded-md border border-gray-700 focus:border-yellow-700 hover:border-yellow-500 transition-all duration-200"
+              className="w-full p-2 placeholder-white bg-[#e9d2c4] rounded-md border border-gray-700 focus:border-yellow-700 hover:border-yellow-500 transition-all duration-200"
               placeholder="Contraseña"
               {...register("exampleRequired", { required: true })}
             />
@@ -56,11 +56,11 @@ function Signup() {
               type="submit"
             />
             <p className="text-center">
-              ¿No tienes una cuenta?
+              ¿Ya tienes una cuenta?
               <a
                 className="font-semibold text-black hover:text-yellow-500 transition-all duration-200"
-                href="/*"
-              > Registrate
+                href="/Signin"
+              > Inicia Sesión
               </a>
             </p>
           </form>
