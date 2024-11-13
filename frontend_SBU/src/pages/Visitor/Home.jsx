@@ -19,9 +19,9 @@ function Home() {
             <h2 className="text-sm sm:text-base md:text-lg lg:text-xl xl:text-2xl">
               "Aprender a leer es encender un fuego, cada sílaba que se deletrea es una chispa"
             </h2>
-            <button className="rounded-2xl bg-[#521E03] text-white font-bold text-sm sm:text-base md:text-lg lg:text-2xl xl:text-3xl px-6 py-3 md:px-8 md:py-4 lg:px-10 lg:py-6">
+            <a href={`/Signin`} className="rounded-2xl bg-[#521E03] text-white font-bold text-sm sm:text-base md:text-lg lg:text-2xl xl:text-3xl px-6 py-3 md:px-8 md:py-4 lg:px-10 lg:py-6">
               Empieza hoy
-            </button>
+            </a>
           </div>
         </div>
       </div>
