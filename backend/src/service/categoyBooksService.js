@@ -45,10 +45,22 @@ const deleteCategoryBook = async (id) => {
     return result;
 };
 
+const addBookToCategory = async (bookId, categoryId) => {
+    try {
+        const result = await CategoryBooks.addBookToCategory(bookId, categoryId);
+        return result;
+    } catch (error) {
+        console.error("Error adding Book to Category in service", error);
+        throw error;
+    }
+    
+};
+
 module.exports={
     findCategory,
     findCategoryById,
     createCategoryBook,
     updateCategoryBook,
-    deleteCategoryBook
+    deleteCategoryBook,
+    addBookToCategory
 }

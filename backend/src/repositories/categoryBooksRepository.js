@@ -1,5 +1,5 @@
 const categoryBooks = require('../models/CategoryBook');
-
+const Book = require('../models/Book');
 const findCategory= async (body)=>{
     try{
         return await categoryBooks.findAll(body);
@@ -53,10 +53,28 @@ const deleteCategoryBook = async (id) => {
     }
 };
 
+const addBookToCategory = async (bookId, categoryId) => {
+    try {
+        const book = await Book.findByPk(bookId);
+        const category = await categoryBooks.findByPk(categoryId);
+
+        if (!book || !category) {
+            throw new Error('Book or Category not found');
+        }
+
+        await book.addCategoryBook(category);
+        return { message: 'Book added to Category successfully' };
+    } catch (error) {
+        console.error("Error adding Book to Category in repository", error);
+        throw error;
+    }
+};
+
 module.exports={
     findCategory,
     findCategoryById,
     createCategoryBook,
     updateCategoryBook,
-    deleteCategoryBook
+    deleteCategoryBook,
+    addBookToCategory
 }

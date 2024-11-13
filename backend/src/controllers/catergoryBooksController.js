@@ -50,10 +50,23 @@ const deleteCategory = async (req, res) => {
     }
 };
 
+const addBookToCategory = async (req, res) => {
+    const { bookId, categoryId } = req.body;
+
+    try {
+        const result = await categoryBooksService.addBookToCategory(bookId, categoryId);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Error adding Book to Category', error });
+    }
+};
+
+
 module.exports={
     getCategorysBooks,
     getCategoryById,
     createCategoryBook,
     updateCategoryBook,
-    deleteCategory
+    deleteCategory,
+    addBookToCategory
 }
