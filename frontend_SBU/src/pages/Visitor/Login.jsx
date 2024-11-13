@@ -36,13 +36,13 @@ function Login() {
                         <h1 className="text-black text-4xl">Inicio de Sesión</h1>
 
                         <input
-                            className="w-full p-2 text-black bg-[#d2a89f] rounded-md border border-gray-700 focus:border-yellow-700 hover:border-yellow-500 transition-all duration-200"
+                            className="w-full p-2 placeholder-white text-black bg-[#d2a89f] rounded-md border border-gray-700 focus:border-yellow-700 hover:border-yellow-500 transition-all duration-200"
                             placeholder="Correo"
                             {...register("example")}
                         />
 
                         <input
-                            className="w-full p-2 bg-[#d2a89f] rounded-md border border-gray-700 focus:border-yellow-700 hover:border-yellow-500 transition-all duration-200"
+                            className="w-full p-2 placeholder-white bg-[#d2a89f] rounded-md border border-gray-700 focus:border-yellow-700 hover:border-yellow-500 transition-all duration-200"
                             placeholder="Contraseña"
                             {...register("exampleRequired", { required: true })}
                         />
@@ -57,7 +57,7 @@ function Login() {
                             ¿No tienes una cuenta?
                             <a
                                 className="font-semibold text-black hover:text-yellow-500 transition-all duration-200"
-                                href="/*"
+                                href={`/signup`}
                             > Registrate
                             </a>
                         </p>
