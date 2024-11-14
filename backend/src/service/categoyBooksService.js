@@ -46,15 +46,21 @@ const deleteCategoryBook = async (id) => {
 };
 
 const addBookToCategory = async (bookId, categoryId) => {
-    try {
-        const result = await CategoryBooks.addBookToCategory(bookId, categoryId);
-        return result;
-    } catch (error) {
-        console.error("Error adding Book to Category in service", error);
-        throw error;
+    const result = await CategoryBooks.addBookToCategory(bookId, categoryId);
+    if (!result) {
+        throw new Error("No se encontró el id");
     }
-    
-};
+    return result;
+}
+
+const getBooksByCategory = async (id) => {
+    const result = await CategoryBooks.getBooksByCategory(id);
+    if (!result) {
+        throw new Error("No se encontró el id");
+    }
+    return result;
+}
+
 
 module.exports={
     findCategory,
@@ -62,5 +68,6 @@ module.exports={
     createCategoryBook,
     updateCategoryBook,
     deleteCategoryBook,
-    addBookToCategory
+    addBookToCategory,
+    getBooksByCategory
 }

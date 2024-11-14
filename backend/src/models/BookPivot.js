@@ -1,14 +1,14 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('../config/db');
-const Books = require('./Book');
-
+const Books = require('../models/Book');
+const CategoryBooks = require('../models/CategoryBook')
 
 const BookPivot = sequelize.define('BookPivot',{
     id_book_id:{
         type:DataTypes.INTEGER,
         primaryKey:true,
         references:{
-            model:'Books',
+            model:Books,
             key:'id_book'
         }
     },
@@ -16,13 +16,15 @@ const BookPivot = sequelize.define('BookPivot',{
         type:DataTypes.INTEGER,
         primaryKey:true,
         references:{
-            model:'CategoryBooks',
+            model:CategoryBooks,
             key:'id_category'
         }
     }
 },{
-    tableName:'bookpivot',
+    tableName:'book_pivot',
     timestamps:false
 });
+
+
 
 module.exports=BookPivot;
