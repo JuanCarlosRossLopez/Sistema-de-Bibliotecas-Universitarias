@@ -13,7 +13,7 @@ const Status= sequelize.define('Status',{
         allowNull:false
 
     },
-    desricption_status:{
+    description_status:{
         type:DataTypes.STRING,
         allowNull:false
     }

@@ -1,7 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const CategoryBooks = require('./CategoryBook'); // Asegúrate de que la ruta sea correcta
-
+const CategoryBooks = require('../models/CategoryBook'); // Asegúrate de que la ruta sea correcta
+const BookPivot = require('../models/BookPivot');
 const Books = sequelize.define('Books', {
     id_book: {
         type: DataTypes.INTEGER,
@@ -38,6 +38,14 @@ const Books = sequelize.define('Books', {
 });
 
 // Define the many-to-many relationship
+
+Books.associate = function(models) {
+    Books.belongsToMany(models.CategoryBooks, {
+        through: models.BookPivot,
+        foreignKey: 'id_book',
+        otherKey: 'id_category'
+    });
+};
 
 
 module.exports = Books;
