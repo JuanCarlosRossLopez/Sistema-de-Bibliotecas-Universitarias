@@ -21,7 +21,8 @@ CategoryBooks.associate = function(models) {
     CategoryBooks.belongsToMany(models.Books, {
         through: models.BookPivot,
         foreignKey: 'id_category_id',
-        otherKey: 'id_book_id'
+        otherKey: 'id_book_id',
+        onDelete:'CASCADE'
     });
 };
 

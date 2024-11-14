@@ -3,6 +3,7 @@ const dotenv = require('dotenv');
 const categoryRoutes = require('./routes/categoryBooksRoutes');
 const userRoutes = require('./routes/userRoutes'); // Asegúrate de que la ruta sea correcta
 const statusRoutes = require('./routes/statusRoutes');
+const bookRoute= require('./routes/bookRoute');
 const CategoryBooks = require('./models/CategoryBook');
 const Books = require('./models/Book');
 const BookPivot = require('./models/BookPivot');
@@ -20,5 +21,6 @@ CategoryBooks.associate({ Books, BookPivot });
 app.use('/category',categoryRoutes) // Prefijo de las rutas
 app.use('/user', userRoutes)
 app.use('/status', statusRoutes)
+app.use('/book', bookRoute)
 
 module.exports = app; // No inicializar el servidor aquí // No inicializar el servidor aquí
