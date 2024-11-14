@@ -1,7 +1,10 @@
 import React from "react";
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 function Login() {
+    const [verContra, setVerContra] = useState(false);
     const {
         register,
         handleSubmit,
@@ -27,8 +30,8 @@ function Login() {
                 </div>
             </div>
 
-            <div className=" flex ">
-                <div className="bg-[#e9d2c4] border-[4px] border-yellow-900 rounded-2xl transition-all duration-200 w-full  max-w-xl mx-4 sm:mx-6 lg:mx-10">
+            <div className="flex">
+                <div className="bg-[#e9d2c4] border-[4px] border-yellow-900 rounded-2xl transition-all duration-200 w-full max-w-xl mx-4 sm:mx-6 lg:mx-10">
                     <form
                         className="mx-4 sm:mx-8 md:mx-10 flex items-center space-y-4 py-8 sm:py-10 md:py-16 px-4 sm:px-10 md:px-20 font-semibold text-gray-500 flex-col"
                         onSubmit={handleSubmit(onSubmit)}
@@ -36,18 +39,28 @@ function Login() {
                         <h1 className="text-black text-4xl">Inicio de Sesión</h1>
 
                         <input
-                            className="w-full p-2 placeholder-white text-black bg-[#d2a89f] rounded-md border border-gray-700 focus:border-yellow-700 hover:border-[#f0a779] transition-all duration-200"
+                            className="w-full md:w-[20rem] p-2 placeholder-white text-black bg-[#d2a89f] rounded-md border border-gray-700 focus:border-yellow-700 hover:border-[#f0a779] transition-all duration-200"
                             placeholder="Correo"
                             {...register("example")}
                         />
+                        {errors.exampleRequired && <span>Este campo es obligatorio</span>}
 
-                        <input
-                            className="w-full p-2 placeholder-white bg-[#d2a89f] rounded-md border border-gray-700 focus:border-white-700 hover:border-[#f0a779] transition-all duration-200"
-                            placeholder="Contraseña"
-                            {...register("exampleRequired", { required: true })}
-                        />
-
-                        {errors.exampleRequired && <span className="">This field is required</span>}
+                        <div className="flex w-full md:ml-7 md:w-[21.7rem] items-center space-x-1">
+                            <input
+                                type={verContra ? "text" : "password"}
+                                className="w-full p-2 placeholder-white bg-[#d2a89f] rounded-md border border-gray-700 focus:border-white-700 hover:border-[#f0a779] transition-all duration-200"
+                                placeholder="Contraseña"
+                                {...register("exampleRequired", { required: true })}
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setVerContra(!verContra)}
+                                className="text-gray-500 hover:text-yellow-700 text-2xl"
+                            >
+                                {verContra ? <AiFillEyeInvisible /> : <AiFillEye />}
+                            </button>
+                        </div>
+                        {errors.exampleRequired && <span>Este campo es obligatorio</span>}
 
                         <input
                             className="w-full sm:w-44 p-2 bg-gray-50 rounded-full font-bold text-gray-900 border-[4px] border-gray-700 hover:border-[#4a180dc4] transition-all duration-200"
@@ -58,12 +71,14 @@ function Login() {
                             <a
                                 className="font-semibold text-black hover:text-yellow-500 transition-all duration-200"
                                 href={`/signup`}
-                            > Registrate
+                            >
+                                Registrate
                             </a>
                         </p>
                     </form>
                 </div>
             </div>
+
 
         </div>
     );
