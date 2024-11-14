@@ -26,7 +26,7 @@ function NavbarHome() {
             <div class="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
               <div class="hidden sm:ml-6 sm:block">
                 <div class="flex py-6">
-                    <a href="#" class=" px-3 py-2 lg:text-3xl md:text-xl sm:text-lg font-serif text-white transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300" aria-current="page">Inicio</a>
+                    <a href="" class=" px-3 py-2 lg:text-3xl md:text-xl sm:text-lg font-serif text-white transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300" aria-current="page">Inicio</a>
                     <div className="h-13 w-0.5 bg-slate-200"></div>
                     <a href="#" class=" px-6 py-2 lg:text-3xl md:text-xl sm:text-lg text-white font-serif transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">Catalogo</a>
                     <div className="h-13 w-0.5 bg-slate-200"></div>
@@ -46,11 +46,14 @@ function NavbarHome() {
               {/* el siguiente div es para el menu de las opciones en el perfil */}
               <div class="relative ml-3">
                 <div>
-                  <button type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                  <a href={`/Signin`} type="button" class="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                     <span class="absolute -inset-1.5"></span>
                     <span class="sr-only">Open user menu</span>
                     <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt=""/>
-                  </button>
+                    
+                  </a>
+                  
+                  
                 </div>
               </div>
 
