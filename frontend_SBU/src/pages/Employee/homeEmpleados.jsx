@@ -1,5 +1,6 @@
 import React from "react";
 import Sidebar from "../../components/Sidebar";
+import BarsChart from "../../components/BarsChart";
 
 function HomeEmpleados() {
   return (
@@ -12,11 +13,22 @@ function HomeEmpleados() {
       <div className="fixed top-0">
          <Sidebar />
       </div> 
-        <div className="flex justify-center items-center h-screen">
-            <h1 className="text-3xl font-bold text-[#834841]">aqui van las cards, cuando se consuman las apis</h1>
-        </div>
-
-     
+      <div className="flex flex-col justify-center items-center h-full p-4">
+  <p className="m-2 text-center text-lg sm:text-xl md:text-2xl">
+    <b>Ejemplo #2:</b> Grafico de barras
+  </p>
+  <div
+    className="bg-light mx-auto p-4 border border-spacing-2"
+    style={{
+      width: "100%", 
+      maxWidth: "450px", 
+      height: "auto", 
+      minHeight: "200px",
+    }}
+  >
+    <BarsChart />
+  </div>
+</div>
     </div>
   );
 }
