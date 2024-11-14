@@ -43,7 +43,7 @@ function Login() {
                         className="mx-1 sm:mx-8 md:mx-10 flex items-center space-y-5 sm:space-y-4 md:space-y-4 xl:space-y-4 py-8 sm:py-10 md:py-16 px-4 sm:px-10 md:px-20 font-semibold text-gray-500 flex-col"
                         onSubmit={handleSubmit(onSubmit)}
                     >
-                        <h1 className="text-black text-2xl sm:text-4xl md:text-4xl">Inicio de Sesión</h1>
+                        <h1 className="text-black font-semibold text-2xl sm:text-4xl md:text-4xl">Inicio de Sesión</h1>
 
                         <input
                             className="w-full md:w-[20rem] p-2 placeholder-white text-black bg-[#d2a89f] rounded-md border border-gray-700 focus:border-yellow-700 hover:border-[#f0a779] transition-all duration-200"
