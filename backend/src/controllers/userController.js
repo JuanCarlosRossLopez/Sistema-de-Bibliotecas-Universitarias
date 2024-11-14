@@ -38,7 +38,7 @@ exports.getUserById = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const [updated] = await User.update(req.body, {
-            where: { id_users: req.params.id }
+            where: { id_user: req.params.id }
         });
         if (updated) {
             const updatedUser = await User.findByPk(req.params.id);
@@ -55,10 +55,10 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
     try {
         const deleted = await User.destroy({
-            where: { id_users: req.params.id }
+            where: { id_user: req.params.id }
         });
         if (deleted) {
-            res.status(204).json();
+            res.status(200).json({ message: 'Usuario eliminado correctamente' });
         } else {
             res.status(404).json({ error: 'Usuario no encontrado' });
         }

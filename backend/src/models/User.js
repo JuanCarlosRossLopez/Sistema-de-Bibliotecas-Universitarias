@@ -1,9 +1,9 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const Rol = require('./Rol'); // Aquí importamos directamente el modelo Rol
+const Rol = require('./Rol'); // Aquí importamos el modelo Rol
 
 const User = sequelize.define('User', {
-    id_users: {
+    id_user: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
@@ -36,7 +36,7 @@ const User = sequelize.define('User', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: Rol, // Aquí referenciamos directamente al modelo Rol
+            model: Rol,
             key: 'id_rol'
         }
     }

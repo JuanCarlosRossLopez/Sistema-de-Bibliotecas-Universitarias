@@ -1,5 +1,6 @@
 const app = require('./app'); // Importar desde app.js
 const sequelize = require('./config/db');
+const { User, Student, Rol, Book, CategoryBooks } = require('./config/associations'); // Importar asociaciones
 
 const port = process.env.PORT || 3000; // Asegúrate de que el puerto esté definido
 
