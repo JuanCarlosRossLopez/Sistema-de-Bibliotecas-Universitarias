@@ -1,5 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
+const CategoryBooks = require('../models/CategoryBook'); // Asegúrate de que la ruta sea correcta
+const BookPivot = require('../models/BookPivot');
 const Books = sequelize.define('Books', {
     id_book: {
         type: DataTypes.INTEGER,
@@ -38,7 +40,7 @@ const Books = sequelize.define('Books', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: 'typeofbook',
+            model: TypeofBook,
             key: 'id_type'
         }
     }

@@ -1,7 +1,7 @@
 const express = require('express');
 const dotenv = require('dotenv');
 const categoryRoutes = require('./routes/categoryBooksRoutes');
-const userRoutes = require('./routes/userRoutes'); // Asegúrate de que la ruta sea correcta
+const userRoutes = require('./routes/userRoutes');
 const statusRoutes = require('./routes/statusRoutes');
 const bookRoute= require('./routes/bookRoute');
 const CategoryBooks = require('./models/CategoryBook');
@@ -23,4 +23,4 @@ app.use('/user', userRoutes)
 app.use('/status', statusRoutes)
 app.use('/book', bookRoute)
 
-module.exports = app; // No inicializar el servidor aquí // No inicializar el servidor aquí
+module.exports = app; // No inicializar el servidor aquí

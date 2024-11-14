@@ -1,7 +1,7 @@
 const {DataTypes} = require('sequelize');
 const sequelize = require('../config/db');
-const Books = require('../models/Book');
-const CategoryBooks = require('../models/CategoryBook')
+const Books = require('./Book');
+const CategoryBooks = require('./CategoryBook');
 
 const BookPivot = sequelize.define('BookPivot',{
     id_book_id:{
