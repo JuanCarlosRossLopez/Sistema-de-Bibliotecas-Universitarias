@@ -9,5 +9,7 @@ router.post("/post",categoryBooksController.createCategoryBook)
 router.put("/update/:id", categoryBooksController.updateCategoryBook);
 router.delete("/delete/:id", categoryBooksController.deleteCategory);
 router.post("/addBookToCategory", categoryBooksController.addBookToCategory);
+router.get("/getBooksByCategory/:id", categoryBooksController.getBooksByCategory);
+
 
 module.exports = router;

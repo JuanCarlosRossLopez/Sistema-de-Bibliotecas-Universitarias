@@ -1,14 +1,12 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const CategoryBooks = require('../models/CategoryBook'); // Asegúrate de que la ruta sea correcta
-const BookPivot = require('../models/BookPivot');
 const Books = sequelize.define('Books', {
     id_book: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true
     },
-    title: {
+    name_book: {
         type: DataTypes.STRING(100),
         allowNull: false
     },
@@ -16,7 +14,7 @@ const Books = sequelize.define('Books', {
         type: DataTypes.STRING(100),
         allowNull: false
     },
-    quantiy: {
+    quantity: {
         type: DataTypes.INTEGER,
         allowNull: false
     },
@@ -42,8 +40,8 @@ const Books = sequelize.define('Books', {
 Books.associate = function(models) {
     Books.belongsToMany(models.CategoryBooks, {
         through: models.BookPivot,
-        foreignKey: 'id_book',
-        otherKey: 'id_category'
+        foreignKey: 'id_book_id',
+        otherKey: 'id_category_id'
     });
 };
 

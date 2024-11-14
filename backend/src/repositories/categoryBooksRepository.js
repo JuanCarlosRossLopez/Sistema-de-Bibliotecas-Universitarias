@@ -62,7 +62,7 @@ const addBookToCategory = async (bookId, categoryId) => {
             throw new Error('Book or Category not found');
         }
 
-        await book.addCategoryBook(category);
+        await book.addCategory(category); // Utiliza el método correcto para la relación belongsToMany
         return { message: 'Book added to Category successfully' };
     } catch (error) {
         console.error("Error adding Book to Category in repository", error);
@@ -70,11 +70,28 @@ const addBookToCategory = async (bookId, categoryId) => {
     }
 };
 
+const getBooksByCategory = async (id) => {
+    try {
+        const category = await categoryBooks.findByPk(id, {
+            include: {
+                model:Book,
+                attributes: ['id_book', 'name_book', 'author', 'quantity', 'link_book']
+            }
+        });
+        return category.Books;
+    } catch (error) {
+        console.error("Error getting Books by Category in repository", error);
+        throw error;
+    }
+};
+
+
 module.exports={
     findCategory,
     findCategoryById,
     createCategoryBook,
     updateCategoryBook,
     deleteCategoryBook,
-    addBookToCategory
+    addBookToCategory,
+    getBooksByCategory
 }
