@@ -5,6 +5,8 @@ import Signup from '../pages/Visitor/Signup';
 import Myspace from '../pages/Visitor/Myspace';
 import HomeE from '../pages/Employee/homeEmpleados';
 import HomeEmpleados from '../pages/Employee/homeEmpleados';
+import Error from '../components/Error404';
+
 
 function AppRoutes() {
   return (
@@ -15,7 +17,7 @@ function AppRoutes() {
         <Route path="/signup" element={<Signup/>} />
         <Route path="/myspace" element={<Myspace />} />
         <Route path="/homee" element={<HomeEmpleados />} />
-
+        <Route path="*" element={<Error />} />
       </Routes>
     </Router>
   );
