@@ -1,7 +1,14 @@
 const {DataTypes} = require('sequelize');
 const sequelize  = require('../config/db');
 const Student = require('./Student')
+const Book = require('./Book');
+const Status =require('./Status');
 const bookRent = sequelize.define('bookRent',{
+    id_rent:{
+        type:DataTypes.INTEGER,
+        primaryKey:true,
+        autoIncrement:true
+    },
     id_student_id:{
         type: DataTypes.INTEGER,
         allowNull:false,
@@ -15,7 +22,7 @@ const bookRent = sequelize.define('bookRent',{
         type:DataTypes.INTEGER,
         allowNull:false,
         references:{
-                model:BookPivot,
+                model:Book,
                 key:'id_book'
         }
     },
@@ -40,3 +47,6 @@ const bookRent = sequelize.define('bookRent',{
     tableName:'book_rent',
     timestamps:false
 })
+
+
+module.exports=bookRent
