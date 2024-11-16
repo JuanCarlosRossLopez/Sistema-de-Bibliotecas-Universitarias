@@ -18,11 +18,15 @@ User.belongsTo(Rol, { foreignKey: 'id_rol_id' });
 BookRent.hasOne(Status,{foreignKey:'id_status_id'});
 Status.belongsTo(BookRent,{foreignKey:'id_status_id'});
 
+BookRent.hasOne(Student,{foreignKey:'id_student_id'});
+Student.belongsTo(BookRent,{foreignKey:'id_student_id'});
 
 
 module.exports = {
     User,
     Student,
     Rol,
+    BookRent,
+    Status,
 
 };

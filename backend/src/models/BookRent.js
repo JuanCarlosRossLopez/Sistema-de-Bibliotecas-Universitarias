@@ -14,7 +14,7 @@ const bookRent = sequelize.define('bookRent',{
         allowNull:false,
         references:{
             model: Student,
-            key: 'id_students'
+            key: 'id_student'
         }
 
     },
@@ -39,7 +39,7 @@ const bookRent = sequelize.define('bookRent',{
         allowNull:false,
         references:{
                 model:Status,
-                key:'id_book'
+                key:'id_status'
         }
     },
 },
