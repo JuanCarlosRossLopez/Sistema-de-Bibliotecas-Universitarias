@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBars, FaTimes } from "react-icons/fa";
+import { AiFillEye, AiFillEyeInvisible, AiOutlineArrowLeft } from "react-icons/ai";
+
 function Sidebar() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const [isOnline, setIsOnline] = useState(true); // Cambia el estado aquí para simular "online" y "offline"
@@ -41,8 +43,8 @@ function Sidebar() {
         </Link>
 
         <div className="mt-4 flex flex-col gap-5">
-          <a className="text-2xl font-bold" href="/Inicio">Inicio</a>
-          <a className="text-2xl font-bold" href="/Libros_Registrados">Libros registrados</a>
+          <a className="text-2xl font-bold" href="/homee">Inicio</a>
+          <a className="text-2xl font-bold" href="/TablaEmpleados">Libros registrados</a>
         </div>
       </div>
 
