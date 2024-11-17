@@ -3,10 +3,10 @@ const router = express.Router();
 const studentController = require('../controllers/studentController');
 
 // Rutas para CRUD de estudiantes
-router.post('/students', studentController.createStudent);
-router.get('/students', studentController.getAllStudents);
-router.get('/students/:id', studentController.getStudentById);
-router.put('/students/:id', studentController.updateStudent);
-router.delete('/students/:id', studentController.deleteStudent);
+router.post('/', studentController.createStudent);
+router.get('/', studentController.getAllStudents);
+router.get('/:id', studentController.getStudentById);
+router.put('/:id', studentController.updateStudent);
+router.delete('/:id', studentController.deleteStudent);
 
 module.exports = router;
