@@ -1,29 +1,27 @@
-const Rol = require('../models/Rol');
+// src/controllers/rolController.js
+const rolService = require('../service/rolService');
 
-// Crear un nuevo rol
 exports.createRol = async (req, res) => {
     try {
-        const rol = await Rol.create(req.body);
+        const rol = await rolService.createRol(req.body);
         res.status(201).json(rol);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
-// Obtener todos los roles
 exports.getAllRols = async (req, res) => {
     try {
-        const rols = await Rol.findAll();
+        const rols = await rolService.findRols();
         res.status(200).json(rols);
     } catch (error) {
         res.status(400).json({ error: error.message });
     }
 };
 
-// Obtener un rol por ID
 exports.getRolById = async (req, res) => {
     try {
-        const rol = await Rol.findByPk(req.params.id);
+        const rol = await rolService.findRolById(req.params.id);
         if (rol) {
             res.status(200).json(rol);
         } else {
@@ -34,14 +32,10 @@ exports.getRolById = async (req, res) => {
     }
 };
 
-// Actualizar un rol
 exports.updateRol = async (req, res) => {
     try {
-        const [updated] = await Rol.update(req.body, {
-            where: { id_rol: req.params.id }
-        });
-        if (updated) {
-            const updatedRol = await Rol.findByPk(req.params.id);
+        const updatedRol = await rolService.updateRol(req.body, req.params.id);
+        if (updatedRol) {
             res.status(200).json(updatedRol);
         } else {
             res.status(404).json({ error: 'Rol no encontrado' });
@@ -51,12 +45,9 @@ exports.updateRol = async (req, res) => {
     }
 };
 
-// Eliminar un rol
 exports.deleteRol = async (req, res) => {
     try {
-        const deleted = await Rol.destroy({
-            where: { id_rol: req.params.id }
-        });
+        const deleted = await rolService.deleteRol(req.params.id);
         if (deleted) {
             res.status(200).json({ message: 'Rol eliminado correctamente' });
         } else {

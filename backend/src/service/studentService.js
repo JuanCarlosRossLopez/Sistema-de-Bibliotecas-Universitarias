@@ -1,52 +1,58 @@
-const Student = require('../repositories/studentRepository');
+const studentRepository = require('../repositories/studentRepository');
+const userRepository = require('../repositories/userRepository');
 
-const findStudents = async(body) =>{
-    const students= await Student.findStudents(body);
-    if(!category){
-    throw new Error("No se encontraron estudiantes")
+const findStudents = async () => {
+    const students = await studentRepository.findStudents();
+    if (!students) {
+        throw new Error("No se encontraron estudiantes");
     }
-    return students
+    return students;
+};
+
+const findStudentById = async (id) => {
+    const student = await studentRepository.findStudentById(id);
+    if (!student) {
+        throw new Error("No se encontró el estudiante");
     }
-    
-    
-    const findStudentById= async(id)=>{
-        const student = await User.findStudentById(id)
-        if(!category){
-            throw new Error("No se enconmtro el estudiante")
-        }
-        return student
+    return student;
+};
+
+const createStudent = async (body) => {
+    const user = await userRepository.findUserById(body.id_user_id);
+    if (!user.is_student) {
+        throw new Error("El usuario debe ser un estudiante para ser asignado como estudiante");
     }
-    
-    const createStudent=async(body)=>{
-        console.info(body);
-        const createstudent= await User.createStudent(body)
-        if(!category){
-            throw new Error("No se creó el estudiante")
-        }
-        return createstudent;
+    const student = await studentRepository.createStudent(body);
+    if (!student) {
+        throw new Error("No se creó el estudiante");
     }
-    
-    const updateStudent = async (body,id) =>{
-        console.info(body,id)
-        const updatestudent = await Student.updateStudent(body,id)
-        if(!category){
-            throw new Error("No se actualizó el estudiante")
-        }
-        return updatestudent
+    return student;
+};
+
+const updateStudent = async (body, id) => {
+    const user = await userRepository.findUserById(body.id_user_id);
+    if (!user.is_student) {
+        throw new Error("El usuario debe ser un estudiante para ser asignado como estudiante");
     }
-    
-    const deleteStudent = async (id) => {
-        const deletestudent = await Student.deleteStudent(id);
-        if (!result) {
-            throw new Error("No se eliminó el estudiante");
-        }
-        return deletestudent;
-    };
-    
-    module.exports={
-        findStudents,
-        findStudentById,
-        createStudent,
-        updateStudent,
-        deleteStudent
+    const student = await studentRepository.updateStudent(body, id);
+    if (!student) {
+        throw new Error("No se actualizó el estudiante");
     }
+    return student;
+};
+
+const deleteStudent = async (id) => {
+    const student = await studentRepository.deleteStudent(id);
+    if (!student) {
+        throw new Error("No se eliminó el estudiante");
+    }
+    return student;
+};
+
+module.exports = {
+    findStudents,
+    findStudentById,
+    createStudent,
+    updateStudent,
+    deleteStudent
+};

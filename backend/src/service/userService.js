@@ -1,52 +1,69 @@
-const User = require('../repositories/userRepository');
+// src/services/userService.js
+const userRepository = require('../repositories/userRepository');
+const rolRepository = require('../repositories/rolRepository');
 
-const findUsers = async(body) =>{
-    const users= await User.findUsers(body);
-    if(!category){
-    throw new Error("No se encontraron usuarios")
+const findUsers = async () => {
+    const users = await userRepository.findUsers();
+    if (!users) {
+        throw new Error("No se encontraron usuarios");
     }
-    return users
+    return users;
+};
+
+const findUserById = async (id) => {
+    const user = await userRepository.findUserById(id);
+    if (!user) {
+        throw new Error("No se encontró el usuario");
     }
-    
-    
-    const findUserById= async(id)=>{
-        const user = await User.findUserById(id)
-        if(!category){
-            throw new Error("No se enconmtro el usuario")
-        }
-        return user
+    return user;
+};
+
+const createUser = async (body) => {
+    const rol = await rolRepository.findRolById(body.id_rol_id);
+    if (!rol) {
+        throw new Error("El rol especificado no existe");
     }
-    
-    const createUser=async(body)=>{
-        console.info(body);
-        const createuser= await User.createUser(body)
-        if(!category){
-            throw new Error("No se creó el usuario")
-        }
-        return createUser;
+    if (body.is_student && rol.name_rol !== 'Estudiante') {
+        throw new Error('El rol debe ser "Estudiante" si el usuario es un estudiante');
+    } else if (!body.is_student && rol.name_rol === 'Estudiante') {
+        throw new Error('El rol de "Estudiante" solo se puede asignar si is_student es true');
     }
-    
-    const updateUser = async (body,id) =>{
-        console.info(body,id)
-        const updateuser = await User.updateUser(body,id)
-        if(!category){
-            throw new Error("No se actualizó el usuario")
-        }
-        return updateUser
+    const user = await userRepository.createUser(body);
+    if (!user) {
+        throw new Error("No se creó el usuario");
     }
-    
-    const deleteUser = async (id) => {
-        const deleteuser = await User.deleteUser(id);
-        if (!result) {
-            throw new Error("No se eliminó el usuario");
-        }
-        return deleteuser;
-    };
-    
-    module.exports={
-        findUsers,
-        findUserById,
-        createUser,
-        updateUser,
-        deleteUser
+    return user;
+};
+
+const updateUser = async (body, id) => {
+    const rol = await rolRepository.findRolById(body.id_rol_id);
+    if (!rol) {
+        throw new Error("El rol especificado no existe");
     }
+    if (body.is_student && rol.name_rol !== 'Estudiante') {
+        throw new Error('El rol debe ser "Estudiante" si el usuario es un estudiante');
+    } else if (!body.is_student && rol.name_rol === 'Estudiante') {
+        throw new Error('El rol de "Estudiante" solo se puede asignar si is_student es true');
+    }
+    const user = await userRepository.updateUser(body, id);
+    if (!user) {
+        throw new Error("No se actualizó el usuario");
+    }
+    return user;
+};
+
+const deleteUser = async (id) => {
+    const user = await userRepository.deleteUser(id);
+    if (!user) {
+        throw new Error("No se eliminó el usuario");
+    }
+    return user;
+};
+
+module.exports = {
+    findUsers,
+    findUserById,
+    createUser,
+    updateUser,
+    deleteUser
+};

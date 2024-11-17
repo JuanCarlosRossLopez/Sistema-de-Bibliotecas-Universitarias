@@ -1,62 +1,58 @@
 const Rol = require('../models/Rol');
 
-const findRols = async (body)=>{
-    try{
-        return await Rol.findAll(body);
-    }catch(error){
-        console.error("Error al emcontrar los roles", error)
+const findRols = async () => {
+    try {
+        return await Rol.findAll();
+    } catch (error) {
+        console.error("Error al encontrar los roles", error);
         throw error;
     }
 };
 
-const findRolById = async (id)=>{
-    try{
-        return await Rol.findByPk(id)
-    }catch(error){
-        console.error("Error al encontrar el rol")
-        throw error
+const findRolById = async (id) => {
+    try {
+        return await Rol.findByPk(id);
+    } catch (error) {
+        console.error("Error al encontrar el rol", error);
+        throw error;
     }
 };
 
-const createRol = async(body)=>{
-    try{
-        return await Rol.create(body)
-    }catch(error){
-        console.error("Error al crear el rol")
-        throw error
+const createRol = async (body) => {
+    try {
+        return await Rol.create(body);
+    } catch (error) {
+        console.error("Error al crear el rol", error);
+        throw error;
     }
 };
 
 const updateRol = async (body, id) => {
-    try{
+    try {
         return await Rol.update(body, {
-            where: {
-                id_rol: id
-            }
-    });
-    }catch (error) {
+            where: { id_rol: id }
+        });
+    } catch (error) {
         console.error("Error al actualizar el rol", error);
-        throw error
+        throw error;
     }
 };
 
 const deleteRol = async (id) => {
-    try{
+    try {
         return await Rol.destroy({
-            where: {
-                id_rol: id
-            }
+            where: { id_rol: id }
         });
-    }catch (error){
+    } catch (error) {
         console.error("Error al eliminar el rol", error);
         throw error;
     }
 };
 
-module.exports={
+module.exports = {
     findRols,
     findRolById,
     createRol,
     updateRol,
     deleteRol
-}
+};

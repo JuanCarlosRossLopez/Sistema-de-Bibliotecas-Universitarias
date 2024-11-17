@@ -1,52 +1,50 @@
-const Rol = require('../repositories/rolRepository');
+// src/services/rolService.js
+const rolRepository = require('../repositories/rolRepository');
 
-const findRols = async(body) =>{
-    const rols= await Rol.findRols(body);
-    if(!category){
-    throw new Error("No se encontraron roles")
+const findRols = async () => {
+    const rols = await rolRepository.findRols();
+    if (!rols) {
+        throw new Error("No se encontraron roles");
     }
-    return rols
+    return rols;
+};
+
+const findRolById = async (id) => {
+    const rol = await rolRepository.findRolById(id);
+    if (!rol) {
+        throw new Error("No se encontró el rol");
     }
-    
-    
-    const findRolById = async(id)=>{
-        const rol = await Rol.findRolById(id)
-        if(!category){
-            throw new Error("No se enconmtro el rol")
-        }
-        return rol
+    return rol;
+};
+
+const createRol = async (body) => {
+    const rol = await rolRepository.createRol(body);
+    if (!rol) {
+        throw new Error("No se creó el rol");
     }
-    
-    const createRol = async(body)=>{
-        console.info(body);
-        const createrol= await Rol.createRol(body)
-        if(!category){
-            throw new Error("No se creó el rol")
-        }
-        return createrol;
+    return rol;
+};
+
+const updateRol = async (body, id) => {
+    const rol = await rolRepository.updateRol(body, id);
+    if (!rol) {
+        throw new Error("No se actualizó el rol");
     }
-    
-    const updateRol = async (body,id) =>{
-        console.info(body,id)
-        const updaterol = await Rol.updateRol(body,id)
-        if(!category){
-            throw new Error("No se actualizó el rol")
-        }
-        return updaterol
+    return rol;
+};
+
+const deleteRol = async (id) => {
+    const rol = await rolRepository.deleteRol(id);
+    if (!rol) {
+        throw new Error("No se eliminó el rol");
     }
-    
-    const deleteRol = async (id) => {
-        const deleterol = await Rol.deleteRol(id);
-        if (!result) {
-            throw new Error("No se eliminó el rol");
-        }
-        return deleterol;
-    };
-    
-    module.exports={
-        findRols,
-        findRolById,
-        createRol,
-        updateRol,
-        deleteRol
-    }
+    return rol;
+};
+
+module.exports = {
+    findRols,
+    findRolById,
+    createRol,
+    updateRol,
+    deleteRol
+};

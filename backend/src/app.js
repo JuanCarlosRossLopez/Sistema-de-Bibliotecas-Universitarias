@@ -22,10 +22,10 @@ CategoryBooks.associate({ Books, BookPivot });
 
 
 app.use('/category', categoryRoutes); 
-app.use('/user', userRoutes);
+app.use('/users', userRoutes);
 app.use('/status', statusRoutes);
-app.use('/rol', rolRoutes);
-app.use('/student', studentRoutes);
+app.use('/rols', rolRoutes);
+app.use('/students', studentRoutes);
 app.use('/book', bookRoute)
 
 module.exports = app; // No inicializar el servidor aquí
