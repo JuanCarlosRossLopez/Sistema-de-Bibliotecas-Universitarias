@@ -3,7 +3,7 @@ const sequelize = require('../config/db');
 const Rol = require('./Rol'); // Aquí importamos el modelo Rol
 
 const User = sequelize.define('User', {
-    id_user: {
+    id_users: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
         primaryKey: true

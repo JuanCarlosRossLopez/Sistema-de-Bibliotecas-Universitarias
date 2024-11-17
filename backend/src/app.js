@@ -7,9 +7,7 @@ const bookRoute= require('./routes/bookRoute');
 const CategoryBooks = require('./models/CategoryBook');
 const Books = require('./models/Book');
 const BookPivot = require('./models/BookPivot');
-const rolRoutes = require('./routes/roleRoutes');
-const studentRoutes = require('./routes/studentRoutes');
-
+const bookRentRoute = require('./routes/bookRentRoutes');
 dotenv.config();
 
 const app = express();
