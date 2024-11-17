@@ -7,7 +7,7 @@ import HomeE from '../pages/Employee/homeEmpleados';
 import HomeEmpleados from '../pages/Employee/homeEmpleados';
 import HomeAdmin from '../pages/Admin/HomeAdmin';
 import Error from '../components/Error404';
-
+import Mislibros from '../pages/User/ViewBooks';
 
 function AppRoutes() {
   return (
@@ -20,6 +20,7 @@ function AppRoutes() {
         <Route path="/homee" element={<HomeEmpleados />} />
         <Route path="*" element={<Error />} />
         <Route path='/HomeA' element={<HomeAdmin/>}/>
+        <Route path='/Mislibros' element={<Mislibros/>}/>
       </Routes>
     </Router>
   );
