@@ -1,7 +1,7 @@
 
 const books = require('../models/Book');
 const categoryBooks = require('../models/CategoryBook');
-const BookPivot = require('../models/BookPivot');
+
 
 const findBook = async (body) => {
     try {
