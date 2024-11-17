@@ -1,26 +1,38 @@
 const BookRent = require('../models/BookRent');
+const Status = require('../models/Status');
+const Student = require('../models/Student');
+const Book = require('../models/Book');
+const User = require('../models/User');
+const {Op} = require('sequelize');
 
-
-const getBookRent=async()=>{
-   try{ return await BookRent.findAll({
-        include: [{
-            model: Status,
-            attributes: ['status']
-        },
-        {
-            model: Student,
-            attributes: ['name_student']
-        },
-        {
-            model: Book,
-            attributes: ['name_book']
-        }]
-
-    });
-}catch(error){
-    console.error("Error en repository all", error);
-    throw error;    
-}
+const getBookRent = async () => {
+    try {
+        return await BookRent.findAll({
+            include: [
+                {
+                    model: Status,
+                    attributes: ['status']
+                },
+                {
+                    model: Student,
+                    
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name'] // Asegúrate de que este es el nombre del atributo en la tabla User
+                        }
+                    ]
+                },
+                {
+                    model: Book,
+                    attributes: ['name_book']
+                }
+            ]
+        });
+    } catch (error) {
+        console.error("Error en repository all", error);
+        throw error;
+    }
 };
 
 const getBookRentById=async(id)=>{
@@ -109,10 +121,42 @@ const deleteBookRent=async(id)=>{
     }
 };
 
+const getOverdueBookRents = async () => {
+    try {
+        const overdueBookRents = await BookRent.findAll({
+            where: {
+                return_date: {
+                    [Op.lt]: new Date() // Compara con la fecha actual
+                }
+            },
+            include: [
+                {
+                    model:Book,
+                    attributes: ['name_book'] // Incluye el título del libro
+                },
+                {
+                    model: Status,
+                    attributes: ['status'] // Incluye el estado del alquiler
+                },
+                {
+                    model: Student,
+                    attributes: ['name_student'] // Incluye el nombre del estudiante
+                }
+            ]
+        });
+        return overdueBookRents;
+    } catch (error) {
+        console.error("Error al buscar libros vencidos", error);
+        throw error;
+    }
+};
+
+
 module.exports={
     getBookRent,
     getBookRentById,
     getBookRentByStatusId,
+    getOverdueBookRents,
     createBookRent,
     updateBookRent,
     deleteBookRent

@@ -7,6 +7,7 @@ const bookRoute= require('./routes/bookRoute');
 const CategoryBooks = require('./models/CategoryBook');
 const Books = require('./models/Book');
 const BookPivot = require('./models/BookPivot');
+const bookRentRoute = require('./routes/bookRentRoutes');
 dotenv.config();
 
 const app = express();
@@ -22,5 +23,6 @@ app.use('/category',categoryRoutes) // Prefijo de las rutas
 app.use('/user', userRoutes)
 app.use('/status', statusRoutes)
 app.use('/book', bookRoute)
+app.use('/bookRent', bookRentRoute)
 
 module.exports = app; // No inicializar el servidor aquí
