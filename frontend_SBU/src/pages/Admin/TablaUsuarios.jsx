@@ -4,6 +4,7 @@ import SidebarEJ from "../../components/sidebarEj";
 import { FaEdit, FaTrash } from "react-icons/fa";
 
 export default function TablaUsuarios() {
+
     return (
         <div className="bg-[#FFEFE5] min-h-screen w-full">
             <NavbarEJ />
@@ -48,12 +49,12 @@ export default function TablaUsuarios() {
                                                     <img className="w-full h-full object-cover rounded-full" src="/img/coronao.jpeg" alt="Foto_perfil" />
                                                 </div>
                                                 <div className="ml-3">
-                                                    <p className="text-gray-900 whitespace-nowrap">Coronao coronó toñito</p>
+                                                    <p className="text-gray-900 whitespace-nowrap">coronao corono toñito</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
-                                            <p className="text-gray-900 whitespace-nowrap">toñito@gmail.com</p>
+                                            <p className="text-gray-900 whitespace-nowrap">Coronao@gmail.com</p>
                                         </td>
                                         <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
                                             <p className="text-gray-900 whitespace-nowrap">Admin</p>
