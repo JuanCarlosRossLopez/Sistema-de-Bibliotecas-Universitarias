@@ -5,7 +5,6 @@ import Myspace from '../pages/Visitor/Myspace';
 import HomeE from '../pages/Employee/homeEmpleados';
 import HomeEmpleados from '../pages/Employee/homeEmpleados';
 import TablaEmpleados from '../pages/Employee/TablaEmpleados';
-import HomeAdminEJ from '../pages/Admin/HomeAdmin';
 import HomeAdmin from '../pages/Admin/HomeAdmin';
 import Error from '../components/Error404';
 import Verlibros from '../pages/User/ViewBooks';
