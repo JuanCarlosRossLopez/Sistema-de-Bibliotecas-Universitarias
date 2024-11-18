@@ -27,7 +27,7 @@ const misoptions = {
     scales: {
         y: {
             min: 0,
-            max: 250, // Ajustado para que los datos puedan verse completos
+            max: 300, // Ajustado para que los datos puedan verse completos
         },
         x: {
             ticks: {
@@ -64,7 +64,7 @@ const midata = {
 
 export default function BarsChart() {
     return (
-        <div>
+        <div className=' size-[300px] sm:size-[350px] md:size-[400px] lg:size-[450px]'>
             <Bar data={midata} options={misoptions} />
         </div>
     );
