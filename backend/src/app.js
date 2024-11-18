@@ -1,18 +1,42 @@
 const express = require('express');
 const dotenv = require('dotenv');
+const cors = require('cors'); // Importar cors
 const categoryRoutes = require('./routes/categoryBooksRoutes');
-const userRoutes = require('./routes/userRoutes'); // Asegúrate de que la ruta sea correcta
+const userRoutes = require('./routes/userRoutes');
 const statusRoutes = require('./routes/statusRoutes');
-
+const bookRoute = require('./routes/bookRoute');
+const CategoryBooks = require('./models/CategoryBook');
+const Books = require('./models/Book');
+const BookPivot = require('./models/BookPivot');
+const rolRoutes = require('./routes/roleRoutes');
+const studentRoutes = require('./routes/studentRoutes');
+const bookRentRoute = require('./routes/bookRentRoutes');
+const auth = require('./routes/auth');
 dotenv.config();
 
 const app = express();
 
+app.use(cors({ origin: 'http://localhost:5173' })); // Configurar CORS para permitir solicitudes desde el frontend
 app.use(express.json()); // Middleware para parsear el cuerpo de las solicitudes JSON
 
-// Asegúrate de que la ruta esté registrada correctamente
-app.use('/category',categoryRoutes) // Prefijo de las rutas
-app.use('/user', userRoutes)
-app.use('/status', statusRoutes)
+// Associations entre modelos eso me dijo chat
+Books.associate({ CategoryBooks, BookPivot });
+CategoryBooks.associate({ Books, BookPivot });
 
-module.exports = app; // No inicializar el servidor aquí // No inicializar el servidor aquí
+app.use('/category', categoryRoutes);
+app.use('/users', userRoutes);
+app.use('/status', statusRoutes);
+app.use('/rols', rolRoutes);
+app.use('/students', studentRoutes);
+app.use('/book', bookRoute);
+app.use('/bookRent', bookRentRoute);
+app.use('/auth', auth);
+
+// Inicializar roles
+/*Descomentar esto si quieres para inicializar los roles (después de haber creado las tablas corrienfo el back),
+volver a comentar al crearlos para subir*/
+
+// const initRoles = require('./initRoles');
+// initRoles();
+
+module.exports = app; // No inicializar el servidor aquí

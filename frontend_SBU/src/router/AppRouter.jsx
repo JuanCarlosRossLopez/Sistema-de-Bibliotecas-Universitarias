@@ -6,6 +6,8 @@ import HomeE from '../pages/Employee/homeEmpleados';
 import HomeEmpleados from '../pages/Employee/homeEmpleados';
 import TablaEmpleados from '../pages/Employee/TablaEmpleados';
 import HomeAdmin from '../pages/Admin/HomeAdmin';
+import Error from '../components/Error404';
+import Verlibros from '../pages/User/ViewBooks';
 import TablaUsuarios from '../pages/Admin/TablaUsuarios';
 
 function AppRoutes() {
@@ -19,6 +21,8 @@ function AppRoutes() {
         <Route path="/TablaEmpleados" element={<TablaEmpleados />} />
         <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
         <Route path='/HomeAdmin' element={<HomeAdmin/>} />
+        <Route path="*" element={<Error />} />
+        <Route path='/Verlibro' element={<Verlibros/>}/>
       </Routes>
     </Router>
   );

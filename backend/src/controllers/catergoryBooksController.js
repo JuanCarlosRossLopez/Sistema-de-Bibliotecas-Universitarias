@@ -62,11 +62,23 @@ const addBookToCategory = async (req, res) => {
 };
 
 
+const getBooksByCategory = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const result = await categoryBooksService.getBooksByCategory(id);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Error getting Books by Category', error });
+    }
+}
+
+
 module.exports={
     getCategorysBooks,
     getCategoryById,
     createCategoryBook,
     updateCategoryBook,
     deleteCategory,
-    addBookToCategory
+    addBookToCategory,
+    getBooksByCategory
 }
