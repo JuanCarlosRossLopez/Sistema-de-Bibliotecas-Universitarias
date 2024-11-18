@@ -5,7 +5,6 @@ import Myspace from '../pages/Visitor/Myspace';
 import HomeE from '../pages/Employee/homeEmpleados';
 import HomeEmpleados from '../pages/Employee/homeEmpleados';
 import TablaEmpleados from '../pages/Employee/TablaEmpleados';
-import HomeAdminEJ from '../pages/Admin/HomeAdmin';
 import HomeAdmin from '../pages/Admin/HomeAdmin';
 import TablaUsuarios from '../pages/Admin/TablaUsuarios';
 
@@ -19,8 +18,7 @@ function AppRoutes() {
         <Route path="/homee" element={<HomeEmpleados />} />
         <Route path="/TablaEmpleados" element={<TablaEmpleados />} />
         <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
-        <Route path='/AdminEJ' element={<HomeAdminEJ/>} />
-        <Route path='/Admin' element={<HomeAdmin/>} />
+        <Route path='/HomeAdmin' element={<HomeAdmin/>} />
       </Routes>
     </Router>
   );

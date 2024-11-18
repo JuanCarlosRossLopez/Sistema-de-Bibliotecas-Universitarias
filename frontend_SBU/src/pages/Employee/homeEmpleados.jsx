@@ -1,19 +1,16 @@
 import React from "react";
-import Sidebar from "../../components/Sidebar";
+import NavbarEJ from "../../components/navbarEj";
+import SidebarEJ from "../../components/sidebarEj";
 import BarsChart from "../../components/BarsChart";
 
 function HomeEmpleados() {
   return (
-    <div className="bg-[#FFEFE5] min-h-screen w-full">
-      <div className="flex justify-end">
-        <div className="bg-[#834841] w-full md:w-8/12 lg:w-9/12 xl:w-10/12 h-14 md:h-28 flex pt-5 pl-16 md:pl-8 lg:pl-10 font-bold text-2xl md:text-4xl lg:text-5xl xl:text-6xl text-white">
-          Bienvenido sicma
-        </div>
+    <div className="bg-[#FFEFE5] min-h-screen w-full overflow-hidden">
+      <NavbarEJ />
+      <div className=" fixed top-0">
+        <SidebarEJ />
       </div>
-      <div className="fixed top-0">
-        <Sidebar />
-      </div>
-      <div className="flex flex-col justify-center items-center h-full p-4">
+      <div className="flex justify-center items-center mt-20 h-full p-4">
         <div className="flex flex-col gap-8 lg:gap-16">
           <div className="flex flex-col md:flex-row gap-4 justify-between w-full">
             <div className="bg-[#C19B93] rounded-md flex-1 p-4 md:p-6 lg:p-8">
@@ -28,9 +25,9 @@ function HomeEmpleados() {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row gap-4 lg:gap-14 justify-center w-full">
+          <div className="flex flex-col md:flex-row gap-4 lg:gap-20 justify-center w-full">
             <div
-              className="bg-light mx-auto md:mx-0 p-4 border border-spacing-2 flex-1 max-w-[300px] md:max-w-[350px] lg:max-w-[400px] xl:max-w-[450px]"
+              className="bg-light mx-auto md:mx-0 p-4 border border-spacing-2 flex-1 max-h-[240px] xl:max-h-[300px] max-w-[400px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[500px]"
               style={{ minHeight: "200px" }}
             >
               <p className="m-2 text-center text-lg sm:text-xl md:text-2xl">
@@ -39,7 +36,7 @@ function HomeEmpleados() {
               <BarsChart />
             </div>
             <div
-              className="bg-light mx-auto md:mx-0 p-4 border border-spacing-2 flex-1 max-w-[300px] md:max-w-[350px] lg:max-w-[400px] xl:max-w-[450px]"
+              className="bg-light mx-auto md:mx-0 p-4 border border-spacing-2 flex-1 max-h-[240px] xl:max-h-[300px] max-w-[400px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[500px]"
               style={{ minHeight: "200px" }}
             >
               <p className="m-2 text-center text-lg sm:text-xl md:text-2xl">

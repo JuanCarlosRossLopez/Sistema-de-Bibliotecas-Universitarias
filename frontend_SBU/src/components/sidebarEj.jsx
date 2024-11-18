@@ -9,7 +9,7 @@ const SidebarEJ = () => {
             <div className="navbar-menu relative z-40">
                 <nav
                     id="sidebar"
-                    className="fixed left-0 top-0 bottom-0 flex w-3/4 -translate-x-full flex-col overflow-y-auto bg-[#A2726A] pt-6 pb-8 sm:max-w-xs lg:w-80"
+                    className="fixed left-0 top-0 bottom-0 flex w-3/5 -translate-x-full flex-col overflow-y-auto bg-[#A2726A] pt-6 pb-8 sm:max-w-xs lg:w-80"
                 >
                     <div className="px-4 pb-6">
                         <Link to="/perfil" className="flex items-center space-x-4 mb-3 mt-2">
@@ -34,7 +34,7 @@ const SidebarEJ = () => {
                             <li>
                                 <a
                                     className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                    href={`/AdminEJ`}
+                                    href={`/HomeAdmin`}
                                 >
                                     <span className="select-none text-lg">Inicio</span>
                                 </a>
