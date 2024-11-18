@@ -34,17 +34,33 @@ const SidebarEJ = () => {
                             <li>
                                 <a
                                     className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                    href={`/HomeAdmin`}
+                                    href={`/homee`}
                                 >
-                                    <span className="select-none text-lg">Inicio</span>
+                                    <span className="select-none text-lg">Inicio Empleados</span>
                                 </a>
                             </li>
                             <li>
                                 <a
                                     className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                    href={`/TablaEmpleados`}
+                                    href={`/HomeAdmin`}
                                 >
-                                    <span className="select-none text-lg">Tabla Empleados</span>
+                                    <span className="select-none text-lg">Inicio Admin</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                    href={`/TablaLibros`}
+                                >
+                                    <span className="select-none text-lg">Tabla Libros</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                    href={`/TablaUsuarios`}
+                                >
+                                    <span className="select-none text-lg">Tabla Usuarios</span>
                                 </a>
                             </li>
                         </ul>

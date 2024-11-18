@@ -36,7 +36,7 @@ app.use('/auth', auth);
 /*Descomentar esto si quieres para inicializar los roles (después de haber creado las tablas corrienfo el back),
 volver a comentar al crearlos para subir*/
 
-// const initRoles = require('./initRoles');
-// initRoles();
+const initRoles = require('./initRoles');
+initRoles();
 
 module.exports = app; // No inicializar el servidor aquí
