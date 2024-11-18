@@ -9,6 +9,7 @@ import HomeAdmin from '../pages/Admin/HomeAdmin';
 import Error from '../components/Error404';
 import Verlibros from '../pages/User/ViewBooks';
 import TablaUsuarios from '../pages/Admin/TablaUsuarios';
+import Nosotros from '../pages/Admin/nosotrosEJ';
 
 function AppRoutes() {
   return (
@@ -24,6 +25,8 @@ function AppRoutes() {
         <Route path='/Admin' element={<HomeAdmin/>} />
         <Route path="*" element={<Error />} />
         <Route path='/Verlibro' element={<Verlibros/>}/>
+        <Route path='/nosotros' element={<Nosotros/>}/>
+
       </Routes>
     </Router>
   );
