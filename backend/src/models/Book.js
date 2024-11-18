@@ -1,6 +1,7 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/db');
-const typeOfBook= require('./TypeOfBook')
+const TypeofBook = require('./TypeOfBook');
+
 const Books = sequelize.define('Books', {
     id_book: {
         type: DataTypes.INTEGER,
@@ -39,7 +40,7 @@ const Books = sequelize.define('Books', {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: typeOfBook,
+            model: TypeofBook,
             key: 'id_type'
         }
     }
