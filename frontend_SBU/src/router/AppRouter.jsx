@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from '../pages/Visitor/Home';
 import SignIn from '../pages/Visitor/Signin';
 import Myspace from '../pages/Visitor/Myspace';
-import HomeEmpleados from '../pages/Employee/HomeEmpleados';
+import HomeEmpleados from '../pages/Employee/homeEmpleados';
 import TablaLibros from '../pages/Employee/TablaLibros';
 import HomeAdmin from '../pages/Admin/HomeAdmin';
 import Error from '../components/Error404';
@@ -24,6 +24,7 @@ function AppRoutes() {
           {/* Rutas para Admin */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
             <Route path="/HomeAdmin" element={<HomeAdmin />} />
+            <Route path='/AdminEJ' element={<HomeAdminEJ/>} />
             <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
             <Route path="/TablaLibros" element={<TablaLibros />} />
             <Route path="/nosotros" element={<Nosotros />} />
