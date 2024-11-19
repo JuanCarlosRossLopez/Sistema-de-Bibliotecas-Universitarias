@@ -17,13 +17,13 @@ function Login() {
                 // Redirigir a la vista correspondiente según el rol
                 switch (response.data.role) {
                     case "admin":
-                        navigate("/HomeA");
+                        navigate("/HomeAdmin");
                         break;
                     case "employee":
                         navigate("/homee");
                         break;
                     case "student":
-                        navigate("/myspace");
+                        navigate("/CatalogoLibros");
                         break;
                     default:
                         navigate("/");

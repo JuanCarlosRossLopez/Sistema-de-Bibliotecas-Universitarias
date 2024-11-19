@@ -1,4 +1,9 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+
 function Error() {
+    const navigate = useNavigate();
+
     return (
         <div
             className="flex flex-col items-center justify-center min-h-screen"
@@ -20,7 +25,7 @@ function Error() {
             </p>
             <button
                 className="px-6 py-2 text-white bg-yellow-900 rounded-md hover:bg-yellow-800"
-                onClick={() => window.history.back()}
+                onClick={() => navigate(-1)}
             >
                 Regresar
             </button>
