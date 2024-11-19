@@ -2,13 +2,13 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from '../pages/Visitor/Home';
 import SignIn from '../pages/Visitor/Signin';
 import Myspace from '../pages/Visitor/Myspace';
-import HomeE from '../pages/Employee/homeEmpleados';
 import HomeEmpleados from '../pages/Employee/homeEmpleados';
 import TablaLibros from '../pages/Employee/TablaLibros';
 import HomeAdmin from '../pages/Admin/HomeAdmin';
 import Error from '../components/Error404';
 import Verlibros from '../pages/User/ViewBooks';
 import TablaUsuarios from '../pages/Admin/TablaUsuarios';
+import CatalogoLibros from '../pages/User/BooksCatalog';
 import Nosotros from '../pages/Admin/nosotrosEJ';
 
 function AppRoutes() {
@@ -24,6 +24,7 @@ function AppRoutes() {
         <Route path='/HomeAdmin' element={<HomeAdmin/>} />
         <Route path="*" element={<Error />} />
         <Route path='/Verlibro' element={<Verlibros/>}/>
+        <Route path='/CatalogoLibros' element={<CatalogoLibros/>}/>
         <Route path='/nosotros' element={<Nosotros/>}/>
 
       </Routes>
