@@ -91,15 +91,6 @@ function Login() {
                             className="w-full sm:w-44 p-2 hover:scale-105 bg-gray-50 rounded-full font-bold text-gray-900 border-[4px] border-gray-700 hover:border-[#4a180dc4] transition-all duration-200"
                             type="submit"
                         />
-                        <p className="text-center">
-                            ¿No tienes una cuenta?
-                            <Link
-                                to={`/signup`}
-                                className="ml-1 font-semibold text-blue-600 border-b-2 border-blue-600 inline hover:border-yellow-500 hover:text-yellow-500 transition-all duration-200"
-                            >
-                                Regístrate
-                            </Link>
-                        </p>
                     </form>
                 </div>
             </div>

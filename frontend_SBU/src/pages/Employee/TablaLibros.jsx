@@ -3,7 +3,7 @@ import NavbarEJ from "../../components/navbarEj";
 import SidebarEJ from "../../components/sidebarEj";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
 
-function TablaEmpleados() {
+function TablaLibros() {
   return (
     <div className="bg-[#FFEFE5] min-h-screen w-full">
       <NavbarEJ />
@@ -85,4 +85,4 @@ function TablaEmpleados() {
   )
 }
 
-export default TablaEmpleados;
+export default TablaLibros;
