@@ -24,7 +24,6 @@ function AppRoutes() {
           {/* Rutas para Admin */}
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
             <Route path="/HomeAdmin" element={<HomeAdmin />} />
-            <Route path='/AdminEJ' element={<HomeAdminEJ/>} />
             <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
             <Route path="/TablaLibros" element={<TablaLibros />} />
             <Route path="/nosotros" element={<Nosotros />} />
