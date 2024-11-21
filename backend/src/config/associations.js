@@ -1,10 +1,11 @@
-const User = require('../models/User');
-const Student = require('../models/Student');
-const Rol = require('../models/Rol');
 const Book = require('../models/Book');
 const CategoryBooks = require('../models/CategoryBook');
 const Status = require('../models/Status');
 const BookRent = require('../models/BookRent');
+const User = require('../models/User');
+const Student = require('../models/Student');
+const Rol = require('../models/Rol');
+
 // Definir relaciones uno a uno
 User.hasOne(Student, { foreignKey: 'id_user_id' });
 Student.belongsTo(User, { foreignKey: 'id_user_id' });
@@ -13,14 +14,12 @@ Student.belongsTo(User, { foreignKey: 'id_user_id' });
 Rol.hasMany(User, { foreignKey: 'id_rol_id' });
 User.belongsTo(Rol, { foreignKey: 'id_rol_id' });
 
+// Ejemplo de una relación uno a muchos
+BookRent.belongsTo(Status, { foreignKey: 'id_status_id' });
+Status.hasMany(BookRent, { foreignKey: 'id_status_id' });
 
-// Ejemplo de una relación muchos a muchos
-BookRent.hasOne(Status,{foreignKey:'id_status_id'});
-Status.belongsTo(BookRent,{foreignKey:'id_status_id'});
-
-BookRent.hasOne(Student,{foreignKey:'id_student_id'});
-Student.belongsTo(BookRent,{foreignKey:'id_student_id'});
-
+BookRent.belongsTo(Student, { foreignKey: 'id_student_id' });
+Student.hasMany(BookRent, { foreignKey: 'id_student_id' });
 
 module.exports = {
     User,
@@ -28,5 +27,6 @@ module.exports = {
     Rol,
     BookRent,
     Status,
-
+    Book,
+    CategoryBooks
 };

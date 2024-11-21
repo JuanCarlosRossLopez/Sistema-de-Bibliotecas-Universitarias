@@ -1,9 +1,21 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const SidebarEJ = () => {
     const [isOnline, setIsOnline] = useState(true);
+    const [userName, setUserName] = useState("");
+    const [userRole, setUserRole] = useState("");
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            console.log(user, "asdasdsa");
+            setUserName(user.name);
+            setUserRole(user.role);
+        }
+    }, []);
     return (
         <div id="containerSidebar" className="z-40">
             <div className="navbar-menu relative z-40">
@@ -19,7 +31,7 @@ const SidebarEJ = () => {
                                 className="w-16 h-16 rounded-full object-cover"
                             />
                             <div>
-                                <p className="text-md text-white  font-semibold">Coronao Toño</p>
+                                <p className="text-md text-white  font-semibold">{userName}</p>
                                 <div className="flex items-center text-white space-x-2">
                                     <span
                                         className={`h-3 w-3 rounded-full ${isOnline ? "bg-green-500" : "bg-gray-400"
