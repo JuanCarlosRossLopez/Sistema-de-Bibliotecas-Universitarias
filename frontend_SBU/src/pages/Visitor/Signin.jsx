@@ -2,33 +2,21 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiFillEye, AiFillEyeInvisible, AiOutlineArrowLeft } from "react-icons/ai";
 import axios from "axios";
-import { useNavigate, Link } from "react-router-dom"; // Importar useNavigate y Link de react-router-dom
+import { useNavigate, Link } from "react-router-dom";
+import { useAuth } from '../../contexts/AuthContext'; // Importar useAuth
 
 function Login() {
     const [verContra, setVerContra] = useState(false);
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const navigate = useNavigate(); // Inicializar useNavigate
+    const navigate = useNavigate();
+    const { login } = useAuth(); // Usar login del contexto
 
     const onSubmit = async (data) => {
         try {
-            const response = await axios.post("http://localhost:3000/auth/login", data); // URL del backend para login
+            const response = await axios.post("http://localhost:3000/auth/login", data);
             if (response.data.accessToken) {
-                localStorage.setItem("user", JSON.stringify(response.data)); // Almacenar los datos del usuario en localStorage
-                // Redirigir a la vista correspondiente según el rol
-                switch (response.data.role) {
-                    case "admin":
-                        navigate("/HomeAdmin");
-                        break;
-                    case "employee":
-                        navigate("/homee");
-                        break;
-                    case "student":
-                        navigate("/CatalogoLibros");
-                        break;
-                    default:
-                        navigate("/");
-                        break;
-                }
+                localStorage.setItem("user", JSON.stringify(response.data));
+                login(response.data); // Usar login del contexto para manejar el estado y la redirección
             } else {
                 alert("Login failed: " + response.data.message);
             }
