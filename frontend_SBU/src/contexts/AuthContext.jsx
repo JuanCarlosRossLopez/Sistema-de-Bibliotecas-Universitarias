@@ -22,6 +22,22 @@ export const AuthProvider = ({ children }) => {
     const login = (userData) => {
         setUser(userData);
         localStorage.setItem('user', JSON.stringify(userData));
+
+        // Redirigir al usuario según su rol
+        switch (userData.role) {
+            case 'admin':
+                navigate('/HomeAdmin');
+                break;
+            case 'employee':
+                navigate('/homee');
+                break;
+            case 'student':
+                navigate('/CatalogoLibros');
+                break;
+            default:
+                navigate('/');
+                break;
+        }
     };
 
     const logout = () => {
