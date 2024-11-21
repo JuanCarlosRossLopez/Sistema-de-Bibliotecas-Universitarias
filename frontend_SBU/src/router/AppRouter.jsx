@@ -11,7 +11,10 @@ import TablaUsuarios from '../pages/Admin/TablaUsuarios';
 import CatalogoLibros from '../pages/User/BooksCatalog';
 import Nosotros from '../pages/Admin/NosotrosEJ';
 import ProtectedRoute from '../components/ProtectedRoute';
+import GestionCategorias from '../pages/Employee/TablaCategoria';
 import { AuthProvider } from '../contexts/AuthContext';
+
+
 
 function AppRoutes() {
   return (
@@ -26,6 +29,7 @@ function AppRoutes() {
             <Route path="/HomeAdmin" element={<HomeAdmin />} />
             <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
             <Route path="/TablaLibros" element={<TablaLibros />} />
+            <Route path="/GestionCategorias" element={<GestionCategorias />} />
             <Route path="/nosotros" element={<Nosotros />} />
           </Route>
 
@@ -33,6 +37,7 @@ function AppRoutes() {
           <Route element={<ProtectedRoute allowedRoles={['employee']} />}>
             <Route path="/homee" element={<HomeEmpleados />} />
             <Route path="/TablaLibros" element={<TablaLibros />} />
+            <Route path="/GestionCategorias" element={<GestionCategorias />} />
             <Route path="/nosotros" element={<Nosotros />} />
           </Route>
 
@@ -43,7 +48,6 @@ function AppRoutes() {
             <Route path="/Verlibro" element={<Verlibros />} />
             <Route path="/nosotros" element={<Nosotros />} />
           </Route>
-
           <Route path="/*" element={<Error />} />
         </Routes>
       </AuthProvider>
