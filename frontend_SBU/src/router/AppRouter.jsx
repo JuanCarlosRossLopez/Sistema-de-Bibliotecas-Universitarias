@@ -2,28 +2,51 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from '../pages/Visitor/Home';
 import SignIn from '../pages/Visitor/Signin';
 import Myspace from '../pages/Visitor/Myspace';
-import HomeE from '../pages/Employee/homeEmpleados';
 import HomeEmpleados from '../pages/Employee/homeEmpleados';
-import TablaEmpleados from '../pages/Employee/TablaEmpleados';
+import TablaLibros from '../pages/Employee/TablaLibros';
 import HomeAdmin from '../pages/Admin/HomeAdmin';
 import Error from '../components/Error404';
 import Verlibros from '../pages/User/ViewBooks';
 import TablaUsuarios from '../pages/Admin/TablaUsuarios';
+import CatalogoLibros from '../pages/User/BooksCatalog';
+import Nosotros from '../pages/Admin/NosotrosEJ';
+import ProtectedRoute from '../components/ProtectedRoute';
+import { AuthProvider } from '../contexts/AuthContext';
 
 function AppRoutes() {
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Signin" element={<SignIn/>} />
-        <Route path="/myspace" element={<Myspace />} />
-        <Route path="/homee" element={<HomeEmpleados />} />
-        <Route path="/TablaEmpleados" element={<TablaEmpleados />} />
-        <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
-        <Route path='/HomeAdmin' element={<HomeAdmin/>} />
-        <Route path="*" element={<Error />} />
-        <Route path='/Verlibro' element={<Verlibros/>}/>
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/Signin" element={<SignIn />} />
+
+          {/* Rutas para Admin */}
+          <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
+            <Route path="/HomeAdmin" element={<HomeAdmin />} />
+            <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
+            <Route path="/TablaLibros" element={<TablaLibros />} />
+            <Route path="/nosotros" element={<Nosotros />} />
+          </Route>
+
+          {/* Rutas para Employee */}
+          <Route element={<ProtectedRoute allowedRoles={['employee']} />}>
+            <Route path="/homee" element={<HomeEmpleados />} />
+            <Route path="/TablaLibros" element={<TablaLibros />} />
+            <Route path="/nosotros" element={<Nosotros />} />
+          </Route>
+
+          {/* Rutas para Student */}
+          <Route element={<ProtectedRoute allowedRoles={['student']} />}>
+            <Route path="/CatalogoLibros" element={<CatalogoLibros />} />
+            <Route path="/myspace" element={<Myspace />} />
+            <Route path="/Verlibro" element={<Verlibros />} />
+            <Route path="/nosotros" element={<Nosotros />} />
+          </Route>
+
+          <Route path="/*" element={<Error />} />
+        </Routes>
+      </AuthProvider>
     </Router>
   );
 }

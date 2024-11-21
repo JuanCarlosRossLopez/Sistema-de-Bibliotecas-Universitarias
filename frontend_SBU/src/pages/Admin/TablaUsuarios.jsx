@@ -1,9 +1,49 @@
-import React from 'react';
+import React, { useState } from "react";
 import NavbarEJ from "../../components/navbarEj";
 import SidebarEJ from "../../components/sidebarEj";
 import { FaEdit, FaTrash } from "react-icons/fa";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+
 
 export default function TablaUsuarios() {
+    const MySwal = withReactContent(Swal);
+    const [data, setData] = useState({ name: "", email: "", rol: "" });
+
+    const showModal = async () => {
+        const { value: value } = await MySwal.fire({
+            title: "Ingresa los datos",
+            html: `
+                <input type="text" id="name" class="swal2-input" placeholder="Name">
+                <input type="email" id="email" class="swal2-input" placeholder="Email">
+                <select id="rol" className="swal2-input">
+                    <option value="">Selecciona un rol:</option>
+                    <option value="Admin">Admin</option>
+                    <option value="Empleado">Empleado</option>
+                    <option value="Usuario">Usuario</option>
+
+                </select>
+            `,
+            showCancelButton: true,
+            cancelButtonColor: "",
+            confirmButtonColor: "green",
+            focusConfirm: false,
+            preConfirm: () => {
+                const name = document.getElementById("name").value;
+                const email = document.getElementById("email").value;
+                const rol = document.getElementById("rol").value;
+                if (!name || !email || !rol) {
+                    Swal.showValidationMessage("Todos los campos son requeridos");
+                }
+                return { name, email, rol };
+            },
+        });
+
+        if (value) {
+            setData(value); // Guarda los valores ingresados en el estado.
+            await Swal.fire('Datos insertados','Se insertó correctamente','success' );
+        }
+    };
     return (
         <div className="bg-[#FFEFE5] min-h-screen w-full">
             <NavbarEJ />
@@ -25,7 +65,7 @@ export default function TablaUsuarios() {
                                 <input className="bg-transparent outline-none ml-1 block w-full md:w-auto" type="text" placeholder="Search..." />
                             </div>
                             <button className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Filtrar por...</button>
-                            <button className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Crear Usuario</button>
+                            <button onClick={showModal} className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Crear Usuario</button>
                         </div>
                     </div>
 
@@ -48,20 +88,20 @@ export default function TablaUsuarios() {
                                                     <img className="w-full h-full object-cover rounded-full" src="/img/coronao.jpeg" alt="Foto_perfil" />
                                                 </div>
                                                 <div className="ml-3">
-                                                    <p className="text-gray-900 whitespace-nowrap">Coronao coronó toñito</p>
+                                                    <p className="text-gray-900 whitespace-nowrap">{data.name || "No se han insertado"}</p>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
-                                            <p className="text-gray-900 whitespace-nowrap">toñito@gmail.com</p>
+                                            <p className="text-gray-900 whitespace-nowrap">{data.email || "No se han insertado"}</p>
                                         </td>
                                         <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
-                                            <p className="text-gray-900 whitespace-nowrap">Admin</p>
+                                            <p className="text-gray-900 whitespace-nowrap">{data.rol || "No se han insertado"}</p>
                                         </td>
                                         <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
-                                            <span className="relative inline-block px-3 py-1 font-semibold text-yellow-500 hover:text-yellow-700 leading-tight">
+                                            <button onClick={showModal} className="relative inline-block px-3 py-1 font-semibold text-yellow-500 hover:text-yellow-700 leading-tight">
                                                 <FaEdit size={24} />
-                                            </span>
+                                            </button>
                                             <span className="relative inline-block px-3 py-1 font-semibold text-red-500 hover:text-red-700 leading-tight">
                                                 <FaTrash size={24} />
                                             </span>
@@ -83,3 +123,4 @@ export default function TablaUsuarios() {
         </div>
     );
 }
+

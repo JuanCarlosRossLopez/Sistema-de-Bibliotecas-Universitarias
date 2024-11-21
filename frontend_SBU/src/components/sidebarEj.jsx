@@ -1,9 +1,21 @@
-import React from "react";
+import React,{useEffect} from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
 const SidebarEJ = () => {
     const [isOnline, setIsOnline] = useState(true);
+    const [userName, setUserName] = useState("");
+    const [userRole, setUserRole] = useState("");
+
+    useEffect(() => {
+        const storedUser = localStorage.getItem('user');
+        if (storedUser) {
+            const user = JSON.parse(storedUser);
+            console.log(user, "asdasdsa");
+            setUserName(user.name);
+            setUserRole(user.role);
+        }
+    }, []);
     return (
         <div id="containerSidebar" className="z-40">
             <div className="navbar-menu relative z-40">
@@ -19,7 +31,7 @@ const SidebarEJ = () => {
                                 className="w-16 h-16 rounded-full object-cover"
                             />
                             <div>
-                                <p className="text-md text-white  font-semibold">Coronao Toño</p>
+                                <p className="text-md text-white  font-semibold">{userName}</p>
                                 <div className="flex items-center text-white space-x-2">
                                     <span
                                         className={`h-3 w-3 rounded-full ${isOnline ? "bg-green-500" : "bg-gray-400"
@@ -34,17 +46,33 @@ const SidebarEJ = () => {
                             <li>
                                 <a
                                     className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                    href={`/HomeAdmin`}
+                                    href={`/homee`}
                                 >
-                                    <span className="select-none text-lg">Inicio</span>
+                                    <span className="select-none text-lg">Inicio Empleados</span>
                                 </a>
                             </li>
                             <li>
                                 <a
                                     className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                    href={`/TablaEmpleados`}
+                                    href={`/HomeAdmin`}
                                 >
-                                    <span className="select-none text-lg">Tabla Empleados</span>
+                                    <span className="select-none text-lg">Inicio Admin</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                    href={`/TablaLibros`}
+                                >
+                                    <span className="select-none text-lg">Tabla Libros</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                    href={`/TablaUsuarios`}
+                                >
+                                    <span className="select-none text-lg">Tabla Usuarios</span>
                                 </a>
                             </li>
                         </ul>
