@@ -7,10 +7,12 @@ import NavbarHomeN from '../../components/navbarHomeNegro';
 
 function VerLibros() {
     const [datos, setDatos] = useState([]);
+    const studentId = localStorage.getItem('user');
+console.log(studentId);
 
     useEffect(() => {
         fetchDatos();
-    }, []);
+    },[]);
 
     const { id } = useParams();
 
@@ -52,10 +54,10 @@ function VerLibros() {
     const today = new Date().toISOString().split('T')[0];
 
 
-const showModal= async ()=>{
-    const {value } = await MySwal.fire({
-        tittle:"Apartar libro",
-        htmhl:` <form onSubmit={handleSubmit(onSubmit)}>
+const showModal = async () => {
+        const { value } = await Swal.fire({
+            title: "Apartar libro",
+            html: `<form onSubmit={handleSubmit(onSubmit)}>
                 <label htmlFor="studentId">el id del estudiante aqui</label>
                 <input type="number" {...register("studentId")} />
 
@@ -72,9 +74,9 @@ const showModal= async ()=>{
                 <input type="number" {...register("statusId")} />
 
                 <button type="submit">Submit</button>
-            </form`
-    })
-}
+            </form>`
+        });
+    };
 
     return (
         <div
@@ -107,7 +109,7 @@ const showModal= async ()=>{
                                     <button className="bg-green-500 text-white px-6 py-2 rounded shadow-md hover:bg-green-600 transition duration-200">
                                         Leer
                                     </button>
-                                    <button className="bg-green-500 text-white px-6 py-2 rounded shadow-md hover:bg-green-600 transition duration-200">
+                                    <button  className="bg-green-500 text-white px-6 py-2 rounded shadow-md hover:bg-green-600 transition duration-200">
                                         Apartar
                                     </button>
                                 </div>

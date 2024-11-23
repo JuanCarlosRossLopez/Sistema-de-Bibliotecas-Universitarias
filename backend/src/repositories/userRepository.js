@@ -1,6 +1,7 @@
 const User = require('../models/User');
 const Rol = require('../models/Rol');
 const Student = require('../models/Student');
+const BookRent = require('../models/BookRent');
 
 const findUsers = async () => {
     try {
@@ -63,10 +64,26 @@ const deleteUser = async (id) => {
     }
 };
 
+const isBookRentedByUser = async (userId, bookId) => {
+    try {
+        const rentRecord = await BookRent.findOne({
+            where: {
+                id_user_id: userId,
+                id_book_id: bookId
+            }
+        });
+        return rentRecord !== null;
+    } catch (error) {
+        console.error("Error al verificar el alquiler del libro", error);
+        throw error;
+    }
+};
+
 module.exports = {
     findUsers,
     findUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    isBookRentedByUser
 };

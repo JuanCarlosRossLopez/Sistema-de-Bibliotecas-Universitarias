@@ -36,7 +36,7 @@ const getBookRent = async () => {
 };
 
 const getBookRentById=async(id)=>{
-    try{ return await BookRent.findByPk({
+    try{ return await BookRent.findOne({
             where:{
                 id_rent:id
             },
@@ -46,7 +46,7 @@ const getBookRentById=async(id)=>{
          },
          {
              model: Student,
-             attributes: ['name_student']
+             attributes: ['tuition']
          },
          {
              model: Book,
