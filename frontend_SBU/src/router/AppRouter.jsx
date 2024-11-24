@@ -45,7 +45,7 @@ function AppRoutes() {
           <Route element={<ProtectedRoute allowedRoles={['student']} />}>
             <Route path="/CatalogoLibros" element={<CatalogoLibros />} />
             <Route path="/myspace" element={<Myspace />} />
-            <Route path="/Verlibro" element={<Verlibros />} />
+            <Route path="/verlibro/:id" element={<Verlibros />} />
           </Route>
 
           {/* Rutas comunes para Admin y Employee */}

@@ -19,8 +19,8 @@ const getBookRentById = async (req, res) => {
     } catch (error) {
         console.error("Error en controller all", error);
         res.status(500).json({ message: "Error en el servidor" });
-    }
-}
+    };
+};
 
 const getBookRentByStatusId = async (req, res) => {
     try {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import NavbarEJ from "../../components/navbarEj";
-import SidebarEJ from "../../components/sidebarEj";
+import NavbarEJ from "../../components/NavbarEJ";
+import SidebarEJ from "../../components/SidebarEJ";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
@@ -9,10 +9,12 @@ import axios from "axios";
 export default function TablaUsuarios() {
     const MySwal = withReactContent(Swal);
     const [users, setUsers] = useState([]);
+    const [roles, setRoles] = useState([]);
     const [editUser, setEditUser] = useState(null);
 
     useEffect(() => {
         fetchUsers();
+        fetchRoles();
     }, []);
 
     const fetchUsers = async () => {
@@ -20,26 +22,35 @@ export default function TablaUsuarios() {
             const response = await axios.get("http://localhost:3000/users");
             setUsers(response.data);
         } catch (error) {
-            console.error("Error fetching users:", error);
+            console.error("Error fetching users:", error.response?.data || error.message);
+            Swal.fire('Error', 'No se pudieron cargar los usuarios', 'error');
+        }
+    };
+
+    const fetchRoles = async () => {
+        try {
+            const response = await axios.get("http://localhost:3000/rols");
+            setRoles(response.data);
+        } catch (error) {
+            console.error("Error fetching roles:", error.response?.data || error.message);
+            Swal.fire('Error', 'No se pudieron cargar los roles', 'error');
         }
     };
 
     const showModal = async (user = null) => {
-        const isEdit = user !== null;
+        const isEdit = !!user;
         const { value } = await MySwal.fire({
             title: isEdit ? "Editar Usuario" : "Crear Usuario",
             html: `
-                <input type="text" id="name" class="swal2-input" placeholder="Nombre" value="${isEdit ? user.name : ''}">
-                <input type="text" id="last_name" class="swal2-input" placeholder="Apellido" value="${isEdit ? user.last_name : ''}">
-                <input type="email" id="email" class="swal2-input" placeholder="Correo" value="${isEdit ? user.mail : ''}">
-                <input type="text" id="nomine" class="swal2-input" placeholder="Nomine" value="${isEdit ? user.nomine : ''}">
+                <input type="text" id="name" class="swal2-input" placeholder="Nombre" value="${user?.name || ''}">
+                <input type="text" id="last_name" class="swal2-input" placeholder="Apellido" value="${user?.last_name || ''}">
+                <input type="email" id="email" class="swal2-input" placeholder="Correo" value="${user?.mail || ''}">
+                ${!isEdit ? '<input type="password" id="password" class="swal2-input" placeholder="Contraseña">' : ''}
+                <input type="text" id="nomine" class="swal2-input" placeholder="Nomine" value="${user?.nomine || ''}">
                 <label class="swal2-input-label">Es Estudiante</label>
-                <input type="checkbox" id="is_student" class="swal2-checkbox" ${isEdit && user.is_student ? 'checked' : ''}>
+                <input type="checkbox" id="is_student" class="swal2-checkbox" ${user?.is_student ? 'checked' : ''}>
                 <select id="rol" class="swal2-input">
-                    <option value="">Selecciona un rol:</option>
-                    <option value="student" ${isEdit && user.Rol.name_rol === 'student' ? 'selected' : ''}>Estudiante</option>
-                    <option value="employee" ${isEdit && user.Rol.name_rol === 'employee' ? 'selected' : ''}>Empleado</option>
-                    <option value="admin" ${isEdit && user.Rol.name_rol === 'admin' ? 'selected' : ''}>Admin</option>
+                    ${roles.map(role => `<option value="${role.name_rol}" ${user?.Rol?.name_rol === role.name_rol ? 'selected' : ''}>${role.name_rol.charAt(0).toUpperCase() + role.name_rol.slice(1)}</option>`).join('')}
                 </select>
             `,
             showCancelButton: true,
@@ -47,16 +58,22 @@ export default function TablaUsuarios() {
             confirmButtonColor: "#3085d6",
             focusConfirm: false,
             preConfirm: () => {
-                const name = document.getElementById("name").value;
-                const last_name = document.getElementById("last_name").value;
-                const email = document.getElementById("email").value;
-                const nomine = document.getElementById("nomine").value;
+                const name = document.getElementById("name").value.trim();
+                const last_name = document.getElementById("last_name").value.trim();
+                const email = document.getElementById("email").value.trim();
+                const nomine = document.getElementById("nomine").value.trim();
                 const is_student = document.getElementById("is_student").checked;
                 const rol = document.getElementById("rol").value;
-                if (!name || !last_name || !email || !rol) {
+
+                // Si no es edición, obtenemos la contraseña
+                const password = !isEdit ? document.getElementById("password").value.trim() : '';
+
+                if (!name || !last_name || !email || (!isEdit && !password) || !rol) {
                     Swal.showValidationMessage("Todos los campos son requeridos");
+                    return null;
                 }
-                return { name, last_name, email, nomine, is_student, rol };
+
+                return { name, last_name, email, password, nomine, is_student, rol };
             },
         });
 
@@ -73,19 +90,43 @@ export default function TablaUsuarios() {
 
     const createUser = async (userData) => {
         try {
-            await axios.post("http://localhost:3000/users", userData);
+            // Ajustar la estructura de datos según lo que espera tu API
+            const payload = {
+                name: userData.name,
+                last_name: userData.last_name,
+                mail: userData.email,
+                password: userData.password,  // Asegúrate de que la API maneja la encriptación de contraseñas
+                nomine: userData.nomine,
+                is_student: userData.is_student,
+                role: userData.rol  // Asegúrate de que el backend espera este campo
+            };
+            console.log('Datos enviados:', payload);
+            await axios.post("http://localhost:3000/users", payload);
         } catch (error) {
-            console.error("Error creating user:", error);
-            Swal.fire('Error', 'No se pudo crear el usuario', 'error');
+            console.error("Error creating user:", error.response?.data || error.message);
+            Swal.fire('Error', error.response?.data.error || 'No se pudo crear el usuario', 'error');
         }
     };
 
     const updateUser = async (userId, userData) => {
         try {
-            await axios.put(`http://localhost:3000/users/${userId}`, userData);
+            // Ajustar la estructura de datos según lo que espera tu API
+            const payload = {
+                name: userData.name,
+                last_name: userData.last_name,
+                mail: userData.email,
+                nomine: userData.nomine,
+                is_student: userData.is_student,
+                role: userData.rol  // Asegúrate de que el backend espera este campo
+            };
+            // Sólo incluye la contraseña si se ha proporcionado
+            if (userData.password) {
+                payload.password = userData.password;  // Asegúrate de que la API maneja la encriptación de contraseñas
+            }
+            await axios.put(`http://localhost:3000/users/${userId}`, payload);
         } catch (error) {
-            console.error("Error updating user:", error);
-            Swal.fire('Error', 'No se pudo actualizar el usuario', 'error');
+            console.error("Error updating user:", error.response?.data || error.message);
+            Swal.fire('Error', error.response?.data.error || 'No se pudo actualizar el usuario', 'error');
         }
     };
 
@@ -107,8 +148,8 @@ export default function TablaUsuarios() {
                 fetchUsers();
                 Swal.fire('Eliminado', 'El usuario ha sido eliminado', 'success');
             } catch (error) {
-                console.error("Error deleting user:", error);
-                Swal.fire('Error', 'No se pudo eliminar el usuario', 'error');
+                console.error("Error deleting user:", error.response?.data || error.message);
+                Swal.fire('Error', error.response?.data.error || 'No se pudo eliminar el usuario', 'error');
             }
         }
     };
@@ -130,7 +171,7 @@ export default function TablaUsuarios() {
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                                     <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                                 </svg>
-                                <input className="bg-transparent outline-none ml-1 block w-full md:w-auto" type="text" placeholder="Search..." />
+                                <input className="bg-transparent outline-none ml-1 block w-full md:w-auto" type="text" placeholder="Buscar..." />
                             </div>
                             <button className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Filtrar por...</button>
                             <button onClick={() => showModal()} className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Crear Usuario</button>
