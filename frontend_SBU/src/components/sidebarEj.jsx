@@ -1,4 +1,4 @@
-import React,{useEffect} from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
@@ -11,11 +11,11 @@ const SidebarEJ = () => {
         const storedUser = localStorage.getItem('user');
         if (storedUser) {
             const user = JSON.parse(storedUser);
-            console.log(user, "asdasdsa");
             setUserName(user.name);
             setUserRole(user.role);
         }
     }, []);
+
     return (
         <div id="containerSidebar" className="z-40">
             <div className="navbar-menu relative z-40">
@@ -34,8 +34,7 @@ const SidebarEJ = () => {
                                 <p className="text-md text-white  font-semibold">{userName}</p>
                                 <div className="flex items-center text-white space-x-2">
                                     <span
-                                        className={`h-3 w-3 rounded-full ${isOnline ? "bg-green-500" : "bg-gray-400"
-                                            }`}
+                                        className={`h-3 w-3 rounded-full ${isOnline ? "bg-green-500" : "bg-gray-400"}`}
                                     ></span>
                                     <span>{isOnline ? "En línea" : "Fuera de línea"}</span>
                                 </div>
@@ -43,42 +42,48 @@ const SidebarEJ = () => {
                         </Link>
                         <h3 className="mb-2 text-lg font-medium uppercase text-white">Principal</h3>
                         <ul className="mb-8 text-sm font-medium">
-                            <li>
-                                <a
-                                    className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                    href={`/homee`}
-                                >
-                                    <span className="select-none text-lg">Inicio Empleados</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                    href={`/HomeAdmin`}
-                                >
-                                    <span className="select-none text-lg">Inicio Admin</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                    href={`/TablaLibros`}
-                                >
-                                    <span className="select-none text-lg">Tabla Libros</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a
-                                    className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                    href={`/TablaUsuarios`}
-                                >
-                                    <span className="select-none text-lg">Tabla Usuarios</span>
-                                </a>
-                            </li>
+                            {userRole === 'employee' && (
+                                <li>
+                                    <a
+                                        className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                        href={`/homee`}
+                                    >
+                                        <span className="select-none text-lg">Inicio Empleados</span>
+                                    </a>
+                                </li>
+                            )}
+                            {userRole === 'admin' && (
+                                <>
+                                    <li>
+                                        <a
+                                            className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                            href={`/HomeAdmin`}
+                                        >
+                                            <span className="select-none text-lg">Inicio Admin</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                            href={`/TablaUsuarios`}
+                                        >
+                                            <span className="select-none text-lg">Tabla Usuarios</span>
+                                        </a>
+                                    </li>
+                                </>
+                            )}
+                            {(userRole === 'admin' || userRole === 'employee') && (
+                                <li>
+                                    <a
+                                        className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                        href={`/TablaLibros`}
+                                    >
+                                        <span className="select-none text-lg">Tabla Libros</span>
+                                    </a>
+                                </li>
+                            )}
                         </ul>
                     </div>
-
-
                 </nav>
             </div>
         </div>
