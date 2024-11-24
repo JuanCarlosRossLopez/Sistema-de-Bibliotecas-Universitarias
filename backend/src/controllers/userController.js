@@ -57,3 +57,13 @@ exports.deleteUser = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+
+exports.isBookRentedByUser = async (req, res) => {
+    try {
+        const { userId, bookId } = req.params;
+        const isRented = await userService.isBookRentedByUser(userId, bookId);
+        res.status(200).json({ isRented });
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};

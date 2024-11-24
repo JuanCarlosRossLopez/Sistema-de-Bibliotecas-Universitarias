@@ -3,7 +3,7 @@ import { fetchBooks } from '../../services/APIBooks';
 import Etiquetas from '../../components/Etiquetas';
 import BarraBusqueda from '../../components/BarraBusqueda';
 import NavbarHomeN from '../../components/navbarHomeNegro';
-
+import { useNavigate } from 'react-router-dom';
 const BooksCatalog = () => {
   const [libros, setLibros] = useState([]);
   const [filteredLibros, setFilteredLibros] = useState([]);
@@ -90,7 +90,7 @@ const BooksCatalog = () => {
     setFilteredLibros(librosFiltrados);
   }, [selectedEtiquetas, searchQuery, libros]);
   
-
+const navigate = useNavigate();
   return (
     <div
       className="flex flex-col items-center min-h-screen"
@@ -149,6 +149,12 @@ const BooksCatalog = () => {
                       : libro.id_typeofbook_id === 2
                       ? 'Físico'
                       : 'Físico/Digital'}
+                  </span>
+                  <span
+                    className='text-xs mt-2 py-1 px-3 rounded'
+                     onClick={() => navigate(`/verlibro/${libro.id_book}`)}
+                  >
+                    ssss
                   </span>
                 </div>
               ))

@@ -18,8 +18,12 @@ User.belongsTo(Rol, { foreignKey: 'id_rol_id' });
 BookRent.belongsTo(Status, { foreignKey: 'id_status_id' });
 Status.hasMany(BookRent, { foreignKey: 'id_status_id' });
 
-BookRent.belongsTo(Student, { foreignKey: 'id_student_id' });
-Student.hasMany(BookRent, { foreignKey: 'id_student_id' });
+BookRent.belongsTo(User, { foreignKey: 'id_user_id' });
+User.hasMany(BookRent, { foreignKey: 'id_user_id' });
+
+BookRent.belongsTo(Book, { foreignKey: 'id_book_id' });
+Book.hasMany(BookRent, { foreignKey: 'id_book_id' });
+
 
 module.exports = {
     User,
