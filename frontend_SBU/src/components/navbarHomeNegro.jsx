@@ -1,4 +1,7 @@
+import React from "react";
+import { useAuth } from '../contexts/AuthContext';
 function NavbarHomeN() {
+    const { logout } = useAuth();
     return (
         <nav className="bg-transparent py-9 fixed top-0 left-0 w-full">
             <div className="mx-auto max-w-8xl px-2 sm:px-6 lg:px-12">
@@ -40,6 +43,7 @@ function NavbarHomeN() {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
                             </svg>
                         </button>
+                        
                         <div className="relative ml-3">
                             <div>
                                 <a href={`/Signin`} type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
@@ -49,6 +53,9 @@ function NavbarHomeN() {
                                 </a>
                             </div>
                         </div>
+                        <button onClick={logout}>
+                            Cerrar Sesión
+                        </button>
                     </div>
                 </div>
             </div>

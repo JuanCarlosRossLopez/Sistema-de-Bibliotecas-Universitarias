@@ -1,7 +1,10 @@
 import { useEffect } from "react";
 import abrirSidebar from "../js/abrirSidebar";
+import { useAuth } from '../contexts/AuthContext';
 
 const NavbarEJ = () => {
+    const { user, logout } = useAuth();
+
     useEffect(() => {
         abrirSidebar();
 
@@ -12,6 +15,7 @@ const NavbarEJ = () => {
             }
         };
     }, []);
+
     return (
         <nav
             id="navbar"
@@ -55,12 +59,15 @@ const NavbarEJ = () => {
 
             <div className="flex-1 flex justify-start">
                 <span className="font-bold ml-3 text-2xl md:text-4xl lg:text-3xl xl:text-4xl text-white">
-                    Bienvenido Coronao
+                    Bienvenido, {user?.name || "Usuario"}
                 </span>
             </div>
+            <div className="flex-1 flex justify-end">
+                <button onClick={logout}>
+                    Cerrar Sesión
+                </button>
+            </div>
         </nav>
-
-
     );
 };
 

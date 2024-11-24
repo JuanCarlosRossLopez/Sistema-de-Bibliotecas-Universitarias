@@ -16,7 +16,7 @@ const Student = sequelize.define('Student', {
         allowNull: false
     },
     debt: {
-        type: DataTypes.DECIMAL(10,2),
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: true
     },
     id_user_id: {

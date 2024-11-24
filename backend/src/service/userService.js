@@ -67,10 +67,19 @@ const deleteUser = async (id) => {
     return user;
 };
 
+const isBookRentedByUser = async (userId, bookId) => {
+    try {
+        return await userRepository.isBookRentedByUser(userId, bookId);
+    } catch (error) {
+        console.error("Error en service all", error);
+        throw error;
+    }
+}
 module.exports = {
     findUsers,
     findUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    isBookRentedByUser
 };
