@@ -53,7 +53,7 @@ const BooksCatalog = () => {
 
   useEffect(() => {
     let librosFiltrados = [...libros];
-  
+
     // Filtrar por tipo de libro (Digital, Físico o Ambos)
     if (selectedEtiquetas.includes('digital') && selectedEtiquetas.includes('fisico')) {
       // Mostrar todos los libros con ambos tipos incluidos
@@ -69,7 +69,7 @@ const BooksCatalog = () => {
         (libro) => libro.id_typeofbook_id === 2 || libro.id_typeofbook_id === 3 // Físico o Ambos
       );
     }
-  
+
     // Filtrar por categorías seleccionadas
     const categoriasSeleccionadas = selectedEtiquetas.filter((e) => typeof e === 'number');
     if (categoriasSeleccionadas.length > 0) {
@@ -79,18 +79,18 @@ const BooksCatalog = () => {
         )
       );
     }
-  
+
     // Filtrar por búsqueda de título
     if (searchQuery) {
       librosFiltrados = librosFiltrados.filter((libro) =>
         libro.name_book.toLowerCase().includes(searchQuery)
       );
     }
-  
+
     setFilteredLibros(librosFiltrados);
   }, [selectedEtiquetas, searchQuery, libros]);
-  
-const navigate = useNavigate();
+
+  const navigate = useNavigate();
   return (
     <div
       className="flex flex-col items-center min-h-screen"
@@ -136,26 +136,25 @@ const navigate = useNavigate();
                     {libro.author}
                   </p>
                   <span
-                    className={`text-xs mt-2 py-1 px-3 rounded ${
-                      libro.id_typeofbook_id === 1
+                    className={`text-xs mt-2 py-1 px-3 rounded ${libro.id_typeofbook_id === 1
                         ? 'bg-green-500 text-white'
                         : libro.id_typeofbook_id === 2
-                        ? 'bg-yellow-500 text-black'
-                        : 'bg-blue-500 text-white'
-                    }`}
+                          ? 'bg-yellow-500 text-black'
+                          : 'bg-blue-500 text-white'
+                      }`}
                   >
                     {libro.id_typeofbook_id === 1
                       ? 'Digital'
                       : libro.id_typeofbook_id === 2
-                      ? 'Físico'
-                      : 'Físico/Digital'}
+                        ? 'Físico'
+                        : 'Físico/Digital'}
                   </span>
-                  <span
-                    className='text-xs mt-2 py-1 px-3 rounded'
-                     onClick={() => navigate(`/verlibro/${libro.id_book}`)}
+                  <button
+                    className="bg-yellow-800 text-white px-4 py-1 rounded shadow-md hover:bg-yellow-900 transition duration-200"
+                    onClick={() => navigate(`/verlibro/${libro.id_book}`)}
                   >
-                    ssss
-                  </span>
+                    Ver Libro
+                  </button>
                 </div>
               ))
             ) : (
