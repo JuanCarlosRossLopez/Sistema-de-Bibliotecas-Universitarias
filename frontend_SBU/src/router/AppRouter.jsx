@@ -13,8 +13,7 @@ import Nosotros from '../pages/Admin/NosotrosEJ';
 import ProtectedRoute from '../components/ProtectedRoute';
 import GestionCategorias from '../pages/Employee/TablaCategoria';
 import { AuthProvider } from '../contexts/AuthContext';
-
-
+import TablaEstudiantes from '../pages/Admin/TablaEstudiantes';
 
 function AppRoutes() {
   return (
@@ -28,6 +27,7 @@ function AppRoutes() {
           <Route element={<ProtectedRoute allowedRoles={['admin']} />}>
             <Route path="/HomeAdmin" element={<HomeAdmin />} />
             <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
+            <Route path="/TablaEstudiantes" element={<TablaEstudiantes/>}/>
             <Route path="/TablaLibros" element={<TablaLibros />} />
             <Route path="/GestionCategorias" element={<GestionCategorias />} />
             <Route path="/nosotros" element={<Nosotros />} />

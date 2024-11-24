@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 
 
 
@@ -31,7 +32,7 @@ function NavbarHome() {
                 <div className="flex py-6">
                     <a href="" className=" px-3 py-2 lg:text-3xl md:text-xl sm:text-lg font-serif text-white transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300" aria-current="page">Inicio</a>
                     <div className="h-13 w-0.5 bg-slate-200"></div>
-                    <a href="#" className=" px-6 py-2 lg:text-3xl md:text-xl sm:text-lg text-white font-serif transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">Catalogo</a>
+                    <Link to={`/CatalogoLibros`} className=" px-6 py-2 lg:text-3xl md:text-xl sm:text-lg text-white font-serif transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">Catalogo</Link>
                     <div className="h-13 w-0.5 bg-slate-200"></div>
                     <a href="/nosotros" class=" px-4 py-2 lg:text-3xl md:text-xl sm:text-lg text-white font-serif transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-110 duration-300">Acerda de</a>
                 </div>
