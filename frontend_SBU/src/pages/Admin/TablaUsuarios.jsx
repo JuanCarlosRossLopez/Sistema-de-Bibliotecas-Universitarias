@@ -5,11 +5,12 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+import {useForm} from "react-hook-form";
 
 export default function TablaUsuarios() {
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const MySwal = withReactContent(Swal);
     const [users, setUsers] = useState([]);
-    const [editUser, setEditUser] = useState(null);
 
     useEffect(() => {
         fetchUsers();
@@ -26,54 +27,71 @@ export default function TablaUsuarios() {
 
     const showModal = async (user = null) => {
         const isEdit = user !== null;
-        const { value } = await MySwal.fire({
+        const defaultValues = {
+            name: isEdit ? user.name : '',
+            last_name: isEdit ? user.last_name : '',
+            email: isEdit ? user.mail : '',
+            nomine: isEdit ? user.nomine : '',
+            password: isEdit ? user.password : '',
+            is_student: isEdit ? user.is_student : false,
+            rol: isEdit ? user.Rol.name_rol : ''
+        };
+
+        const { value: formValues } = await MySwal.fire({
             title: isEdit ? "Editar Usuario" : "Crear Usuario",
-            html: `
-                <input type="text" id="name" class="swal2-input" placeholder="Nombre" value="${isEdit ? user.name : ''}">
-                <input type="text" id="last_name" class="swal2-input" placeholder="Apellido" value="${isEdit ? user.last_name : ''}">
-                <input type="email" id="email" class="swal2-input" placeholder="Correo" value="${isEdit ? user.mail : ''}">
-                <input type="text" id="nomine" class="swal2-input" placeholder="Nomine" value="${isEdit ? user.nomine : ''}">
-                <label class="swal2-input-label">Es Estudiante</label>
-                <input type="checkbox" id="is_student" class="swal2-checkbox" ${isEdit && user.is_student ? 'checked' : ''}>
-                <select id="rol" class="swal2-input">
-                    <option value="">Selecciona un rol:</option>
-                    <option value="student" ${isEdit && user.Rol.name_rol === 'student' ? 'selected' : ''}>Estudiante</option>
-                    <option value="employee" ${isEdit && user.Rol.name_rol === 'employee' ? 'selected' : ''}>Empleado</option>
-                    <option value="admin" ${isEdit && user.Rol.name_rol === 'admin' ? 'selected' : ''}>Admin</option>
-                </select>
-            `,
+            html: (
+                <form id="form">
+                    <input type="text" name="name" id="name" className="swal2-input" placeholder="Nombre" defaultValue={defaultValues.name} {...register("name", { required: true })} />
+                    {errors.name && <span>Este campo es requerido</span>}
+                    <input type="text" id="last_name" className="swal2-input" placeholder="Apellido" defaultValue={defaultValues.last_name} {...register("last_name", { required: true })} />
+                    {errors.last_name && <span>Este campo es requerido</span>}
+                    <input type="email" id="email" className="swal2-input" placeholder="Correo" defaultValue={defaultValues.email} {...register("email", { required: true })} />
+                    {errors.email && <span>Este campo es requerido</span>}
+                    <input type="text" id="nomine" className="swal2-input" placeholder="Nomine" defaultValue={defaultValues.nomine} {...register("nomine")} />
+                    <input type="text" id="password" className="swal2-input" placeholder="Contraseña" defaultValue={defaultValues.password} {...register("password")} />
+                    <label className="swal2-input-label">Es Estudiante</label>
+                    <input type="checkbox" id="is_student" className="swal2-checkbox" defaultChecked={defaultValues.is_student} {...register("is_student")} />
+                    <select id="rol" className="swal2-input" defaultValue={defaultValues.rol} {...register("rol", { required: true })}>
+                        <option value="">Selecciona un rol:</option>
+                        <option value="3">Estudiante</option>
+                        <option value="2">Empleado</option>
+                        <option value="1">Admin</option>
+                    </select>
+                    {errors.rol && <span>Este campo es requerido</span>}
+                </form>
+            ),
             showCancelButton: true,
             cancelButtonColor: "#d33",
             confirmButtonColor: "#3085d6",
             focusConfirm: false,
             preConfirm: () => {
-                const name = document.getElementById("name").value;
-                const last_name = document.getElementById("last_name").value;
-                const email = document.getElementById("email").value;
-                const nomine = document.getElementById("nomine").value;
-                const is_student = document.getElementById("is_student").checked;
-                const rol = document.getElementById("rol").value;
-                if (!name || !last_name || !email || !rol) {
+                const form = document.getElementById("form");
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData.entries());
+                if (!data.name || !data.last_name || !data.email || !data.rol) {
                     Swal.showValidationMessage("Todos los campos son requeridos");
+                    return false;
                 }
-                return { name, last_name, email, nomine, is_student, rol };
-            },
+                return data;
+            }
         });
 
-        if (value) {
+        if (formValues) {
             if (isEdit) {
-                await updateUser(user.id_users, value);
+                await updateUser(user.id_users, formValues);
             } else {
-                await createUser(value);
+                await onSubmit(formValues);
             }
-            fetchUsers();
-            await Swal.fire('Éxito', isEdit ? 'Usuario actualizado' : 'Usuario creado', 'success');
         }
     };
 
-    const createUser = async (userData) => {
+
+    const onSubmit = async (userData) => {
         try {
             await axios.post("http://localhost:3000/users", userData);
+            if( response.status===200){
+                Swal.fire('Éxito', 'Usuario creado', 'success');
+            }
         } catch (error) {
             console.error("Error creating user:", error);
             Swal.fire('Error', 'No se pudo crear el usuario', 'error');
