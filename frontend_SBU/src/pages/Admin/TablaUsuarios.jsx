@@ -102,7 +102,7 @@ export default function TablaUsuarios() {
                 role: userData.rol  // Asegúrate de que el backend espera este campo
             };
             console.log('Datos enviados:', payload);
-            await axios.post("http://localhost:3000/users", payload);
+            await axios.post("http://localhost:3000/users", userData);
         } catch (error) {
             console.error("Error creating user:", error.response?.data || error.message);
             Swal.fire('Error', error.response?.data.error || 'No se pudo crear el usuario', 'error');
