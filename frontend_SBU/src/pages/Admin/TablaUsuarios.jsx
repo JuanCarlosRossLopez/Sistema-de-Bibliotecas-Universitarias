@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import NavbarEJ from "../../components/NavbarEJ";
-import SidebarEJ from "../../components/SidebarEJ";
+import NavbarEJ from "../../components/navbarEj";
+import SidebarEJ from "../../components/sidebarEj";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
