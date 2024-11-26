@@ -96,9 +96,8 @@ const isRented = async () => {
         } catch (error) {
             console.error('Error:', error);
         }
-    }
+    };
 
-    
     return (
 <div className="flex flex-col items-center min-h-screen" style={{ backgroundColor: '#FFEFE5' }}>
     <NavbarHomeN />
@@ -123,6 +122,9 @@ const isRented = async () => {
                             </h1>
                             <h2 className="text-lg md:text-xl font-semibold mb-2">
                                 Autor: {libro.author}
+                            </h2>
+                            <h2 className="text-lg md:text-xl font-semibold mb-2">
+                                Categoría: {libro.category}
                             </h2>
                             <em className="text-base md:text-lg font-semibold mb-4">
                                 Número de serie: {libro.number_serie}
