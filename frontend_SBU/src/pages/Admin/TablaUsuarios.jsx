@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import NavbarEJ from "../../components/NavbarEJ";
-import SidebarEJ from "../../components/SidebarEJ";
+import NavbarEJ from "../../components/navbarEj";
+import SidebarEJ from "../../components/sidebarEj";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+import {useForm} from "react-hook-form";
 
 export default function TablaUsuarios() {
+    const { register, handleSubmit, formState: { errors } } = useForm();
     const MySwal = withReactContent(Swal);
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
@@ -77,18 +79,17 @@ export default function TablaUsuarios() {
             },
         });
 
-        if (value) {
+        if (formValues) {
             if (isEdit) {
-                await updateUser(user.id_users, value);
+                await updateUser(user.id_users, formValues);
             } else {
-                await createUser(value);
+                await onSubmit(formValues);
             }
-            fetchUsers();
-            await Swal.fire('Éxito', isEdit ? 'Usuario actualizado' : 'Usuario creado', 'success');
         }
     };
 
-    const createUser = async (userData) => {
+
+    const onSubmit = async (userData) => {
         try {
             // Ajustar la estructura de datos según lo que espera tu API
             const payload = {
@@ -101,7 +102,7 @@ export default function TablaUsuarios() {
                 role: userData.rol  // Asegúrate de que el backend espera este campo
             };
             console.log('Datos enviados:', payload);
-            await axios.post("http://localhost:3000/users", payload);
+            await axios.post("http://localhost:3000/users", userData);
         } catch (error) {
             console.error("Error creating user:", error.response?.data || error.message);
             Swal.fire('Error', error.response?.data.error || 'No se pudo crear el usuario', 'error');

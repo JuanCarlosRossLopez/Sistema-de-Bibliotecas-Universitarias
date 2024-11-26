@@ -1,20 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form';
+
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import NavbarHomeN from '../../components/navbarHomeNegro';
 
+
 function VerLibros() {
     const [datos, setDatos] = useState([]);
-    const studentId = localStorage.getItem('user');
+    const [isBookRented, setIsBookRented] = useState(false);
+    const student = JSON.parse(localStorage.getItem('user'));
+    const studentId = student.id;
+    console.log(studentId);
     const navigate = useNavigate(); // Añadido aquí
 
     useEffect(() => {
         fetchDatos();
+        isRented();
     }, []);
 
     const { id } = useParams();
+    
 
     const fetchDatos = async () => {
         try {
@@ -25,20 +31,21 @@ function VerLibros() {
         }
     };
 
-    const { register, handleSubmit, formState: { errors, isDirty } } = useForm();
+
 
     const [rentDate, setRentDate] = useState("");
-    const onSubmit = async (data) => {
-        try {
-            const response = await axios.post('http://localhost:3000/bookRent/create', data);
-            if (response.status === 200) {
-                alert('Rent created');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
 
+const isRented = async () => {
+    try {
+        const response = await axios.get(`http://localhost:3000/users/rentbyuser/${studentId}/books/${id}`);
+        setIsBookRented(response.data.isRented);
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        console.error('Error:', error);
+    }
+};
+    
     const handleRentDateChange = (e) => {
         const rentDateValue = e.target.value;
         setRentDate(rentDateValue);
@@ -55,76 +62,97 @@ function VerLibros() {
 
     const showModal = async () => {
         const { value } = await Swal.fire({
-            title: "Apartar libro",
-            html: `<form onSubmit={handleSubmit(onSubmit)}>
-                <label htmlFor="studentId">el id del estudiante aqui</label>
-                <input type="number" {...register("studentId")} />
-
-                <label htmlFor="bookId">el id del libro aqui</label>
-                <input type="number" {...register("bookId")} />
-
-                <label htmlFor="rentDate">la fecha de renta aqui</label>
-                <input type="date" id="rentDate" {...register("rentDate")} min={today} onChange={handleRentDateChange} />
-
-                <label htmlFor="deliveryDate">la fecha de entrega aqui</label>
-                <input type="date" id="deliveryDate" {...register("deliveryDate")} readOnly />
-
-                <label htmlFor="statusId">el id del status aqui</label>
-                <input type="number" {...register("statusId")} />
-
-                <button type="submit">Submit</button>
-            </form>`
+            title: 'Rentar libro',
+            html: `
+                <input type="date" id="request_date" class="swal2-input" value="${today}">
+                <input type="date" id="return_date" class="swal2-input" readonly>
+                <input type="hidden" id="id_book_id" value="${id}">
+                <input type="hidden" id="id_user_id" value="${studentId}">
+                <input type="hidden" id="id_status_id" value="1">
+            `,
+            focusConfirm: false,
+            didOpen: () => {
+                document.getElementById('request_date').addEventListener('change', handleRentDateChange);
+            },
+            preConfirm: () => {
+                const request_date = document.getElementById('request_date').value;
+                const return_date = document.getElementById('return_date').value;
+                const id_book_id = document.getElementById('id_book_id').value;
+                const id_user_id = document.getElementById('id_user_id').value;
+                return { request_date, return_date, id_book_id, id_user_id, id_status_id: 1};
+            },
         });
+
+        if (value) {
+            onSubmit(value);
+        }
+    };
+    const onSubmit = async (data) => {
+        try {
+            const response = await axios.post('http://localhost:3000/bookRent/create', data);
+            if (response.status === 200) {
+                alert('Rent created');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+        }
     };
 
     return (
-        <div className="flex flex-col items-center min-h-screen" style={{ backgroundColor: '#FFEFE5' }}>
-            <NavbarHomeN />
-            <div className="flex flex-col md:flex-row items-center md:items-start justify-center w-fit p-1 md:gap-10 mt-40">
-                {
-                    datos.map((libro) => (
-                        <div key={libro.id_book} className="w-full md:w-2/5 md:p-4 flex justify-center">
-                            <button
-                                className="px-6 py-2 text-white bg-yellow-900 rounded-md hover:bg-yellow-800 ml-4"
-                                onClick={() => navigate(-1)}
-                            >
-                                Regresar
-                            </button>
-                            <img
-                                src={libro.image}
-                                alt={`Imagen del libro ${libro.name_book}`}
-                                className="w-full h-auto rounded-lg shadow-md"
-                            />
-                            <div className="w-full md:w-1/2 md:p-10 flex flex-col">
-                                <h1 className="text-2xl md:text-3xl font-bold mb-4">
-                                    {libro.name_book}
-                                </h1>
-                                <h2 className="text-lg md:text-xl font-semibold mb-2">
-                                    Autor: {libro.author}
-                                </h2>
-                                <em className="text-base md:text-lg font-semibold mb-4">
-                                    Número de serie: {libro.number_serie}
-                                </em>
-                                <div className="flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0 mb-6">
-                                    <button className="bg-green-500 text-white px-6 py-2 rounded shadow-md hover:bg-green-600 transition duration-200">
-                                        Leer
-                                    </button>
-                                    <button className="bg-green-500 text-white px-6 py-2 rounded shadow-md hover:bg-green-600 transition duration-200">
-                                        Apartar
-                                    </button>
-                                </div>
-                                <h1 className="text-xl md:text-2xl font-bold mt-1">
-                                    Descripción:
-                                </h1>
-                                <p className="text-base md:text-lg mt-2">
-                                    {libro.description}
-                                </p>
+<div className="flex flex-col items-center min-h-screen" style={{ backgroundColor: '#FFEFE5' }}>
+    <NavbarHomeN />
+    <div className="flex flex-col md:flex-row items-center md:items-start justify-center w-fit p-1 md:gap-10 mt-40">
+        {
+            datos.map((libro) => (
+                <div key={libro.id_book} className="w-full md:w-2/5 md:p-4">
+                    <button
+                        className="px-4 py-2 text-white bg-yellow-900 rounded-md hover:bg-yellow-800 mb-4"
+                        onClick={() => navigate(-1)}>
+                        Regresar
+                    </button>
+                    <div className="flex flex-col items-center md:items-start">
+                        <img
+                            src={libro.image}
+                            alt={`Imagen del libro ${libro.name_book}`}
+                            className="w-full h-auto rounded-lg shadow-md mb-4"
+                        />
+                        <div className="w-full md:w-3/4 flex flex-col">
+                            <h1 className="text-2xl md:text-3xl font-bold mb-4 text-center md:text-left">
+                                {libro.name_book}
+                            </h1>
+                            <h2 className="text-lg md:text-xl font-semibold mb-2">
+                                Autor: {libro.author}
+                            </h2>
+                            <h2 className="text-lg md:text-xl font-semibold mb-2">
+                                Categoría: {libro.category}
+                            </h2>
+                            <em className="text-base md:text-lg font-semibold mb-4">
+                                Número de serie: {libro.number_serie}
+                            </em>
+                            <div className="flex flex-row justify-center md:justify-start space-x-4 mb-6">
+                                <button className="bg-green-500 text-white px-4 py-2 text-sm rounded shadow-md hover:bg-green-600 transition duration-200">
+                                    Leer
+                                </button>
+                                {!isBookRented && (
+                                <button className="bg-blue-500 text-white px-4 py-2 text-sm rounded shadow-md hover:bg-blue-600 transition duration-200" onClick={showModal}>
+                                    Apartar
+                                </button>
+                                )}
                             </div>
+                            <h1 className="text-xl md:text-2xl font-bold mt-1">
+                                Descripción:
+                            </h1>
+                            <p className="text-base md:text-lg mt-2">
+                                {libro.description}
+                            </p>
                         </div>
-                    ))
-                }
-            </div>
-        </div>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</div>
+
     );
 }
 

@@ -11,6 +11,7 @@ import TablaUsuarios from '../pages/Admin/TablaUsuarios';
 import CatalogoLibros from '../pages/User/BooksCatalog';
 import Nosotros from '../pages/Admin/NosotrosEJ';
 import ProtectedRoute from '../components/ProtectedRoute';
+import GestionCategorias from '../pages/Employee/TablaCategoria';
 import { AuthProvider } from '../contexts/AuthContext';
 import TablaEstudiantes from '../pages/Admin/TablaEstudiantes';
 
@@ -27,11 +28,17 @@ function AppRoutes() {
             <Route path="/HomeAdmin" element={<HomeAdmin />} />
             <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
             <Route path="/TablaEstudiantes" element={<TablaEstudiantes/>}/>
+            <Route path="/TablaLibros" element={<TablaLibros />} />
+            <Route path="/GestionCategorias" element={<GestionCategorias />} />
+            <Route path="/nosotros" element={<Nosotros />} />
           </Route>
 
           {/* Rutas para Employee */}
           <Route element={<ProtectedRoute allowedRoles={['employee']} />}>
             <Route path="/homee" element={<HomeEmpleados />} />
+            <Route path="/TablaLibros" element={<TablaLibros />} />
+            <Route path="/GestionCategorias" element={<GestionCategorias />} />
+            <Route path="/nosotros" element={<Nosotros />} />
           </Route>
 
           {/* Rutas para Student */}
@@ -50,7 +57,6 @@ function AppRoutes() {
           <Route element={<ProtectedRoute allowedRoles={['admin', 'employee', 'student']} />}>
             <Route path="/nosotros" element={<Nosotros />} />
           </Route>
-
           <Route path="/*" element={<Error />} />
         </Routes>
       </AuthProvider>

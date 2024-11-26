@@ -120,23 +120,24 @@ const BooksCatalog = () => {
             {filteredLibros.length > 0 ? (
               filteredLibros.map((libro) => (
                 <div
-                  key={libro.id_book}
-                  className="flex flex-col items-center p-4 rounded-lg shadow-md hover:shadow-lg transition"
-                  style={{ backgroundColor: '#e0c5bc' }}
-                >
-                  <img
-                    src={libro.image}
-                    alt={libro.name_book}
-                    className="h-72 w-60 object-cover rounded mb-4"
-                  />
-                  <h4 className="text-lg font-semibold text-center">
-                    {libro.name_book}
-                  </h4>
-                  <p className="text-sm text-gray-700 text-center">
-                    {libro.author}
-                  </p>
+                key={libro.id_book}
+                className="flex flex-col items-center p-4 rounded-lg shadow-md hover:shadow-lg transition"
+                style={{ backgroundColor: '#e0c5bc' }}
+              >
+                <img
+                  src={libro.image}
+                  alt={libro.name_book}
+                  className="h-72 w-60 object-cover rounded mb-4"
+                />
+                <h4 className="text-lg font-semibold text-center">
+                  {libro.name_book}
+                </h4>
+                <p className="text-sm text-gray-700 text-center">
+                  {libro.author}
+                </p>
+                <div className="mt-2">
                   <span
-                    className={`text-xs mt-2 py-1 px-3 rounded ${libro.id_typeofbook_id === 1
+                    className={`text-xs py-1 px-3 rounded ${libro.id_typeofbook_id === 1
                         ? 'bg-green-500 text-white'
                         : libro.id_typeofbook_id === 2
                           ? 'bg-yellow-500 text-black'
@@ -149,6 +150,8 @@ const BooksCatalog = () => {
                         ? 'Físico'
                         : 'Físico/Digital'}
                   </span>
+                </div>
+                <div className="mt-4">
                   <button
                     className="bg-yellow-800 text-white px-4 py-1 rounded shadow-md hover:bg-yellow-900 transition duration-200"
                     onClick={() => navigate(`/verlibro/${libro.id_book}`)}
@@ -156,6 +159,7 @@ const BooksCatalog = () => {
                     Ver Libro
                   </button>
                 </div>
+                </div>           
               ))
             ) : (
               <p className="text-center col-span-full text-gray-700">
