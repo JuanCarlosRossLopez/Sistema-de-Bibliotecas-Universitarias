@@ -70,17 +70,35 @@ const SidebarEJ = () => {
                                             <span className="select-none text-lg">Tabla Usuarios</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <a
+                                            className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                            href={`/TablaEstudiantes`}
+                                        >
+                                            <span className="select-none text-lg">Tabla Estudiantes</span>
+                                        </a>
+                                    </li>
                                 </>
                             )}
                             {(userRole === 'admin' || userRole === 'employee') && (
-                                <li>
-                                    <a
-                                        className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
-                                        href={`/TablaLibros`}
-                                    >
-                                        <span className="select-none text-lg">Tabla Libros</span>
-                                    </a>
-                                </li>
+                                <>
+                                    <li>
+                                        <a
+                                            className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                            href={`/TablaLibros`}
+                                        >
+                                            <span className="select-none text-lg">Tabla Libros</span>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a
+                                            className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                            href={`/GestionCategorias`}
+                                        >
+                                            <span className="select-none text-lg">Tabla Categorias de libros</span>
+                                        </a>
+                                    </li>
+                                </>
                             )}
                         </ul>
                     </div>

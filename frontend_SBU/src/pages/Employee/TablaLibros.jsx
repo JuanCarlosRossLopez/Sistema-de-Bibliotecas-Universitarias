@@ -1,9 +1,139 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
 import NavbarEJ from "../../components/navbarEj";
 import SidebarEJ from "../../components/sidebarEj";
 import { FaEdit, FaTrash, FaEye } from "react-icons/fa";
+import Swal from "sweetalert2";
+import withReactContent from "sweetalert2-react-content";
+import axios from "axios";
 
 function TablaLibros() {
+  const MySwal = withReactContent(Swal);
+  const [books, setBooks] = useState([]);
+  const [typeofbook, setTypeofbook] = useState([]);
+  const [selectedBook, setSelectedBook] = useState(null);
+
+  useEffect(() => {
+    fetchBooks();
+    fetchTypeofbook();
+  }, []);
+
+  const fetchBooks = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/books");
+      setBooks(response.data);
+    } catch (error) {
+      console.error("Error fetching books:", error);
+      MySwal.fire("Error", "No se pudieron cargar los libros", "error");
+    }
+  };
+
+  const fetchTypeofbook = async () => {
+    try {
+      const response = await axios.get("http://localhost:3000/typeofbook");
+      setTypeofbook(response.data);
+    } catch (error) {
+      console.error("Error fetching types of book:", error);
+      MySwal.fire("Error", "No se pudieron cargar los tipos de libros", "error");
+    }
+  };
+
+  const showBookForm = (book = null) => {
+    const isEdit = Boolean(book);
+
+    MySwal.fire({
+      title: isEdit ? "Editar Libro" : "Crear Libro",
+      html: `
+        <input type="text" id="name" class="swal2-input" value="${book?.name_book || ""}" placeholder="Nombre del libro">
+        <input type="text" id="imagen" class="swal2-input" value="${book?.image || ""}" placeholder="URL imagen">
+        <input type="text" id="description" class="swal2-input" value="${book?.description || ""}" placeholder="Descripción">
+        <input type="text" id="author" class="swal2-input" value="${book?.author || ""}" placeholder="Autor">
+        <input type="text" id="number_serie" class="swal2-input" value="${book?.number_serie || ""}" placeholder="Número de serie">
+        <input type="number" id="quantity" class="swal2-input" value="${book?.quantity || ""}" placeholder="Cantidad">
+        <input type="text" id="link_book" class="swal2-input" value="${book?.link_book || ""}" placeholder="Link del libro">
+        <select id="type" class="swal2-input">
+          ${typeofbook
+          .map(
+            (type) =>
+              `<option value="${type.id_type}" ${type.id_type === book?.type_id ? "selected" : ""
+              }>${type.type_of_book}</option>`
+          )
+          .join("")}
+        </select>
+      `,
+      confirmButtonText: "Guardar",
+      showCancelButton: true,
+      preConfirm: async () => {
+        const name = document.getElementById("name").value;
+        const author = document.getElementById("author").value;
+        const quantity = document.getElementById("quantity").value;
+        const type = document.getElementById("type").value;
+
+        if (!name || !author || !quantity || !type) {
+          MySwal.showValidationMessage("Todos los campos son obligatorios");
+        }
+
+        return { name, author, quantity, type };
+      },
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const url = isEdit
+            ? `http://localhost:3000/books/${book.id_book}`
+            : "http://localhost:3000/books";
+          const method = isEdit ? "put" : "post";
+          await axios[method](url, result.value);
+
+          MySwal.fire(
+            "Éxito",
+            `Libro ${isEdit ? "actualizado" : "creado"} correctamente`,
+            "success"
+          );
+          fetchBooks();
+        } catch (error) {
+          MySwal.fire("Error", `No se pudo ${isEdit ? "actualizar" : "crear"} el libro`, "error");
+        }
+      }
+    });
+  };
+
+  const handleCreateBook = () => showBookForm();
+  const handleEditBook = (book) => showBookForm(book);
+
+
+  const handleDeleteBook = (book) => {
+    MySwal.fire({
+      title: "¿Estás seguro?",
+      text: "Esta acción no se puede deshacer",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonText: "Sí, eliminar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          await axios.delete(`http://localhost:3000/books/${book.id_book}`);
+          MySwal.fire("Eliminado", "Libro eliminado correctamente", "success");
+          fetchBooks();
+        } catch (error) {
+          MySwal.fire("Error", "No se pudo eliminar el libro", "error");
+        }
+      }
+    });
+  };
+
+  const handleViewDetails = (book) => {
+    MySwal.fire({
+      title: `Detalles de ${book.name_book}`,
+      html: `
+        <p><b>Autor:</b> ${book.author}</p>
+        <p><b>Descripción:</b> ${book.description}</p>
+        <p><b>Serie:</b> ${book.number_serie}</p>
+        <p><b>Link:</b> <a href="${book.link_book}" target="_blank">${book.link_book}</a></p>
+      `,
+    });
+  };
+
+
   return (
     <div className="bg-[#FFEFE5] min-h-screen w-full">
       <NavbarEJ />
@@ -25,7 +155,7 @@ function TablaLibros() {
                 <input className="bg-transparent outline-none ml-1 block w-full md:w-auto" type="text" placeholder="Search..." />
               </div>
               <button className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Filtrar por...</button>
-              <button className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Crear Usuario</button>
+              <button className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold" onClick={handleCreateBook}>Crear Libro</button>
             </div>
           </div>
 
@@ -41,32 +171,34 @@ function TablaLibros() {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr className=' border-b-2'>
-                    <td className="px-3 md:px-5 py-5 bg-transparent text-sm">
-                      <div className="flex items-center">
-                        <div className="ml-3">
-                          <p className="text-gray-900 whitespace-nowrap">Don Quijote de la Mancha</p>
+                  {books.map((book) => (
+                    <tr className=' border-b-2'>
+                      <td className="px-3 md:px-5 py-5 bg-transparent text-sm">
+                        <div className="flex items-center">
+                          <div className="ml-3">
+                            <p className="text-gray-900 whitespace-nowrap"> {book.name_book} </p>
+                          </div>
                         </div>
-                      </div>
-                    </td>
-                    <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
-                      <p className="text-gray-900 whitespace-nowrap">Miguel de Cervantes</p>
-                    </td>
-                    <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
-                      <p className="text-gray-900 whitespace-nowrap">Cantidad</p>
-                    </td>
-                    <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
-                      <span className="relative inline-block px-3 py-1 font-semibold text-yellow-500 hover:text-yellow-700 leading-tight">
-                      <FaEdit size={24} />
-                      </span>
-                      <span className="relative inline-block px-3 py-1 font-semibold text-red-500 hover:text-red-700 leading-tight">
-                      <FaTrash size={24} />
-                      </span>
-                      <span className="relative inline-block px-3 py-1 font-semibold text-gray-500 hover:text-gray-700 leading-tight">
-                      <FaEye size={24} />
-                      </span>
-                    </td>
-                  </tr>
+                      </td>
+                      <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
+                        <p className="text-gray-900 whitespace-nowrap"> {book.author} </p>
+                      </td>
+                      <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
+                        <p className="text-gray-900 whitespace-nowrap"> {book.quantity} </p>
+                      </td>
+                      <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
+                        <span className="relative inline-block px-3 py-1 font-semibold text-yellow-500 hover:text-yellow-700 leading-tight">
+                          <FaEdit size={24} onClick={() => handleEditBook(book)} />
+                        </span>
+                        <span className="relative inline-block px-3 py-1 font-semibold text-red-500 hover:text-red-700 leading-tight">
+                          <FaTrash size={24} onClick={() => handleDeleteBook(book)} />
+                        </span>
+                        <span className="relative inline-block px-3 py-1 font-semibold text-gray-500 hover:text-gray-700 leading-tight">
+                          <FaEye size={24} onClick={() => handleViewDetails(book)} />
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
               <div className="px-3 md:px-5 py-5 bg-transparent flex flex-col xs:flex-row items-center xs:justify-between">

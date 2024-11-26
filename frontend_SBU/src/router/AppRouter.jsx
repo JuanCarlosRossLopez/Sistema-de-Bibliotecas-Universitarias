@@ -29,7 +29,6 @@ function AppRoutes() {
             <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
             <Route path="/TablaEstudiantes" element={<TablaEstudiantes/>}/>
             <Route path="/TablaLibros" element={<TablaLibros />} />
-            <Route path="/GestionCategorias" element={<GestionCategorias />} />
             <Route path="/nosotros" element={<Nosotros />} />
           </Route>
 
@@ -37,7 +36,6 @@ function AppRoutes() {
           <Route element={<ProtectedRoute allowedRoles={['employee']} />}>
             <Route path="/homee" element={<HomeEmpleados />} />
             <Route path="/TablaLibros" element={<TablaLibros />} />
-            <Route path="/GestionCategorias" element={<GestionCategorias />} />
             <Route path="/nosotros" element={<Nosotros />} />
           </Route>
 
@@ -51,6 +49,7 @@ function AppRoutes() {
           {/* Rutas comunes para Admin y Employee */}
           <Route element={<ProtectedRoute allowedRoles={['admin', 'employee']} />}>
             <Route path="/TablaLibros" element={<TablaLibros />} />
+            <Route path="/GestionCategorias" element={<GestionCategorias />} />
           </Route>
 
           {/* Rutas comunes para Admin, Employee y Student */}
