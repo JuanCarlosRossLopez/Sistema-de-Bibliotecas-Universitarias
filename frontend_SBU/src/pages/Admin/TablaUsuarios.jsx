@@ -67,65 +67,91 @@ export default function TablaUsuarios() {
             id_rol_id: roles[0]?.id_rol || null,
         });
 
+        const studentFormHTML = `
+    <div id="student-form" style="display: ${user?.is_student ? "block" : "none"};">
+        <input id="student_id" placeholder="Student ID" class="swal2-input" value="${user?.student_id || ""}">
+        <input id="course" placeholder="Course" class="swal2-input" value="${user?.course || ""}">
+        <!-- Agrega más campos según sea necesario -->
+    </div>
+`;
+
+// Agrega el evento change al checkbox
+const script = `
+    document.getElementById("is_student").addEventListener("change", function() {
+        const studentForm = document.getElementById("student-form");
+        if (this.checked) {
+            studentForm.style.display = "block";
+        } else {
+            studentForm.style.display = "none";
+        }
+    });
+`;
         Swal.fire({
             title: user ? "Editar Usuario" : "Crear Usuario",
             html: `
                 <input id="name" placeholder="Nombre" class="swal2-input" value="${user?.name || ""}">
                 <input id="last_name" placeholder="Apellido" class="swal2-input" value="${user?.last_name || ""}">
                 <input id="mail" type="email" placeholder="Correo" class="swal2-input" value="${user?.mail || ""}">
-                ${!user ? '<input id="password" type="password" placeholder="Contraseña" class="swal2-input">' : ""}
-                <input id="nomine" placeholder="Nomine" class="swal2-input" value="${user?.nomine || ""}">
-                <label class="swal2-input-label">Es Estudiante</label>
-                <input id="is_student" type="checkbox" class="swal2-checkbox" ${user?.is_student ? "checked" : ""}>
-                <select id="id_rol_id" class="swal2-input">
-                    ${roles
-                        .map(role => `<option value="${role.id_rol}" ${user?.id_rol_id === role.id_rol ? "selected" : ""}>${role.name_rol}</option>`)
-                        .join("")}
-                </select>
-            `,
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            preConfirm: () => {
-                // Capturar los datos de los campos
-                const name = document.getElementById("name").value.trim();
-                const last_name = document.getElementById("last_name").value.trim();
-                const mail = document.getElementById("mail").value.trim();
-                const password = !user ? document.getElementById("password").value.trim() : null;
-                const nomine = document.getElementById("nomine").value.trim();
-                const is_student = document.getElementById("is_student").checked;
-                const id_rol_id = parseInt(document.getElementById("id_rol_id").value, 10);
-        
-                // Validar manualmente los campos
-                if (!name || !last_name || !mail || (!user && !password)) {
-                    Swal.showValidationMessage("Por favor, complete todos los campos requeridos.");
-                    return false;
-                }
-        
-                // Retornar los valores al manejador de React Hook Form
-                return { name, last_name, mail, password, nomine, is_student, id_rol_id };
-            },
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    if (user) {
-                        // Editar usuario
-                        await axios.put(`http://localhost:3000/users/${user.id}`, result.value);
-                        Swal.fire("Éxito", "Usuario actualizado correctamente", "success");
-                    } else {
-                        // Crear usuario
-                        await axios.post("http://localhost:3000/users", result.value);
-                        Swal.fire("Éxito", "Usuario creado correctamente", "success");
-                    }
-                    fetchUsers(); // Refrescar lista de usuarios
-                } catch (error) {
-                    console.error(error);
-                    Swal.fire("Error", "No se pudo guardar el usuario", "error");
-                }
+                <input id="password" type="password" placeholder="Contraseña" class="swal2-input" value="${user?.password || ""}">
+            <input id="nomine" placeholder="Nomine" class="swal2-input" value="${user?.nomine || ""}">
+            <label class="swal2-input-label">Es Estudiante</label>
+            <input id="is_student" type="checkbox" class="swal2-checkbox" ${user?.is_student ? "checked" : ""}>
+            <select id="id_rol_id" class="swal2-input">
+                ${roles
+                    .map(role => `<option value="${role.id_rol}" ${user?.id_rol_id === role.id_rol ? "selected" : ""}>${role.name_rol}</option>`)
+                    .join("")}
+            </select>
+            ${studentFormHTML}
+        <script>${script}</script>
+        `,
+        showCancelButton: true,
+        confirmButtonColor: "#3085d6",
+        cancelButtonColor: "#d33",
+        preConfirm: () => {
+            const name = document.getElementById("name").value.trim();
+            const last_name = document.getElementById("last_name").value.trim();
+            const mail = document.getElementById("mail").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const nomine = document.getElementById("nomine").value.trim();
+            const is_student = document.getElementById("is_student").checked;
+            const id_rol_id = parseInt(document.getElementById("id_rol_id").value, 10);
+
+            if (!name || !last_name || !mail || !password) {
+                Swal.showValidationMessage("Por favor, complete todos los campos requeridos.");
+                return false;
             }
-        });
-        
-    };
+            let studentData = {};
+            if (is_student) {
+                const student_id = document.getElementById("student_id").value.trim();
+                const course = document.getElementById("course").value.trim();
+                // Agrega más campos según sea necesario
+                studentData = { student_id, course };
+            }
+            return { name, last_name, mail, password, nomine, is_student, id_rol_id,...studentData };
+        },
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const payload = result.value;
+
+                if (user) {
+                    // Editar usuario
+                    await axios.patch(`http://localhost:3000/users/${user.id}`, payload);
+                    Swal.fire("Éxito", "Usuario actualizado correctamente", "success");
+                } else {
+                    // Crear usuario
+                    await axios.post("http://localhost:3000/users", payload);
+                    Swal.fire("Éxito", "Usuario creado correctamente", "success");
+                }
+
+                fetchUsers();
+            } catch (error) {
+                console.error(error);
+                Swal.fire("Error", "No se pudo guardar el usuario", "error");
+            }
+        }
+    });
+};
 
 
     
