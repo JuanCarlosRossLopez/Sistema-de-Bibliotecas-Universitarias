@@ -134,7 +134,7 @@ const script = `
         if (result.isConfirmed) {
             try {
                 const payload = result.value;
-
+                console.log("Datos a enviar: ", payload);
                 if (user) {
                     // Editar usuario
                     await axios.patch(`http://localhost:3000/users/${user.id}`, payload);
