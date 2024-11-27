@@ -45,7 +45,7 @@ const createUser = async (body) => {
 const updateUser = async (body, id) => {
     try {
         return await User.update(body, {
-            where: { id_user: id }
+            where: { id_users: id }
         });
     } catch (error) {
         console.error("Error al actualizar el usuario", error);
