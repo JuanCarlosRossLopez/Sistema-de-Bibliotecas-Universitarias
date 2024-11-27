@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
+import {useForm} from 'react-hook-form';
 import NavbarEJ from "../../components/navbarEj";
 import SidebarEJ from "../../components/sidebarEj";
 import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
-import {useForm} from "react-hook-form";
 
 export default function TablaUsuarios() {
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const MySwal = withReactContent(Swal);
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
-    const [editUser, setEditUser] = useState(null);
-
     useEffect(() => {
         fetchUsers()
         fetchRoles();
@@ -39,98 +37,100 @@ export default function TablaUsuarios() {
         }
     };
 
-    const showModal = async (user = null) => {
-        const isEdit = !!user;
-        const { value } = await MySwal.fire({
-            title: isEdit ? "Editar Usuario" : "Crear Usuario",
+    const onSubmit = async (data) => {
+        try {
+            if (data.id) {
+                // Editar usuario
+                await axios.put(`http://localhost:3000/users/${data.id}`, data);
+                Swal.fire("Éxito", "Usuario actualizado correctamente", "success");
+            } else {
+                // Crear usuario
+                await axios.post("http://localhost:3000/users", data);
+                Swal.fire("Éxito", "Usuario creado correctamente", "success");
+            }
+            fetchUsers();
+            reset(); // Limpia el formulario
+        } catch (error) {
+            console.error(error);
+            Swal.fire("Error", "No se pudo guardar el usuario", "error");
+        }
+    };
+
+    const showModal = (user = null) => {
+        reset(user || {
+            name: "",
+            last_name: "",
+            mail: "",
+            password: "",
+            nomine: "",
+            is_student: false,
+            id_rol_id: roles[0]?.id_rol || null,
+        });
+
+        Swal.fire({
+            title: user ? "Editar Usuario" : "Crear Usuario",
             html: `
-                <input type="text" id="name" class="swal2-input" placeholder="Nombre" value="${user?.name || ''}">
-                <input type="text" id="last_name" class="swal2-input" placeholder="Apellido" value="${user?.last_name || ''}">
-                <input type="email" id="email" class="swal2-input" placeholder="Correo" value="${user?.mail || ''}">
-                ${!isEdit ? '<input type="password" id="password" class="swal2-input" placeholder="Contraseña">' : ''}
-                <input type="text" id="nomine" class="swal2-input" placeholder="Nomine" value="${user?.nomine || ''}">
+                <input id="name" placeholder="Nombre" class="swal2-input" value="${user?.name || ""}">
+                <input id="last_name" placeholder="Apellido" class="swal2-input" value="${user?.last_name || ""}">
+                <input id="mail" type="email" placeholder="Correo" class="swal2-input" value="${user?.mail || ""}">
+                ${!user ? '<input id="password" type="password" placeholder="Contraseña" class="swal2-input">' : ""}
+                <input id="nomine" placeholder="Nomine" class="swal2-input" value="${user?.nomine || ""}">
                 <label class="swal2-input-label">Es Estudiante</label>
-                <input type="checkbox" id="is_student" class="swal2-checkbox" ${user?.is_student ? 'checked' : ''}>
-                <select id="rol" class="swal2-input">
-                    ${roles.map(role => `<option value="${role.name_rol}" ${user?.Rol?.name_rol === role.name_rol ? 'selected' : ''}>${role.name_rol.charAt(0).toUpperCase() + role.name_rol.slice(1)}</option>`).join('')}
+                <input id="is_student" type="checkbox" class="swal2-checkbox" ${user?.is_student ? "checked" : ""}>
+                <select id="id_rol_id" class="swal2-input">
+                    ${roles
+                        .map(role => `<option value="${role.id_rol}" ${user?.id_rol_id === role.id_rol ? "selected" : ""}>${role.name_rol}</option>`)
+                        .join("")}
                 </select>
             `,
             showCancelButton: true,
-            cancelButtonColor: "#d33",
             confirmButtonColor: "#3085d6",
-            focusConfirm: false,
+            cancelButtonColor: "#d33",
             preConfirm: () => {
+                // Capturar los datos de los campos
                 const name = document.getElementById("name").value.trim();
                 const last_name = document.getElementById("last_name").value.trim();
-                const email = document.getElementById("email").value.trim();
+                const mail = document.getElementById("mail").value.trim();
+                const password = !user ? document.getElementById("password").value.trim() : null;
                 const nomine = document.getElementById("nomine").value.trim();
                 const is_student = document.getElementById("is_student").checked;
-                const rol = document.getElementById("rol").value;
-
-                // Si no es edición, obtenemos la contraseña
-                const password = !isEdit ? document.getElementById("password").value.trim() : '';
-
-                if (!name || !last_name || !email || (!isEdit && !password) || !rol) {
-                    Swal.showValidationMessage("Todos los campos son requeridos");
-                    return null;
+                const id_rol_id = parseInt(document.getElementById("id_rol_id").value, 10);
+        
+                // Validar manualmente los campos
+                if (!name || !last_name || !mail || (!user && !password)) {
+                    Swal.showValidationMessage("Por favor, complete todos los campos requeridos.");
+                    return false;
                 }
-
-                return { name, last_name, email, password, nomine, is_student, rol };
+        
+                // Retornar los valores al manejador de React Hook Form
+                return { name, last_name, mail, password, nomine, is_student, id_rol_id };
             },
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    if (user) {
+                        // Editar usuario
+                        await axios.put(`http://localhost:3000/users/${user.id}`, result.value);
+                        Swal.fire("Éxito", "Usuario actualizado correctamente", "success");
+                    } else {
+                        // Crear usuario
+                        await axios.post("http://localhost:3000/users", result.value);
+                        Swal.fire("Éxito", "Usuario creado correctamente", "success");
+                    }
+                    fetchUsers(); // Refrescar lista de usuarios
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire("Error", "No se pudo guardar el usuario", "error");
+                }
+            }
         });
-
-        if (formValues) {
-            if (isEdit) {
-                await updateUser(user.id_users, formValues);
-            } else {
-                await onSubmit(formValues);
-            }
-        }
+        
     };
 
 
-    const onSubmit = async (userData) => {
-        try {
-            // Ajustar la estructura de datos según lo que espera tu API
-            const payload = {
-                name: userData.name,
-                last_name: userData.last_name,
-                mail: userData.email,
-                password: userData.password,  // Asegúrate de que la API maneja la encriptación de contraseñas
-                nomine: userData.nomine,
-                is_student: userData.is_student,
-                role: userData.rol  // Asegúrate de que el backend espera este campo
-            };
-            console.log('Datos enviados:', payload);
-            await axios.post("http://localhost:3000/users", userData);
-        } catch (error) {
-            console.error("Error creating user:", error.response?.data || error.message);
-            Swal.fire('Error', error.response?.data.error || 'No se pudo crear el usuario', 'error');
-        }
-    };
+    
 
-    const updateUser = async (userId, userData) => {
-        try {
-            // Ajustar la estructura de datos según lo que espera tu API
-            const payload = {
-                name: userData.name,
-                last_name: userData.last_name,
-                mail: userData.email,
-                nomine: userData.nomine,
-                is_student: userData.is_student,
-                role: userData.rol  // Asegúrate de que el backend espera este campo
-            };
-            // Sólo incluye la contraseña si se ha proporcionado
-            if (userData.password) {
-                payload.password = userData.password;  // Asegúrate de que la API maneja la encriptación de contraseñas
-            }
-            await axios.put(`http://localhost:3000/users/${userId}`, payload);
-        } catch (error) {
-            console.error("Error updating user:", error.response?.data || error.message);
-            Swal.fire('Error', error.response?.data.error || 'No se pudo actualizar el usuario', 'error');
-        }
-    };
-
+    
     const deleteUser = async (userId) => {
         const { isConfirmed } = await Swal.fire({
             title: "¿Estás seguro?",

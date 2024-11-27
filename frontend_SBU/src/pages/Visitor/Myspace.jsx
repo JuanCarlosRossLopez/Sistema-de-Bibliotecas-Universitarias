@@ -1,13 +1,14 @@
 import React from 'react';
 import BookView from '../../components/BookView';
 import Catalogo from '../../components/Catalogo';
-
+import NavbarHomeN from '../../components/navbarHomeNegro';
 
 function Myspace() {
   return (
     <div>
-      <h1>My Space</h1>
-       <Catalogo />
+       <NavbarHomeN/>
+       <div className="flex flex-col items-center min-h-screen" style={{ backgroundColor: "#FFEFE5" }}>
+        </div>
     </div>
   );
 }
