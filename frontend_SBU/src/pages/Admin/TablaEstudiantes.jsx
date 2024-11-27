@@ -67,7 +67,8 @@ export default function TablaEstudiantes() {
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Nombre</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Correo</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Matrícula</th>
-                                        <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Libro rentado</th>
+                                        <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Libros rentado</th>
+                                        <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Deuda</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-center ml-10 text-xs font-semibold text-gray-600 uppercase">Acciones</th>
                                     </tr>
                                 </thead>
@@ -92,6 +93,9 @@ export default function TablaEstudiantes() {
                                             </td>
                                             <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
                                                 <p className="text-gray-900 whitespace-nowrap">{student.book_rent}</p>
+                                            </td>
+                                            <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
+                                                <p className="text-gray-900 whitespace-nowrap">{student.debt}</p>
                                             </td>
                                             <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
                                                 <button className="relative inline-block px-3 py-1 font-semibold text-yellow-500 hover:text-yellow-700 leading-tight">

@@ -13,7 +13,7 @@ export default function TablaUsuarios() {
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
     useEffect(() => {
-        fetchUsers();
+        fetchUsers()
         fetchRoles();
     }, []);
 
