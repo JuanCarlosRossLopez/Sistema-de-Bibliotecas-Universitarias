@@ -7,6 +7,7 @@ import NavbarHomeN from "../../components/navbarHomeNegro";
 function VerLibros() {
     const [datos, setDatos] = useState([]);
     const [isBookRented, setIsBookRented] = useState(false);
+    const [rentDate, setRentDate] = useState('');
     const student = JSON.parse(localStorage.getItem("user"));
     const studentId = student.id;
     const navigate = useNavigate();
@@ -37,17 +38,38 @@ function VerLibros() {
         }
     };
 
+    const handleRentDateChange = (e) => {
+        const rentDateValue = e.target.value;
+        setRentDate(rentDateValue);
+
+        const rentDateObj = new Date(rentDateValue);
+        rentDateObj.setDate(rentDateObj.getDate() + 5);
+        const deliveryDateValue = rentDateObj.toISOString().split('T')[0];
+
+        document.getElementById('return_date').value = deliveryDateValue;
+    };
+
+    const today = new Date().toISOString().split('T')[0];
+
     const showModal = async () => {
         const { value } = await Swal.fire({
             title: "Rentar libro",
             html: `
-                <input type="date" id="rent_date" class="swal2-input" min="${new Date().toISOString().split('T')[0]}" />
-                <input type="hidden" id="book_id" value="${id}" />
-                <input type="hidden" id="user_id" value="${studentId}" />
+                <input type="date" id="request_date" class="swal2-input" min="${today}" />
+                <input type="hidden" id="id_book_id" value="${id}" />
+                <input type="hidden" id="id_user_id" value="${studentId}" />
+                <input type="date" id="return_date" class="swal2-input" readonly>
             `,
+            focusConfirm: false,
+            didOpen: () => {
+                document.getElementById('request_date').addEventListener('change', handleRentDateChange);
+            },
             preConfirm: () => {
-                const rent_date = document.getElementById("rent_date").value;
-                return { rent_date, id_book: id, id_user: studentId };
+                const request_date = document.getElementById('request_date').value;
+                const return_date = document.getElementById('return_date').value;
+                const id_book_id = document.getElementById('id_book_id').value;
+                const id_user_id = document.getElementById('id_user_id').value;
+                return { request_date, return_date, id_book_id, id_user_id, id_status_id: 1 };
             },
         });
 
