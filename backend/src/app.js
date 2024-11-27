@@ -39,8 +39,8 @@ app.use('/auth', auth);
 volver a comentar al crearlos para subir*/
 const initRoles = require('./initRoles');
 initRoles();
-// const initStatus= require('./initStatus');
-// initStatus();
-// const initTypeBook= require('./initTypeOfBook');
-// initTypeBook();
+const initStatus= require('./initStatus');
+initStatus();
+const initTypeBook= require('./initTypeOfBook');
+initTypeBook();
 module.exports = app; // No inicializar el servidor aquí
