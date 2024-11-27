@@ -70,6 +70,20 @@ const SidebarEJ = () => {
                                             <span className="select-none text-lg">Tabla Usuarios</span>
                                         </a>
                                     </li>
+                                    <li>
+                                        <Link className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                            to={`/GestionCategorias`}
+                                        >
+                                            <span className="select-none text-lg">Tabla Categoria</span>
+                                        </Link>
+                                    </li>
+                                    <li>
+                                        <Link className="flex items-center rounded py-3 pl-3 pr-4 text-gray-50 hover:bg-[#e8a599]"
+                                            to={`/TablaEstudiantes`}
+                                        >
+                                        <span className="select-none text-lg"> Tabla Estudiantes</span>
+                                        </Link>
+                                    </li>
                                 </>
                             )}
                             {(userRole === 'admin' || userRole === 'employee') && (
