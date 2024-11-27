@@ -93,7 +93,7 @@ function VerLibros() {
                             <h2 className="text-lg md:text-xl font-semibold mb-2">
                                 Categoría: {libro.category}
                             </h2>
-                            <em className="text-base md:text-lg font-semibold mb-4">
+                            <p className="text-base md:text-lg font-semibold mb-4">
                                 Número de serie: {libro.number_serie}
                             </p>
                             <h1 className="text-xl md:text-2xl font-bold mt-2 mb-4">
