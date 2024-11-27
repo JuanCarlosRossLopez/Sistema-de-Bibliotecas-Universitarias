@@ -2,7 +2,7 @@ const User = require('../models/User');
 const Rol = require('../models/Rol');
 const Student = require('../models/Student');
 const BookRent = require('../models/BookRent');
-
+const Book = require('../models/Book');
 const findUsers = async () => {
     try {
         return await User.findAll({
@@ -79,11 +79,26 @@ const isBookRentedByUser = async (userId, bookId) => {
     }
 };
 
+const getBookRentByUserId = async (userId) => {
+    try {
+        return await BookRent.findAll({
+            where: { id_user_id: userId },
+            include: [{
+                model: Book,
+                as: 'Book' 
+            }]
+        });
+    } catch (error) {
+        console.error("Error al encontrar los alquileres del usuario", error);
+        throw error;
+    }
+};
 module.exports = {
     findUsers,
     findUserById,
     createUser,
     updateUser,
     deleteUser,
-    isBookRentedByUser
+    isBookRentedByUser,
+    getBookRentByUserId
 };
