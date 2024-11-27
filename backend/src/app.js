@@ -11,6 +11,7 @@ const BookPivot = require('./models/BookPivot');
 const rolRoutes = require('./routes/roleRoutes');
 const studentRoutes = require('./routes/studentRoutes');
 const bookRentRoute = require('./routes/bookRentRoutes');
+const typeofbookRoute = require('./routes/typeofbookRoutes');
 const auth = require('./routes/auth');
 dotenv.config();
 
@@ -28,17 +29,18 @@ app.use('/users', userRoutes);
 app.use('/status', statusRoutes);
 app.use('/rols', rolRoutes);
 app.use('/students', studentRoutes);
-app.use('/book', bookRoute);
+app.use('/books', bookRoute);
 app.use('/bookRent', bookRentRoute);
+app.use('/typeofbook', typeofbookRoute);
 app.use('/auth', auth);
 
 // Inicializar roles y status
 /*Descomentar esto si quieres para inicializar los roles (después de haber creado las tablas corrienfo el back),
 volver a comentar al crearlos para subir*/
- const initRoles = require('./initRoles');
- initRoles();
- const initStatus= require('./initStatus');
- initStatus();
- const initTypeBook= require('./initTypeOfBook');
-initTypeBook(); 
+const initRoles = require('./initRoles');
+initRoles();
+// const initStatus= require('./initStatus');
+// initStatus();
+// const initTypeBook= require('./initTypeOfBook');
+// initTypeBook();
 module.exports = app; // No inicializar el servidor aquí
