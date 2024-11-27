@@ -21,7 +21,7 @@ function VerLibros() {
 
     const fetchDatos = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/book/${id}`);
+            const response = await axios.get(`http://localhost:3000/books/${id}`);
             setDatos([response.data]);
         } catch (error) {
             console.error("Error:", error);
