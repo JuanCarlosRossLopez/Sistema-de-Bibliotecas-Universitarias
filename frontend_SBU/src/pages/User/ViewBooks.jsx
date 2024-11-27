@@ -118,7 +118,7 @@ function VerLibros() {
                             </h2>
                             <p className="text-base md:text-lg font-semibold mb-4">
                                 Número de serie: {libro.number_serie}
-                            </p>
+                            </em>
                             <h1 className="text-xl md:text-2xl font-bold mt-2 mb-4">
                                 Descripción:
                             </h1>
