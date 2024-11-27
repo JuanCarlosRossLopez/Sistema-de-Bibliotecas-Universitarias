@@ -6,6 +6,8 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
 import { useForm } from 'react-hook-form';
+import { FaUserCircle } from "react-icons/fa";
+
 
 export default function TablaEstudiantes() {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -158,6 +160,7 @@ export default function TablaEstudiantes() {
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Matrícula</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Libro rentado</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Deuda</th>
+                                        <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Libros rentado</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-center ml-10 text-xs font-semibold text-gray-600 uppercase">Acciones</th>
                                     </tr>
                                 </thead>
@@ -166,9 +169,9 @@ export default function TablaEstudiantes() {
                                         <tr key={student.id_student} className='border-b-2'>
                                             <td className="px-3 md:px-5 py-5 bg-transparent text-sm">
                                                 <div className="flex items-center">
-                                                    <div className="flex-shrink-0 w-10 h-10">
-                                                        <img className="w-full h-full object-cover rounded-full" src="/img/coronao.jpeg" alt="Foto_perfil" />
-                                                    </div>
+                                                <div className="flex-shrink-0 w-10 h-10">
+  <FaUserCircle className="w-full h-full text-gray-500 rounded-full" />
+</div>
                                                     <div className="ml-3">
                                                         <p className="text-gray-900 whitespace-nowrap">{student.User?.name || "N/A"}</p>
                                                     </div>
@@ -182,6 +185,9 @@ export default function TablaEstudiantes() {
                                             </td>
                                             <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
                                                 <p className="text-gray-900 whitespace-nowrap">{student.book_rent}</p>
+                                            </td>
+                                            <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
+                                                <p className="text-gray-900 whitespace-nowrap">{student.debt}</p>
                                             </td>
                                             <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
                                                 <p className="text-gray-900 whitespace-nowrap">{student.debt}</p>

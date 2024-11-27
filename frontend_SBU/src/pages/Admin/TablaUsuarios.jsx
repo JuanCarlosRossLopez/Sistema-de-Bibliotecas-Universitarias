@@ -6,6 +6,7 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+import { FaUserCircle } from "react-icons/fa";
 
 export default function TablaUsuarios() {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
@@ -13,7 +14,7 @@ export default function TablaUsuarios() {
     const [users, setUsers] = useState([]);
     const [roles, setRoles] = useState([]);
     useEffect(() => {
-        fetchUsers();
+        fetchUsers()
         fetchRoles();
     }, []);
 
@@ -220,9 +221,9 @@ const script = `
                                         <tr key={user.id_users} className='border-b-2'>
                                             <td className="px-3 md:px-5 py-5 bg-transparent text-sm">
                                                 <div className="flex items-center">
-                                                    <div className="flex-shrink-0 w-10 h-10">
-                                                        <img className="w-full h-full object-cover rounded-full" src="/img/coronao.jpeg" alt="Foto_perfil" />
-                                                    </div>
+                                                <div className="flex-shrink-0 w-10 h-10">
+  <FaUserCircle className="w-full h-full text-gray-500 rounded-full" />
+</div>
                                                     <div className="ml-3">
                                                         <p className="text-gray-900 whitespace-nowrap">{user.name}</p>
                                                     </div>

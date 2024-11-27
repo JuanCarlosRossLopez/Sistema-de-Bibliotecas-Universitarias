@@ -1,12 +1,13 @@
 import NavbarHome from "../../components/navbarHome";
 import { useNavigate, Link } from "react-router-dom";
 import React from "react";
+import NavbarHomeN from "../../components/navbarHomeNegro";
 
 function Home() {
   const navigate = useNavigate();
     return (
       <div className="h-screen w-full relative">
-        <NavbarHome />
+        <NavbarHome/>
         <div className="h-full w-full">
           <img
             src="/img/brackground home.png"
