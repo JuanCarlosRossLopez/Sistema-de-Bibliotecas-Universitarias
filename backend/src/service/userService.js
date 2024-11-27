@@ -75,11 +75,22 @@ const isBookRentedByUser = async (userId, bookId) => {
         throw error;
     }
 }
+
+const getBookRentByUserId = async (userId) => {
+    try {
+        return await userRepository.getBookRentByUserId(userId);
+    } catch (error) {
+        console.error("Error en service all", error);
+        throw error;
+    }
+}
+
 module.exports = {
     findUsers,
     findUserById,
     createUser,
     updateUser,
     deleteUser,
-    isBookRentedByUser
+    isBookRentedByUser,
+    getBookRentByUserId
 };

@@ -5,8 +5,12 @@ import { FaEdit, FaTrash } from "react-icons/fa";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import axios from "axios";
+import { useForm } from 'react-hook-form';
+import { FaUserCircle } from "react-icons/fa";
+
 
 export default function TablaEstudiantes() {
+    const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const MySwal = withReactContent(Swal);
     const [students, setStudents] = useState([]);
     const [user, setUsers] = useState([]);
@@ -16,26 +20,113 @@ export default function TablaEstudiantes() {
         fetchUser();
     }, []);
 
-    const fetchStudents = async () => { 
-        try{
+    const fetchStudents = async () => {
+        try {
             const response = await axios.get("http://localhost:3000/students");
             setStudents(response.data);
-        } catch(error){
-            console.error("Error fetching users:" , error.response?.data || error.message);
+        } catch (error) {
+            console.error("Error fetching users:", error.response?.data || error.message);
             Swal.fire('Error', 'No se cargaron los estudiantes', 'error');
         }
     };
 
     const fetchUser = async () => {
-        try{
+        try {
             const response = await axios.get("http://localhost:3000/users");
             setUsers(response.data);
-        }catch (error) {
+        } catch (error) {
             console.error("Error fetching users: ", error.response?.data || error.message);
             Swal.fire('Error', 'No se pudieron cargar los datos', 'error');
         }
     };
+    const showModal = (student = null) => {
+        reset( student || {
+            tuition: "",
+            book_rent: "",
+            debt: "",
+            
+        });
+
+        Swal.fire({
+            title: student ? "Editar Estudiante" : "Crear Estudiante",
+            html: `
+                <input id="tuition" type="text" placeholder="Matrícula" class="swal2-input" value="${student?.tuition || ""}">
+                <input id="book_rent" type="number" placeholder="Libros Rentados" class="swal2-input" value="${student?.book_rent || ""}">
+                <input id="debt" type="number" placeholder="Deuda" step="0.01" class="swal2-input" value="${student?.debt || ""}">
+                <select id="id_user_id" class="swal2-input">
+                    ${user
+                        .map((users) => `<option value="${users.id_users}" ${student?.id_user_id === users.id_users ? "selected" : ""}>${users.name}</option>`)
+                        .join("")}
+                </select>
+            `,
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: student ? "Actualizar" : "Crear",
+            preConfirm: () => {
+                // Obtenemos los valores del modal
+                const tuition = document.getElementById("tuition").value.trim();
+                const book_rent = document.getElementById("book_rent").value.trim();
+                const debt = document.getElementById("debt").value.trim();
+                const id_user_id =parseInt(document.getElementById("id_user_id").value) ;
     
+                return {
+                    tuition,
+                    book_rent,
+                    debt,
+                    id_user_id,
+                };
+            },
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                const studentData = result.value;
+                console.log("Datos a enviar:", studentData);
+                try {
+                    if (student) {
+                        // Editar estudiante
+                        await axios.put(`http://localhost:3000/students/${student.id_student}`, studentData);
+                        Swal.fire("Éxito", "Estudiante actualizado correctamente", "success");
+                    } else {
+                        // Crear estudiante
+                        await axios.post("http://localhost:3000/students", studentData);
+                        Swal.fire("Éxito", "Estudiante creado correctamente", "success");
+                    }
+    
+                    fetchStudents(); // Recargamos la lista de estudiantes
+                    Swal.fire('Exitoso', 'Los datos fueron creados exitosamente', "success");
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire("Error", "No se pudo guardar el estudiante", "error");
+                }
+            }
+        });
+    };
+    
+
+    const deleteStudent = async (StudentId) => {
+        const { isConfirmed } = await Swal.fire({
+            title: "¿Estás seguro?",
+            text: "No podrás revertir esto",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, eliminarla",
+            cancelButtonText: "Cancelar",
+        });
+
+        if (isConfirmed) {
+            try {
+                await axios.delete(`http://localhost:3000/students/${StudentId}`);
+                fetchStudents();
+                Swal.fire("Eliminado", "El Estudiante ha sido eliminada", "success");
+            } catch (error) {
+                console.error("Error deleting category:", error.response?.data || error.message);
+                Swal.fire("Error", "No se pudo eliminar el estudiante", "error");
+            }
+        }
+    };
+
     return (
         <div className="bg-[#FFEFE5] min-h-screen w-full">
             <NavbarEJ />
@@ -56,7 +147,7 @@ export default function TablaEstudiantes() {
                                 <input className="bg-transparent outline-none ml-1 block w-full md:w-auto" type="text" placeholder="Buscar..." />
                             </div>
                             <button className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Filtrar por...</button>
-                            <button  className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Crear Estudiante</button>
+                            <button onClick={() => showModal()} className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Crear Estudiante</button>
                         </div>
                     </div>
                     <div className="overflow-x-auto">
@@ -67,8 +158,9 @@ export default function TablaEstudiantes() {
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Nombre</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Correo</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Matrícula</th>
-                                        <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Libros rentado</th>
+                                        <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Libro rentado</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Deuda</th>
+                                        <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-left text-xs font-semibold text-gray-600 uppercase">Libros rentado</th>
                                         <th className="px-3 md:px-5 py-3 border-b-2 border-transparent bg-transparent text-center ml-10 text-xs font-semibold text-gray-600 uppercase">Acciones</th>
                                     </tr>
                                 </thead>
@@ -77,9 +169,9 @@ export default function TablaEstudiantes() {
                                         <tr key={student.id_student} className='border-b-2'>
                                             <td className="px-3 md:px-5 py-5 bg-transparent text-sm">
                                                 <div className="flex items-center">
-                                                    <div className="flex-shrink-0 w-10 h-10">
-                                                        <img className="w-full h-full object-cover rounded-full" src="/img/coronao.jpeg" alt="Foto_perfil" />
-                                                    </div>
+                                                <div className="flex-shrink-0 w-10 h-10">
+  <FaUserCircle className="w-full h-full text-gray-500 rounded-full" />
+</div>
                                                     <div className="ml-3">
                                                         <p className="text-gray-900 whitespace-nowrap">{student.User?.name || "N/A"}</p>
                                                     </div>
@@ -98,12 +190,15 @@ export default function TablaEstudiantes() {
                                                 <p className="text-gray-900 whitespace-nowrap">{student.debt}</p>
                                             </td>
                                             <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
-                                                <button className="relative inline-block px-3 py-1 font-semibold text-yellow-500 hover:text-yellow-700 leading-tight">
+                                                <p className="text-gray-900 whitespace-nowrap">{student.debt}</p>
+                                            </td>
+                                            <td className="px-3 md:px-5 py-5 border-b border-transparent bg-transparent text-sm">
+                                                <button onClick={() => showModal(student)} className="relative inline-block px-3 py-1 font-semibold text-yellow-500 hover:text-yellow-700 leading-tight">
                                                     <FaEdit size={24} />
                                                 </button>
-                                                <span className="relative inline-block px-3 py-1 font-semibold text-red-500 hover:text-red-700 leading-tight">
+                                                <button onClick={() => deleteStudent(student.id_student)} className="relative inline-block px-3 py-1 font-semibold text-red-500 hover:text-red-700 leading-tight">
                                                     <FaTrash size={24} />
-                                                </span>
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}

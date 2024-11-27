@@ -67,3 +67,14 @@ exports.isBookRentedByUser = async (req, res) => {
         res.status(400).json({ error: error.message });
     }
 };
+
+
+exports.getBookRentByUserId = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const bookRent = await userService.getBookRentByUserId(userId);
+        res.status(200).json(bookRent);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
