@@ -4,6 +4,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import NavbarHomeN from "../../components/navbarHomeNegro";
 
+
 function VerLibros() {
     const [datos, setDatos] = useState([]);
     const [isBookRented, setIsBookRented] = useState(false);

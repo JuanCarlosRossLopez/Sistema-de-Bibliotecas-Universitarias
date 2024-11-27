@@ -153,3 +153,11 @@ ul.breadcrumb li span {
   background: #e8a599;
   background-color: #e8a599;
 }
+
+div {
+  display: grid
+  grid-template-columns
+  repeat(auto-fill, minmax(150px, 1fr));
+  grid-gap: 30px;
+}
+
