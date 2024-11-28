@@ -40,11 +40,11 @@ export default function TablaEstudiantes() {
         }
     };
     const showModal = (student = null) => {
-        reset( student || {
+        reset(student || {
             tuition: "",
             book_rent: "",
             debt: "",
-            
+
         });
 
         Swal.fire({
@@ -55,8 +55,8 @@ export default function TablaEstudiantes() {
                 <input id="debt" type="number" placeholder="Deuda" step="0.01" class="swal2-input" value="${student?.debt || ""}">
                 <select id="id_user_id" class="swal2-input">
                     ${user
-                        .map((users) => `<option value="${users.id_users}" ${student?.id_user_id === users.id_users ? "selected" : ""}>${users.name}</option>`)
-                        .join("")}
+                    .map((users) => `<option value="${users.id_users}" ${student?.id_user_id === users.id_users ? "selected" : ""}>${users.name}</option>`)
+                    .join("")}
                 </select>
             `,
             showCancelButton: true,
@@ -68,8 +68,8 @@ export default function TablaEstudiantes() {
                 const tuition = document.getElementById("tuition").value.trim();
                 const book_rent = document.getElementById("book_rent").value.trim();
                 const debt = document.getElementById("debt").value.trim();
-                const id_user_id =parseInt(document.getElementById("id_user_id").value) ;
-    
+                const id_user_id = parseInt(document.getElementById("id_user_id").value);
+
                 return {
                     tuition,
                     book_rent,
@@ -91,7 +91,7 @@ export default function TablaEstudiantes() {
                         await axios.post("http://localhost:3000/students", studentData);
                         Swal.fire("Éxito", "Estudiante creado correctamente", "success");
                     }
-    
+
                     fetchStudents(); // Recargamos la lista de estudiantes
                     Swal.fire('Exitoso', 'Los datos fueron creados exitosamente', "success");
                 } catch (error) {
@@ -101,7 +101,7 @@ export default function TablaEstudiantes() {
             }
         });
     };
-    
+
 
     const deleteStudent = async (StudentId) => {
         const { isConfirmed } = await Swal.fire({
@@ -169,9 +169,9 @@ export default function TablaEstudiantes() {
                                         <tr key={student.id_student} className='border-b-2'>
                                             <td className="px-3 md:px-5 py-5 bg-transparent text-sm">
                                                 <div className="flex items-center">
-                                                <div className="flex-shrink-0 w-10 h-10">
-  <FaUserCircle className="w-full h-full text-gray-500 rounded-full" />
-</div>
+                                                    <div className="flex-shrink-0 w-10 h-10">
+                                                        <FaUserCircle className="w-full h-full text-gray-500 rounded-full" />
+                                                    </div>
                                                     <div className="ml-3">
                                                         <p className="text-gray-900 whitespace-nowrap">{student.User?.name || "N/A"}</p>
                                                     </div>
