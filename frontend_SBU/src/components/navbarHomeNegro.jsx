@@ -68,31 +68,24 @@ function NavbarHomeN() {
 
           <div className="hidden sm:flex space-x-6">
             <a
-              href="#"
+              href="/CatalogoLibros"
               className="text-black lg:text-3xl md:text-xl sm:text-lg font-serif transition transform hover:scale-110"
             >
               Inicio
             </a>
             <div className="h-13 w-0.5 bg-slate-400"></div>
             <a
-              href="#"
+              href="/nosotros"
               className="text-black lg:text-3xl md:text-xl sm:text-lg font-serif transition transform hover:scale-110"
             >
-              Catálogo
-            </a>
-            <div className="h-13 w-0.5 bg-slate-400"></div>
-            <a
-              href="#"
-              className="text-black lg:text-3xl md:text-xl sm:text-lg font-serif transition transform hover:scale-110"
-            >
-              Acerca de
+              Acerca de nosotros
             </a>
           </div>
 
           <div className="relative ml-3 flex flex-col items-center">
               <div>
                 <a
-                  href={`/Signin`}
+                  href={`/Mislibros`}
                   type="button"
                   className="relative flex rounded-full  text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
                   id="user-menu-button"
