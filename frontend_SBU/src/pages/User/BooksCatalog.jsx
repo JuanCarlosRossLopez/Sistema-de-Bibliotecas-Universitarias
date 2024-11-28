@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom';
 const BooksCatalog = () => {
   const [libros, setLibros] = useState([]);
   const [filteredLibros, setFilteredLibros] = useState([]);
-  const [categorias, setCategorias] = useState([]); // Renombramos 'etiquetas' a 'categorias'
+  const [categorias, setCategorias] = useState([]);
   const [selectedEtiquetas, setSelectedEtiquetas] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -25,8 +25,8 @@ const BooksCatalog = () => {
 
     const cargarCategorias = async () => {
       try {
-        const data = await fetchCategoryBooks(); // Llamada al servicio de categorías
-        setCategorias(data); // Guardamos las categorías en el estado
+        const data = await fetchCategoryBooks();
+        setCategorias(data);
       } catch (error) {
         console.error('Error al cargar las categorías:', error);
       }
@@ -90,26 +90,20 @@ const BooksCatalog = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen" style={{ backgroundColor: '#FFEFE5' }}>
-      {/* Navbar */}
       <NavbarHomeN />
 
-      {/* Contenido principal */}
       <div className="flex flex-col md:flex-row items-start justify-center w-full p-4 mt-32">
-        {/* Panel de filtros */}
         <div className="w-full md:w-1/4 p-4">
           <Etiquetas
-            categorias={categorias} // Cambiado de 'etiquetas' a 'categorias'
+            categorias={categorias}
             selectedEtiquetas={selectedEtiquetas}
             onToggleEtiqueta={handleToggleEtiqueta}
           />
         </div>
 
-        {/* Contenedor del catálogo */}
         <div className="w-full md:w-3/4 p-4">
-          {/* Barra de búsqueda */}
           <BarraBusqueda onSearch={handleSearch} />
 
-          {/* Lista de libros */}
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
             {filteredLibros.length > 0 ? (
               filteredLibros.map((libro) => (
@@ -119,7 +113,7 @@ const BooksCatalog = () => {
                   style={{ backgroundColor: '#e0c5bc' }}
                 >
                   <img
-                    src={libro.image}
+                    src={libro.image.startsWith('http') ? libro.image : `data:image/jpeg;base64,${libro.image}`}
                     alt={libro.name_book}
                     className="h-72 w-60 object-cover rounded mb-4"
                   />

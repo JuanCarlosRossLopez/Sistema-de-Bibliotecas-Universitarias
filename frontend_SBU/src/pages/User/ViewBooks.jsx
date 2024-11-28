@@ -99,8 +99,8 @@ function VerLibros() {
                     <React.Fragment key={libro.id_book}>
                         <div className="w-full md:w-1/2 flex justify-center">
                             <img
-                                src={libro.image}
-                                alt={`Imagen del libro ${libro.name_book}`}
+                                src={libro.image.startsWith('http') ? libro.image : `data:image/jpeg;base64,${libro.image}`}
+                                alt= {libro.name_book}
                                 className="rounded-lg max-h-80 object-contain w-4/5 md:w-full"
                             />
                         </div>
@@ -157,4 +157,4 @@ function VerLibros() {
     );
 }
 
-export default VerLibros;
+export default VerLibros;

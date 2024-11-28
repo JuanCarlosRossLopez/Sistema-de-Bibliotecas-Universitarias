@@ -12,7 +12,10 @@ export default function TablaUsuarios() {
     const { register, handleSubmit, reset, formState: { errors } } = useForm();
     const MySwal = withReactContent(Swal);
     const [users, setUsers] = useState([]);
+    const [filtedredUsers, setFilteredUsers] = useState([]);
     const [roles, setRoles] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+
     useEffect(() => {
         fetchUsers()
         fetchRoles();
@@ -22,6 +25,7 @@ export default function TablaUsuarios() {
         try {
             const response = await axios.get("http://localhost:3000/users");
             setUsers(response.data);
+            setFilteredUsers(response.data);
         } catch (error) {
             console.error("Error fetching users:", error.response?.data || error.message);
             Swal.fire('Error', 'No se pudieron cargar los usuarios', 'error');
@@ -36,6 +40,15 @@ export default function TablaUsuarios() {
             console.error("Error fetching roles:", error.response?.data || error.message);
             Swal.fire('Error', 'No se pudieron cargar los roles', 'error');
         }
+    };
+
+    const handleSearchChange = (event) => {
+        const value = event.target.value;
+        setSearchTerm(value);
+        const filtered = users.filter(user => 
+            user.name.toLowerCase().includes(value.toLowerCase())
+        );
+        setFilteredUsers(filtered);
     };
 
     const onSubmit = async (data) => {
@@ -68,25 +81,7 @@ export default function TablaUsuarios() {
             id_rol_id: roles[0]?.id_rol || null,
         });
 
-        const studentFormHTML = `
-    <div id="student-form" style="display: ${user?.is_student ? "block" : "none"};">
-        <input id="student_id" placeholder="Student ID" class="swal2-input" value="${user?.student_id || ""}">
-        <input id="course" placeholder="Course" class="swal2-input" value="${user?.course || ""}">
-        <!-- Agrega más campos según sea necesario -->
-    </div>
-`;
-
 // Agrega el evento change al checkbox
-const script = `
-    document.getElementById("is_student").addEventListener("change", function() {
-        const studentForm = document.getElementById("student-form");
-        if (this.checked) {
-            studentForm.style.display = "block";
-        } else {
-            studentForm.style.display = "none";
-        }
-    });
-`;
         Swal.fire({
             title: user ? "Editar Usuario" : "Crear Usuario",
             html: `
@@ -102,8 +97,7 @@ const script = `
                     .map(role => `<option value="${role.id_rol}" ${user?.id_rol_id === role.id_rol ? "selected" : ""}>${role.name_rol}</option>`)
                     .join("")}
             </select>
-            ${studentFormHTML}
-        <script>${script}</script>
+            
         `,
         showCancelButton: true,
         confirmButtonColor: "#3085d6",
@@ -120,13 +114,6 @@ const script = `
             if (!name || !last_name || !mail || !password) {
                 Swal.showValidationMessage("Por favor, complete todos los campos requeridos.");
                 return false;
-            }
-            let studentData = {};
-            if (is_student) {
-                const student_id = document.getElementById("student_id").value.trim();
-                const course = document.getElementById("course").value.trim();
-                // Agrega más campos según sea necesario
-                studentData = { student_id, course };
             }
             return { name, last_name, mail, password, nomine, is_student, id_rol_id,...studentData };
         },
@@ -199,7 +186,11 @@ const script = `
                                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
                                     <path fillRule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clipRule="evenodd" />
                                 </svg>
-                                <input className="bg-transparent outline-none ml-1 block w-full md:w-auto" type="text" placeholder="Buscar..." />
+                                <input className="bg-transparent outline-none ml-1 block w-full md:w-auto"  type="text" 
+                
+                value={searchTerm} 
+                onChange={handleSearchChange} 
+                 placeholder="Buscar..." />
                             </div>
                             <button className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Filtrar por...</button>
                             <button onClick={() => showModal()} className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">Crear Usuario</button>
@@ -217,7 +208,7 @@ const script = `
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {users.map((user) => (
+                                    {filtedredUsers.map((user) => (
                                         <tr key={user.id_users} className='border-b-2'>
                                             <td className="px-3 md:px-5 py-5 bg-transparent text-sm">
                                                 <div className="flex items-center">

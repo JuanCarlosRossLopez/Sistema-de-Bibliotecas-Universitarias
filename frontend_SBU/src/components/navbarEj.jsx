@@ -1,17 +1,33 @@
 import { useEffect } from "react";
-import abrirSidebar from "../js/abrirSidebar";
 import { useAuth } from '../contexts/AuthContext';
+
+const abrirSidebar = () => {
+    const sidebar = document.getElementById("sidebar");
+    const navOpen = document.getElementById("navOpen");
+    const navClosed = document.getElementById("navClosed");
+
+    if (sidebar) {
+        sidebar.classList.toggle("-translate-x-full");
+    }
+
+    if (navOpen && navClosed) {
+        navOpen.classList.toggle("hidden");
+        navClosed.classList.toggle("hidden");
+    }
+};
 
 const NavbarEJ = () => {
     const { user, logout } = useAuth();
 
     useEffect(() => {
-        abrirSidebar();
+        const btnSidebarToggler = document.getElementById("btnSidebarToggler");
+        if (btnSidebarToggler) {
+            btnSidebarToggler.addEventListener("click", abrirSidebar);
+        }
 
         return () => {
-            const btnSidebarToggler = document.getElementById("btnSidebarToggler");
             if (btnSidebarToggler) {
-                btnSidebarToggler.replaceWith(btnSidebarToggler.cloneNode(true));
+                btnSidebarToggler.removeEventListener("click", abrirSidebar);
             }
         };
     }, []);

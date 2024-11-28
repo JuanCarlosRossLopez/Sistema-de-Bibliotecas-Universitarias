@@ -28,15 +28,11 @@ function AppRoutes() {
             <Route path="/HomeAdmin" element={<HomeAdmin />} />
             <Route path="/TablaUsuarios" element={<TablaUsuarios />} />
             <Route path="/TablaEstudiantes" element={<TablaEstudiantes/>}/>
-            <Route path="/TablaLibros" element={<TablaLibros />} />
-            <Route path="/nosotros" element={<Nosotros />} />
           </Route>
 
           {/* Rutas para Employee */}
           <Route element={<ProtectedRoute allowedRoles={['employee']} />}>
             <Route path="/homee" element={<HomeEmpleados />} />
-            <Route path="/TablaLibros" element={<TablaLibros />} />
-            <Route path="/nosotros" element={<Nosotros />} />
           </Route>
 
           {/* Rutas para Student */}

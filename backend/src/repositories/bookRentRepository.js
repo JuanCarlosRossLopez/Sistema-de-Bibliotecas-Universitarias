@@ -13,16 +13,7 @@ const getBookRent = async () => {
                     model: Status,
                     attributes: ['status']
                 },
-                {
-                    model: Student,
-                    
-                    include: [
-                        {
-                            model: User,
-                            attributes: ['name'] // Asegúrate de que este es el nombre del atributo en la tabla User
-                        }
-                    ]
-                },
+            
                 {
                     model: Book,
                     attributes: ['name_book']
@@ -44,10 +35,7 @@ const getBookRentById=async(id)=>{
              model: Status,
              attributes: ['status']
          },
-         {
-             model: Student,
-             attributes: ['tuition']
-         },
+        
          {
              model: Book,
              attributes: ['name_book']
@@ -71,7 +59,12 @@ const getBookRentById=async(id)=>{
                 },
                 {
                     model: Student,
-                    attributes: ['name_student']
+                    include: [
+                        {
+                            model: User,
+                            attributes: ['name'] // Asegúrate de que este es el nombre del atributo en la tabla User
+                        }
+                    ]
                 },
                 {
                     model: Book,
@@ -123,33 +116,51 @@ const deleteBookRent=async(id)=>{
 
 const getOverdueBookRents = async () => {
     try {
+        const currentDate = new Date().toISOString(); // Fecha actual en formato ISO
+
         const overdueBookRents = await BookRent.findAll({
             where: {
                 return_date: {
-                    [Op.lt]: new Date() // Compara con la fecha actual
-                }
+                    [Op.lt]: currentDate // Libros cuya fecha de devolución es menor a la actual
+                },
             },
             include: [
                 {
-                    model:Book,
-                    attributes: ['name_book'] // Incluye el título del libro
+                    model: Book,
+                    attributes: ['name_book']
                 },
                 {
                     model: Status,
-                    attributes: ['status'] // Incluye el estado del alquiler
+                    attributes: ['status']
                 },
                 {
-                    model: Student,
-                    attributes: ['name_student'] // Incluye el nombre del estudiante
+                    model: User,
+                    attributes: ['name']
                 }
             ]
         });
+
+        console.log("Consulta generada:", overdueBookRents);
+
+        // Actualiza estado
+        await BookRent.update(
+            { id_status_id: 3 },
+            {
+                where: {
+                    return_date: {
+                        [Op.lt]: currentDate
+                    }
+                }
+            }
+        );
+
         return overdueBookRents;
     } catch (error) {
-        console.error("Error al buscar libros vencidos", error);
+        console.error("Error:", error);
         throw error;
     }
 };
+
 
 
 module.exports={

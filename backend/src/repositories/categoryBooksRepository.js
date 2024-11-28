@@ -1,5 +1,6 @@
 const categoryBooks = require('../models/CategoryBook');
 const Book = require('../models/Book');
+const BookPivot = require('../models/BookPivot');
 const findCategory= async (body)=>{
     try{
         return await categoryBooks.findAll(body);
@@ -53,19 +54,39 @@ const deleteCategoryBook = async (id) => {
     }
 };
 
-const addBookToCategory = async (bookId, categoryId) => {
+const addBookToCategory = async (bookId, categoryIds) => {
     try {
-        const book = await Book.findByPk(bookId);
-        const category = await categoryBooks.findByPk(categoryId);
+        console.log(`Attempting to add book with ID ${bookId} to categories with IDs ${categoryIds}`);
 
-        if (!book || !category) {
-            throw new Error('Book or Category not found');
+        const book = await Book.findByPk(bookId);
+        if (!book) {
+            console.error(`Book with ID ${bookId} not found`);
+            throw new Error('Book not found');
         }
 
-        await book.addCategory(category); // Utiliza el método correcto para la relación belongsToMany
-        return { message: 'Book added to Category successfully' };
+        // Ensure categoryIds is an array
+        if (!Array.isArray(categoryIds)) {
+            console.error('categoryIds must be an array');
+            throw new Error('categoryIds must be an array');
+        }
+
+        for (const categoryId of categoryIds) {
+            const category = await categoryBooks.findByPk(categoryId);
+            if (!category) {
+                console.error(`Category with ID ${categoryId} not found`);
+                throw new Error(`Category with ID ${categoryId} not found`);
+            }
+
+            // Insert into the pivot table
+            await BookPivot.create({
+                id_book_id: bookId,
+                id_category_id: categoryId
+            });
+        }
+
+        return { message: 'Book added to Categories successfully' };
     } catch (error) {
-        console.error("Error adding Book to Category in repository", error);
+        console.error("Error adding Book to Categories in repository", error);
         throw error;
     }
 };
