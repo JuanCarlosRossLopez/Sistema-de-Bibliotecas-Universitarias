@@ -128,7 +128,7 @@ export default function TablaEstudiantes() {
         });
     };
 
-
+    // Modal Eliminar
     const deleteStudent = async (StudentId) => {
         const { isConfirmed } = await Swal.fire({
             title: "¿Estás seguro?",
@@ -160,7 +160,7 @@ export default function TablaEstudiantes() {
                 <SidebarEJ />
             </div>
             <div className="flex justify-center h-full p-4">
-                <div className="bg-[#E0C5BC] p-4 md:p-8 rounded-md max-h-max w-full sm:w-11/12 md:w-3/4 lg:w-4/5 xl:w-4/5 mt-32 sm:mt-24 md:mt-20">
+                <div className="bg-[#E0C5BC] p-4 md:p-8 rounded-md max-h-max w-full sm:w-11/12 md:w-3/4 lg:w-4/5 xl:w-4/5 mt-20 sm:mt-24 md:mt-20">
                     <div className="flex flex-col items-center justify-between pb-6">
                         <div className="text-center md:text-left">
                             <h2 className="text-gray-600 font-semibold text-base md:text-xl">Gestión de Estudiantes</h2>
