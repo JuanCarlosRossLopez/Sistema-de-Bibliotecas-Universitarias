@@ -4,7 +4,8 @@ import NavbarHomeN from "../../components/navbarHomeNegro";
 
 function Myspace() {
   const [rentedBooks, setRentedBooks] = useState([]);
-  const [userId, setUserId] = useState(null);
+   const student = JSON.parse(localStorage.getItem("user"))
+   const Student = student.id
 
   useEffect(() => {
     const storedUserId = localStorage.getItem("userId"); 
@@ -14,17 +15,18 @@ function Myspace() {
   }, []);
 
   useEffect(() => {
-    if (userId) {
+    
       axios
-        .get(`http://localhost:3000/users/rentbyuser/${userId}`) 
+        .get(`http://localhost:3000/users/rentbyuser/${Student}`) 
         .then((response) => {
           setRentedBooks(response.data);
+          console.log(response.data)
         })
         .catch((error) => {
           console.error("Error fetching rented books:", error);
         });
-    }
-  }, [userId]);
+    
+  }, []);
 
   return (
     <div

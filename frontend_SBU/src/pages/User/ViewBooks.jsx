@@ -21,7 +21,7 @@ function VerLibros() {
 
     const fetchDatos = async () => {
         try {
-            const response = await axios.get(`http://localhost:3000/book/${id}`);
+            const response = await axios.get(`http://localhost:3000/books/${id}`);
             setDatos([response.data]);
         } catch (error) {
             console.error("Error:", error);
@@ -100,7 +100,7 @@ function VerLibros() {
                         <div className="w-full md:w-1/2 flex justify-center">
                             <img
                                 src={libro.image}
-                                alt={`Imagen del libro ${libro.name_book}`}
+                                alt= {libro.name_book}
                                 className="rounded-lg max-h-80 object-contain w-4/5 md:w-full"
                             />
                         </div>
@@ -157,4 +157,4 @@ function VerLibros() {
     );
 }
 
-export default VerLibros;
+export default VerLibros;

@@ -28,10 +28,8 @@ function Login() {
       );
       if (response.data.accessToken) {
         localStorage.setItem("user", JSON.stringify(response.data));
-        login(response.data);
-        setAuthError("");
-        navigate("/CatalogoLibros");
-      } else {
+        login(response.data); // Usar login del contexto para manejar el estado y la redirección
+    } else {
         setAuthError(response.data.message || "Credenciales incorrectas.");
       }
     } catch (error) {
