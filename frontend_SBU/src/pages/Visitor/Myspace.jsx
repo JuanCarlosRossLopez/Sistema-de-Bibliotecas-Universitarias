@@ -4,8 +4,8 @@ import NavbarHomeN from "../../components/navbarHomeNegro";
 
 function Myspace() {
   const [rentedBooks, setRentedBooks] = useState([]);
-   const student = JSON.parse(localStorage.getItem("user"))
-   const Student = student.id
+  const student = JSON.parse(localStorage.getItem("user"));
+  const Student = student.id;
 
   useEffect(() => {
     const storedUserId = localStorage.getItem("userId"); 
@@ -15,23 +15,19 @@ function Myspace() {
   }, []);
 
   useEffect(() => {
-    
-      axios
-        .get(`http://localhost:3000/users/rentbyuser/${Student}`) 
-        .then((response) => {
-          setRentedBooks(response.data);
-          console.log(response.data)
-        })
-        .catch((error) => {
-          console.error("Error fetching rented books:", error);
-        });
-    
+    axios
+      .get(`http://localhost:3000/users/rentbyuser/${Student}`) 
+      .then((response) => {
+        setRentedBooks(response.data);
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching rented books:", error);
+      });
   }, []);
 
   return (
-    <div
-      className="flex flex-col items-center min-h-screen"
-      style={{ backgroundColor: "#FFEFE5" }}>
+    <div className="flex flex-col items-center min-h-screen" style={{ backgroundColor: "#FFEFE5" }}>
       <NavbarHomeN />
       <div className="flex flex-col md:flex-row items-start justify-center w-full p-4 mt-32">
         <div className="w-full md:w-3/4 p-4">
@@ -48,7 +44,7 @@ function Myspace() {
                   }}
                 >
                   <img
-                    src={rent.Book.image}
+                    src={rent.Book.image.startsWith('http') ? rent.Book.image : `data:image/jpeg;base64,${rent.Book.image}`}
                     alt={rent.Book.name_book}
                     className="h-48 w-40 object-cover rounded mb-4" 
                   />
