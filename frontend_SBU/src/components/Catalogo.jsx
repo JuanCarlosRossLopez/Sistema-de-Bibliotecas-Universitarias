@@ -1,14 +1,12 @@
 import '../styles/styles.css';
 
-function Catalogo() {
+function LibrosRentados() {
   return (
     <div className="main">
-      <div className="card" id="c1"></div>
-      <div className="card" id="c2"></div>
-      <div className="card" id="c3"></div>
-      <div className="card" id="c4"></div>
+      <h1 className=''>libros rentados</h1>
+      <img src="https://i.ibb.co/7yZzQ1V/Logo-SBU.png" alt="Logo-SBU" border="0" />
     </div>
   );
 }
 
-export default Catalogo;    
+export default LibrosRentados;    

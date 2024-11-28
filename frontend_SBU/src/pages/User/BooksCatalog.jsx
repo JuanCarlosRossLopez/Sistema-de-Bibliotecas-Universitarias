@@ -1,13 +1,14 @@
 import { useState, useEffect } from 'react';
-import { fetchBooks } from '../../services/APIBooks';
+import { fetchBooks, fetchCategoryBooks } from '../../services/APIBooks';
 import Etiquetas from '../../components/Etiquetas';
 import BarraBusqueda from '../../components/BarraBusqueda';
 import NavbarHomeN from '../../components/navbarHomeNegro';
 import { useNavigate } from 'react-router-dom';
+
 const BooksCatalog = () => {
   const [libros, setLibros] = useState([]);
   const [filteredLibros, setFilteredLibros] = useState([]);
-  const [etiquetas, setEtiquetas] = useState([]);
+  const [categorias, setCategorias] = useState([]); // Renombramos 'etiquetas' a 'categorias'
   const [selectedEtiquetas, setSelectedEtiquetas] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -15,28 +16,24 @@ const BooksCatalog = () => {
     const cargarLibros = async () => {
       try {
         const data = await fetchBooks();
-
-        // Obtener etiquetas únicas
-        const categorias = Array.from(
-          new Map(
-            data.flatMap((libro) =>
-              libro.CategoryBooks.map((categoria) => ({
-                id: categoria.BookPivot.id_category_id,
-                category: categoria.category,
-              }))
-            ).map((categoria) => [categoria.id, categoria])
-          ).values()
-        );
-
         setLibros(data);
         setFilteredLibros(data);
-        setEtiquetas(categorias);
       } catch (error) {
         console.error('Error al cargar los libros:', error);
       }
     };
 
+    const cargarCategorias = async () => {
+      try {
+        const data = await fetchCategoryBooks(); // Llamada al servicio de categorías
+        setCategorias(data); // Guardamos las categorías en el estado
+      } catch (error) {
+        console.error('Error al cargar las categorías:', error);
+      }
+    };
+
     cargarLibros();
+    cargarCategorias();
   }, []);
 
   const handleSearch = (query) => {
@@ -56,17 +53,16 @@ const BooksCatalog = () => {
 
     // Filtrar por tipo de libro (Digital, Físico o Ambos)
     if (selectedEtiquetas.includes('digital') && selectedEtiquetas.includes('fisico')) {
-      // Mostrar todos los libros con ambos tipos incluidos
       librosFiltrados = librosFiltrados.filter(
         (libro) => libro.id_typeofbook_id === 1 || libro.id_typeofbook_id === 2 || libro.id_typeofbook_id === 3
       );
     } else if (selectedEtiquetas.includes('digital')) {
       librosFiltrados = librosFiltrados.filter(
-        (libro) => libro.id_typeofbook_id === 1 || libro.id_typeofbook_id === 3 // Digital o Ambos
+        (libro) => libro.id_typeofbook_id === 1 || libro.id_typeofbook_id === 3
       );
     } else if (selectedEtiquetas.includes('fisico')) {
       librosFiltrados = librosFiltrados.filter(
-        (libro) => libro.id_typeofbook_id === 2 || libro.id_typeofbook_id === 3 // Físico o Ambos
+        (libro) => libro.id_typeofbook_id === 2 || libro.id_typeofbook_id === 3
       );
     }
 
@@ -91,11 +87,9 @@ const BooksCatalog = () => {
   }, [selectedEtiquetas, searchQuery, libros]);
 
   const navigate = useNavigate();
+
   return (
-    <div
-      className="flex flex-col items-center min-h-screen"
-      style={{ backgroundColor: '#FFEFE5' }}
-    >
+    <div className="flex flex-col items-center min-h-screen" style={{ backgroundColor: '#FFEFE5' }}>
       {/* Navbar */}
       <NavbarHomeN />
 
@@ -104,7 +98,7 @@ const BooksCatalog = () => {
         {/* Panel de filtros */}
         <div className="w-full md:w-1/4 p-4">
           <Etiquetas
-            etiquetas={etiquetas}
+            categorias={categorias} // Cambiado de 'etiquetas' a 'categorias'
             selectedEtiquetas={selectedEtiquetas}
             onToggleEtiqueta={handleToggleEtiqueta}
           />
@@ -120,46 +114,43 @@ const BooksCatalog = () => {
             {filteredLibros.length > 0 ? (
               filteredLibros.map((libro) => (
                 <div
-                key={libro.id_book}
-                className="flex flex-col items-center p-4 rounded-lg shadow-md hover:shadow-lg transition"
-                style={{ backgroundColor: '#e0c5bc' }}
-              >
-                <img
-                  src={libro.image}
-                  alt={libro.name_book}
-                  className="h-72 w-60 object-cover rounded mb-4"
-                />
-                <h4 className="text-lg font-semibold text-center">
-                  {libro.name_book}
-                </h4>
-                <p className="text-sm text-gray-700 text-center">
-                  {libro.author}
-                </p>
-                <div className="mt-2">
-                  <span
-                    className={`text-xs py-1 px-3 rounded ${libro.id_typeofbook_id === 1
-                        ? 'bg-green-500 text-white'
-                        : libro.id_typeofbook_id === 2
+                  key={libro.id_book}
+                  className="flex flex-col items-center p-4 rounded-lg shadow-md hover:shadow-lg transition"
+                  style={{ backgroundColor: '#e0c5bc' }}
+                >
+                  <img
+                    src={libro.image}
+                    alt={libro.name_book}
+                    className="h-72 w-60 object-cover rounded mb-4"
+                  />
+                  <h4 className="text-lg font-semibold text-center">{libro.name_book}</h4>
+                  <p className="text-sm text-gray-700 text-center">{libro.author}</p>
+                  <div className="mt-2">
+                    <span
+                      className={`text-xs py-1 px-3 rounded ${
+                        libro.id_typeofbook_id === 2
+                          ? 'bg-green-500 text-white'
+                          : libro.id_typeofbook_id === 1
                           ? 'bg-yellow-500 text-black'
                           : 'bg-blue-500 text-white'
                       }`}
-                  >
-                    {libro.id_typeofbook_id === 1
-                      ? 'Digital'
-                      : libro.id_typeofbook_id === 2
+                    >
+                      {libro.id_typeofbook_id === 2
+                        ? 'Digital'
+                        : libro.id_typeofbook_id === 1
                         ? 'Físico'
                         : 'Físico/Digital'}
-                  </span>
+                    </span>
+                  </div>
+                  <div className="mt-4">
+                    <button
+                      className="bg-yellow-800 text-white px-4 py-1 rounded shadow-md hover:bg-yellow-900 transition duration-200"
+                      onClick={() => navigate(`/verlibro/${libro.id_book}`)}
+                    >
+                      Ver Libro
+                    </button>
+                  </div>
                 </div>
-                <div className="mt-4">
-                  <button
-                    className="bg-yellow-800 text-white px-4 py-1 rounded shadow-md hover:bg-yellow-900 transition duration-200"
-                    onClick={() => navigate(`/verlibro/${libro.id_book}`)}
-                  >
-                    Ver Libro
-                  </button>
-                </div>
-                </div>           
               ))
             ) : (
               <p className="text-center col-span-full text-gray-700">
