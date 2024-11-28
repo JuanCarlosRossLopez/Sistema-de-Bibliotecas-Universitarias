@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useForm} from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import NavbarEJ from "../../components/navbarEj";
 import SidebarEJ from "../../components/sidebarEj";
 import { FaEdit, FaTrash } from "react-icons/fa";
@@ -76,8 +76,8 @@ export default function TablaUsuarios() {
     </div>
 `;
 
-// Agrega el evento change al checkbox
-const script = `
+        // Agrega el evento change al checkbox
+        const script = `
     document.getElementById("is_student").addEventListener("change", function() {
         const studentForm = document.getElementById("student-form");
         if (this.checked) {
@@ -105,59 +105,59 @@ const script = `
             ${studentFormHTML}
         <script>${script}</script>
         `,
-        showCancelButton: true,
-        confirmButtonColor: "#3085d6",
-        cancelButtonColor: "#d33",
-        preConfirm: () => {
-            const name = document.getElementById("name").value.trim();
-            const last_name = document.getElementById("last_name").value.trim();
-            const mail = document.getElementById("mail").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const nomine = document.getElementById("nomine").value.trim();
-            const is_student = document.getElementById("is_student").checked;
-            const id_rol_id = parseInt(document.getElementById("id_rol_id").value, 10);
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            preConfirm: () => {
+                const name = document.getElementById("name").value.trim();
+                const last_name = document.getElementById("last_name").value.trim();
+                const mail = document.getElementById("mail").value.trim();
+                const password = document.getElementById("password").value.trim();
+                const nomine = document.getElementById("nomine").value.trim();
+                const is_student = document.getElementById("is_student").checked;
+                const id_rol_id = parseInt(document.getElementById("id_rol_id").value, 10);
 
-            if (!name || !last_name || !mail || !password) {
-                Swal.showValidationMessage("Por favor, complete todos los campos requeridos.");
-                return false;
-            }
-            let studentData = {};
-            if (is_student) {
-                const student_id = document.getElementById("student_id").value.trim();
-                const course = document.getElementById("course").value.trim();
-                // Agrega más campos según sea necesario
-                studentData = { student_id, course };
-            }
-            return { name, last_name, mail, password, nomine, is_student, id_rol_id,...studentData };
-        },
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            try {
-                const payload = result.value;
-                console.log("Datos a enviar: ", payload);
-                if (user) {
-                    // Editar usuario
-                    await axios.patch(`http://localhost:3000/users/${user.id}`, payload);
-                    Swal.fire("Éxito", "Usuario actualizado correctamente", "success");
-                } else {
-                    // Crear usuario
-                    await axios.post("http://localhost:3000/users", payload);
-                    Swal.fire("Éxito", "Usuario creado correctamente", "success");
+                if (!name || !last_name || !mail || !password) {
+                    Swal.showValidationMessage("Por favor, complete todos los campos requeridos.");
+                    return false;
                 }
+                let studentData = {};
+                if (is_student) {
+                    const student_id = document.getElementById("student_id").value.trim();
+                    const course = document.getElementById("course").value.trim();
+                    // Agrega más campos según sea necesario
+                    studentData = { student_id, course };
+                }
+                return { name, last_name, mail, password, nomine, is_student, id_rol_id, ...studentData };
+            },
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const payload = result.value;
+                    console.log("Datos a enviar: ", payload);
+                    if (user) {
+                        // Editar usuario
+                        await axios.patch(`http://localhost:3000/users/${user.id}`, payload);
+                        Swal.fire("Éxito", "Usuario actualizado correctamente", "success");
+                    } else {
+                        // Crear usuario
+                        await axios.post("http://localhost:3000/users", payload);
+                        Swal.fire("Éxito", "Usuario creado correctamente", "success");
+                    }
 
-                fetchUsers();
-            } catch (error) {
-                console.error(error);
-                Swal.fire("Error", "No se pudo guardar el usuario", "error");
+                    fetchUsers();
+                } catch (error) {
+                    console.error(error);
+                    Swal.fire("Error", "No se pudo guardar el usuario", "error");
+                }
             }
-        }
-    });
-};
+        });
+    };
 
 
-    
 
-    
+
+
     const deleteUser = async (userId) => {
         const { isConfirmed } = await Swal.fire({
             title: "¿Estás seguro?",
@@ -221,9 +221,9 @@ const script = `
                                         <tr key={user.id_users} className='border-b-2'>
                                             <td className="px-3 md:px-5 py-5 bg-transparent text-sm">
                                                 <div className="flex items-center">
-                                                <div className="flex-shrink-0 w-10 h-10">
-  <FaUserCircle className="w-full h-full text-gray-500 rounded-full" />
-</div>
+                                                    <div className="flex-shrink-0 w-10 h-10">
+                                                        <FaUserCircle className="w-full h-full text-gray-500 rounded-full" />
+                                                    </div>
                                                     <div className="ml-3">
                                                         <p className="text-gray-900 whitespace-nowrap">{user.name}</p>
                                                     </div>
@@ -247,13 +247,13 @@ const script = `
                                     ))}
                                 </tbody>
                             </table>
-                            <div className="px-3 md:px-5 py-5 bg-transparent flex flex-col xs:flex-row items-center xs:justify-between">
+                            {/* <div className="px-3 md:px-5 py-5 bg-transparent flex flex-col xs:flex-row items-center xs:justify-between">
                                 <span className="text-xs xs:text-sm text-gray-900">Mostrando 1 a 4 de 50 Entradas</span>
                                 <div className="inline-flex mt-2 xs:mt-0">
                                     <button className="text-sm text-indigo-50 bg-[#A2726A] hover:bg-[#e8a599] font-semibold py-2 px-4 rounded-l">Prev</button>
                                     <button className="text-sm text-indigo-50 bg-[#A2726A] hover:bg-[#e8a599] font-semibold py-2 px-4 rounded-r">Next</button>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

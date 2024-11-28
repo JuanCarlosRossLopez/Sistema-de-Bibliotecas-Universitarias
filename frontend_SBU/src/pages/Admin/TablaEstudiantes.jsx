@@ -200,13 +200,13 @@ export default function TablaEstudiantes() {
                                     ))}
                                 </tbody>
                             </table>
-                            <div className="px-3 md:px-5 py-5 bg-transparent flex flex-col xs:flex-row items-center xs:justify-between">
+                            {/* <div className="px-3 md:px-5 py-5 bg-transparent flex flex-col xs:flex-row items-center xs:justify-between">
                                 <span className="text-xs xs:text-sm text-gray-900">Mostrando 1 a 4 de 50 Entradas</span>
                                 <div className="inline-flex mt-2 xs:mt-0">
                                     <button className="text-sm text-indigo-50 bg-[#A2726A] hover:bg-[#e8a599] font-semibold py-2 px-4 rounded-l">Prev</button>
                                     <button className="text-sm text-indigo-50 bg-[#A2726A] hover:bg-[#e8a599] font-semibold py-2 px-4 rounded-r">Next</button>
                                 </div>
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

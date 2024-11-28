@@ -140,13 +140,15 @@ ul.breadcrumb li span {
   opacity: 60%;
 }
 
+/* Ocultar sidebar por defecto */
 #sidebar {
-  -webkit-transition: all 300ms cubic-bezier(0, 0.77, 0.58, 1);
-  transition: all 300ms cubic-bezier(0, 0.77, 0.58, 1);
+  transform: translateX(-100%); /* Empuja fuera de la pantalla */
+  transition: transform 0.3s ease-in-out; /* Suaviza la animación */
 }
 
+/* Mostrar el sidebar cuando tenga la clase 'show' */
 #sidebar.show {
-  transform: translateX(0);
+  transform: translateX(0); /* Lo vuelve visible */
 }
 
 #sidebar ul li a.active {

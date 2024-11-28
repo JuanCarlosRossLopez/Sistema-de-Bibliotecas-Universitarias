@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { FaUserCircle } from "react-icons/fa";
+import '../styles/styles.css';
+
 
 const SidebarEJ = () => {
     const [isOnline, setIsOnline] = useState(true);
@@ -18,11 +20,10 @@ const SidebarEJ = () => {
     }, []);
 
     return (
-        <div id="containerSidebar" className="z-40">
             <div className="navbar-menu relative z-40">
                 <nav
                     id="sidebar"
-                    className="fixed left-0 top-0 bottom-0 flex w-3/5 -translate-x-full flex-col overflow-y-auto bg-[#A2726A] pt-6 pb-8 sm:max-w-xs lg:w-80 "
+                    className=" fixed left-0 top-0 bottom-0 flex w-3/5 -translate-x-full flex-col overflow-y-auto bg-[#A2726A] pt-6 pb-8 sm:max-w-xs lg:w-80 "
                 >
                     <div className="px-4 pb-6">
                         <Link to={"/perfil"} className="flex items-center space-x-4 mb-3 mt-2" >
@@ -112,7 +113,6 @@ const SidebarEJ = () => {
                     </div>
                 </nav>
             </div>
-        </div>
     );
 };
 
