@@ -14,7 +14,10 @@ export default function TablaEstudiantes() {
     const MySwal = withReactContent(Swal);
     const [students, setStudents] = useState([]);
     const [user, setUsers] = useState([]);
+    
     const [searchQuery, setSearchQuery] = useState(""); // Para la búsqueda
+    const [filterDebt, setFilterDebt] = useState(null); // Filtro por deuda
+    const [filterBookRent, setFilterBookRent] = useState(null); // Filtro por libros rentados
     const [currentPage, setCurrentPage] = useState(1); // Página actual
     const [itemsPerPage] = useState(5); // Número de elementos por página
 
@@ -42,15 +45,27 @@ export default function TablaEstudiantes() {
             Swal.fire('Error', 'No se pudieron cargar los datos', 'error');
         }
     };
-
-    // Filtrado
+    
+    // Filtrado busqyeda
     const filteredStudents = students.filter((student) => {
         const searchTerm = searchQuery.toLowerCase();
-        return (
+        let matchesSearch = (
             student.User?.name?.toLowerCase().includes(searchTerm) ||
             student.User?.mail?.toLowerCase().includes(searchTerm) ||
             student.tuition?.toLowerCase().includes(searchTerm)
         );
+
+        // Filtrar por deuda
+        if (filterDebt !== null) {
+            matchesSearch = matchesSearch && (filterDebt ? student.debt > 0 : student.debt === 0);
+        }
+
+        // Filtrar por libros rentados
+        if (filterBookRent !== null) {
+            matchesSearch = matchesSearch && (filterBookRent ? student.book_rent > 0 : student.book_rent === 0);
+        }
+
+        return matchesSearch;
     });
     // Paginación
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -175,6 +190,18 @@ export default function TablaEstudiantes() {
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
+                            <button
+                                className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold"
+                                onClick={() => setFilterDebt(filterDebt === null ? true : null)}
+                            >
+                                {filterDebt === null ? "Filtrar por deuda" : "Quitar filtro deuda"}
+                            </button>
+                            <button
+                                className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold"
+                                onClick={() => setFilterBookRent(filterBookRent === null ? true : null)}
+                            >
+                                {filterBookRent === null ? "Filtrar por libro rentado" : "Quitar filtro libro"}
+                            </button>
                             <button onClick={() => showModal()} className="bg-[#A2726A] hover:bg-[#e8a599] px-3 md:px-4 py-2 rounded-md text-white font-semibold">
                                 Crear Estudiante
                             </button>
@@ -220,11 +247,11 @@ export default function TablaEstudiantes() {
                                     ))}
                                 </tbody>
                             </table>
-                            <div className="px-3 md:px-5 py-5 bg-transparent flex flex-col xs:flex-row items-center xs:justify-between">
-                                <span className="text-xs xs:text-sm text-gray-900">
+                            <div className="px-3 md:px-5 bg-transparent flex flex-col xs:flex-row items-center xs:justify-between">
+                                <span className="text-xs xs:text-sm text-gray-900 mt-5">
                                     Mostrando {indexOfFirstItem + 1}-{Math.min(indexOfLastItem, filteredStudents.length)} de {filteredStudents.length} Estudiantes
                                 </span>
-                                <div className="inline-flex mt-2 xs:mt-0">
+                                <div className="inline-flex">
                                     <button
                                         className="text-sm text-indigo-50 bg-[#A2726A] hover:bg-[#e8a599] font-semibold py-2 px-4 rounded-l"
                                         onClick={() => handlePageChange(currentPage - 1)}
