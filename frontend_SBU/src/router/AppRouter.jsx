@@ -14,6 +14,8 @@ import ProtectedRoute from '../components/ProtectedRoute';
 import GestionCategorias from '../pages/Employee/TablaCategoria';
 import { AuthProvider } from '../contexts/AuthContext';
 import TablaEstudiantes from '../pages/Admin/TablaEstudiantes';
+import prubea from '../pages/Visitor/prueba';
+
 
 function AppRoutes() {
   return (
@@ -56,6 +58,7 @@ function AppRoutes() {
           <Route element={<ProtectedRoute allowedRoles={['admin', 'employee', 'student']} />}>
             <Route path="/nosotros" element={<Nosotros />} />
           </Route>
+          <Route path="/prueba" element={<prubea />} />
           <Route path="/*" element={<Error />} />
         </Routes>
       </AuthProvider>

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { FaRegUserCircle } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function NavbarHomeN() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -13,10 +14,10 @@ function NavbarHomeN() {
           <div className="absolute inset-y-0 left-0 flex items-start sm:hidden">
             <button
               type="button"
-              className="inline-flex items-center justify-stard rounded-md p-2  text-black hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+              className="inline-flex items-center justify-start rounded-md p-2  text-black hover:bg-black hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
               aria-controls="mobile-menu"
               aria-expanded={menuOpen}
-              onClick={() => setMenuOpen(!menuOpen)} 
+              onClick={() => setMenuOpen(!menuOpen)}
             >
               <span className="sr-only">Abrir menú</span>
               {menuOpen ? (
@@ -67,73 +68,78 @@ function NavbarHomeN() {
           </div>
 
           <div className="hidden sm:flex space-x-6">
-            <a
-              href="/CatalogoLibros"
+            <Link
+              to="/CatalogoLibros"
               className="text-black lg:text-3xl md:text-xl sm:text-lg font-serif transition transform hover:scale-110"
             >
               Catálogo
-            </a>
+            </Link>
             <div className="h-13 w-0.5 bg-slate-400"></div>
-            <a
-              href="/Mislibros"
+            <Link
+              to="/Mislibros"
               className="text-black lg:text-3xl md:text-xl sm:text-lg font-serif transition transform hover:scale-110"
             >
               Mis libros
-            </a>
+            </Link>
             <div className="h-13 w-0.5 bg-slate-400"></div>
-            <a
-              href="#"
+            <Link
+              to="/nosotros"
               className="text-black lg:text-3xl md:text-xl sm:text-lg font-serif transition transform hover:scale-110"
             >
               Acerca de
-            </a>
+            </Link>
           </div>
 
           <div className="relative ml-3 flex flex-col items-center">
-              <div>
-                <a
-                  href={`/Mislibros`}
-                  type="button"
-                  className="relative flex rounded-full  text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                >
-                  <span className="absolute -inset-1.5"></span>
-                  <span className="sr-only">Open user menu</span>
-                  <div className="flex-shrink-0 w-10 h-10">
-                    <FaRegUserCircle className="w-full h-full text-black rounded-full" />
-                  </div>
-                </a>
-              </div>
-              <button className="text-sm font-semibold  py-1 px-1 rounded-md" onClick={logout}>Cerrar Sesión</button>
+            <div>
+              <Link
+                to="/Mislibros"
+                type="button"
+                className="relative flex rounded-full  text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                id="user-menu-button"
+                aria-expanded="false"
+                aria-haspopup="true"
+              >
+                <span className="absolute -inset-1.5"></span>
+                <span className="sr-only">Open user menu</span>
+                <div className="flex-shrink-0 w-10 h-10">
+                  <FaRegUserCircle className="w-full h-full text-black rounded-full" />
+                </div>
+              </Link>
             </div>
+            <button
+              className="text-sm font-semibold  py-1 px-1 rounded-md"
+              onClick={logout}
+            >
+              Cerrar Sesión
+            </button>
+          </div>
         </div>
       </div>
 
       {menuOpen && (
         <div className="sm:hidden bg-white text-black " id="mobile-menu">
           <div className="space-y-2 px-4 pb-4 pt-2">
-            <a
-              href="/CatalogoLibros"
+            <Link
+              to="/CatalogoLibros"
               className="block px-3 py-2 text-base font-medium hover:bg-gray-200"
             >
-              Catalogo
-            </a>
+              Catálogo
+            </Link>
             <div className="h-0.5 w-full bg-slate-400"></div>
-            <a
-              href="/MIslbros"
+            <Link
+              to="/Mislibros"
               className="block px-3 py-2 text-base font-medium hover:bg-gray-200"
             >
               Mis libros
-            </a>
+            </Link>
             <div className="h-0.5 w-full bg-slate-400"></div>
-            <a
-              href="/nosotros"
+            <Link
+              to="/nosotros"
               className="block px-3 py-2 text-base font-medium hover:bg-gray-200"
             >
               Acerca de
-            </a>
+            </Link>
           </div>
         </div>
       )}
