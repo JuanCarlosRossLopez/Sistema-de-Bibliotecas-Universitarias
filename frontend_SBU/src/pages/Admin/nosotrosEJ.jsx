@@ -62,8 +62,8 @@ function Nosotros() {
                 {/* Valores */}
                 <div className="bg-[#FFEFE5] text-black rounded-lg shadow-2xl p-4 sm:p-6  border-gray-300 border-2">
                     <h2 className="text-xl md:text-2xl font-bold mb-3 text-center">Valores</h2>
-                    <ul className="list-disc ml-4 text-justify text-sm md:text-base">
-                        <li className="mb-2 ">Accesibilidad: Garantizamos que todos los usuarios puedan acceder fácilmente a los recursos de la biblioteca.</li>
+                    <ul className="list-disc ml-4 text-justify text-sm md:text-base font-bold">
+                        <li className="mb-2">Accesibilidad: Garantizamos que todos los usuarios puedan acceder fácilmente a los recursos de la biblioteca.</li>
                         <li className="mb-2">Innovación: Impulsamos la transformación digital en la gestión bibliotecaria.</li>
                         <li className="mb-2">Eficiencia: Optimizamos los procesos para simplificar y agilizar las operaciones.</li>
                         <li className="mb-2">Compromiso con la educación: Apoyamos el desarrollo académico mediante herramientas tecnológicas.</li>
