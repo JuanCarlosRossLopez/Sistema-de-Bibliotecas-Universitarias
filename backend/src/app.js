@@ -18,9 +18,10 @@ dotenv.config();
 const app = express();
 
 app.use(cors({ origin: 'http://localhost:5173' })); // Configurar CORS para permitir solicitudes desde el frontend
-app.use(express.json()); // Middleware para parsear el cuerpo de las solicitudes JSON
+app.use(express.json({ limit: '10mb' })); 
+app.use(express.urlencoded({ limit: '10mb', extended: true }));
 
-// Associations entre modelos eso me dijo chat
+// Associations entre modelos
 Books.associate({ CategoryBooks, BookPivot });
 CategoryBooks.associate({ Books, BookPivot });
 
@@ -34,7 +35,7 @@ app.use('/bookRent', bookRentRoute);
 app.use('/typeofbook', typeofbookRoute);
 app.use('/auth', auth);
 
-// Inicializar roles y status
+// Inicializar roles y status 
 /*Descomentar esto si quieres para inicializar los roles (después de haber creado las tablas corrienfo el back),
 volver a comentar al crearlos para subir*/
 const initRoles = require('./initRoles');
@@ -43,4 +44,5 @@ const initStatus= require('./initStatus');
 initStatus();
 const initTypeBook= require('./initTypeOfBook');
 initTypeBook();
-module.exports = app; // No inicializar el servidor aquí
+
+module.exports = app;
