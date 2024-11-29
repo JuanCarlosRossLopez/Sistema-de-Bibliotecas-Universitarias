@@ -1,34 +1,47 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Swal from "sweetalert2";
 import NavbarEJ from "../../components/navbarEj";
 import SidebarEJ from "../../components/sidebarEj";
-import BarsChart from "../../components/BarsChart";
 
 function HomeEmpleados() {
-  const [pendingReturns, setPendingReturns] = useState(0);
-  const [reservedBooks, setReservedBooks] = useState(0);
+  const [reservedBooks, setReservedBooks] = useState([]);
 
   useEffect(() => {
-    fetchPendingReturns();
     fetchReservedBooks();
   }, []);
 
-  const fetchPendingReturns = async () => {
-    try {
-      const response = await axios.get("http://localhost:3000/bookRent/pendingReturns");
-      setPendingReturns(response.data.count);
-    } catch (error) {
-      console.error("Error fetching pending returns:", error);
-    }
-  };
-
   const fetchReservedBooks = async () => {
     try {
-      const response = await axios.get("http://localhost:3000/bookRent/reservedBooks");
-      setReservedBooks(response.data.count);
+      const response = await axios.get("http://localhost:3000/bookRent");
+      setReservedBooks(response.data);
     } catch (error) {
       console.error("Error fetching reserved books:", error);
     }
+  };
+
+  const handleStatusUpdate = async (rent) => {
+    Swal.fire({
+      title: "Actualizar Estado",
+      text: `¿Estás seguro de que deseas marcar el libro "${rent.Book.name_book}" como entregado?`,
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Sí, actualizar",
+      cancelButtonText: "Cancelar",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        try {
+          const updatedData = { id_status_id: 2 }; // Cambiar el estado a 2 (Entregado)
+          await axios.put(`http://localhost:3000/bookRent/update/${rent.id_rent}`, updatedData);
+          console.log(updatedData)
+          Swal.fire("Actualizado", "El libro ha sido marcado como entregado.", "success");
+          fetchReservedBooks(); // Recargar datos
+        } catch (error) {
+          console.error("Error updating book status:", error);
+          Swal.fire("Error", "No se pudo actualizar el estado", "error");
+        }
+      }
+    });
   };
 
   return (
@@ -42,36 +55,57 @@ function HomeEmpleados() {
           <div className="flex flex-col md:flex-row gap-4 justify-between w-full">
             <div className="bg-[#C19B93] rounded-md flex-1 p-4 md:p-6 lg:p-8">
               <h1 className="font-bold text-base md:text-lg lg:text-xl text-center md:text-left">
-                Devoluciones pendientes: <b>{pendingReturns}</b>
+                Devoluciones pendientes: <b>{reservedBooks.filter((book) => book.status === 1).length}</b>
               </h1>
             </div>
             <div className="bg-[#C19B93] rounded-md flex-1 p-4 md:p-6 lg:p-8">
               <h1 className="font-bold text-base md:text-lg lg:text-xl text-center md:text-left">
-                Libros reservados: <b>{reservedBooks}</b>
+                Libros reservados: <b>{reservedBooks.length}</b>
               </h1>
             </div>
           </div>
-
-          {/* <div className="flex flex-col md:flex-row gap-4 lg:gap-20 justify-center w-full">
+          {reservedBooks.map((rent) => (
             <div
-              className="bg-light mx-auto md:mx-0 p-4 border border-spacing-2 flex-1 max-h-[240px] xl:max-h-[300px] max-w-[400px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[500px]"
-              style={{ minHeight: "200px" }}
+              key={rent.id_rent}
+              className="flex flex-col items-center p-4 rounded-lg shadow-md hover:shadow-lg transition"
+              style={{
+                backgroundColor: "#e0c5bc",
+                minHeight: "350px",
+              }}
             >
-              <p className="m-2 text-center text-lg sm:text-xl md:text-2xl">
-                <b>Ejemplo #2:</b> Grafico de barras
-              </p>
-              <BarsChart />
+              <img
+                src= {rent.Book.image.startsWith('http') ? rent.Book.image : `data:image/jpeg;base64,${rent.Book.image}`}
+                alt={rent.Book.name_book}
+                className="h-48 w-40 object-cover rounded mb-4"
+              />
+              <div className="flex flex-col justify-between flex-grow">
+                <h4 className="text-lg font-semibold text-center">{rent.Book.name_book}</h4>
+                <p className="text-sm text-gray-700 text-center">{rent.Book.author}</p>
+                <div className="mt-2 text-center">
+                  <p className="text-sm text-gray-600">
+                    <span className="font-bold">Fecha de renta:</span>{" "}
+                    {new Date(rent.request_date).toLocaleDateString()}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    <span className="font-bold">Fecha de devolución:</span>{" "}
+                    {new Date(rent.return_date).toLocaleDateString()}
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    <span className="font-bold">Estado actual:</span>{" "}
+                    {rent.status === 1 ? "Pendiente" : "Entregado"}
+                  </p>
+                </div>
+                
+                  <button
+                    onClick={() => handleStatusUpdate(rent)}
+                    className="bg-[#000000] hover:bg-[#ff2b2b] px-4 py-2 rounded-md text-white font-semibold mt-4"
+                  >
+                    Marcar como Entregado
+                  </button>
+                
+              </div>
             </div>
-            <div
-              className="bg-light mx-auto md:mx-0 p-4 border border-spacing-2 flex-1 max-h-[240px] xl:max-h-[300px] max-w-[400px] md:max-w-[400px] lg:max-w-[500px] xl:max-w-[500px]"
-              style={{ minHeight: "200px" }}
-            >
-              <p className="m-2 text-center text-lg sm:text-xl md:text-2xl">
-                <b>Ejemplo #2:</b> Grafico de barras
-              </p>
-              <BarsChart />
-            </div>
-          </div> */}
+          ))}
         </div>
       </div>
     </div>
@@ -79,4 +113,3 @@ function HomeEmpleados() {
 }
 
 export default HomeEmpleados;
-

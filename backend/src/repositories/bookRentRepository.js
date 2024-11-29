@@ -16,7 +16,7 @@ const getBookRent = async () => {
             
                 {
                     model: Book,
-                    attributes: ['name_book']
+                    attributes: ['name_book','image']
                 }
             ]
         });
@@ -38,7 +38,7 @@ const getBookRentById=async(id)=>{
         
          {
              model: Book,
-             attributes: ['name_book']
+             attributes: ['name_book','image']
          }],
  
      });

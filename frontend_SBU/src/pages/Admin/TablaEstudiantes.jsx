@@ -46,7 +46,7 @@ export default function TablaEstudiantes() {
         }
     };
     
-    // Filtrado busqyeda
+    // Filtrado busqueda
     const filteredStudents = students.filter((student) => {
         const searchTerm = searchQuery.toLowerCase();
         let matchesSearch = (
