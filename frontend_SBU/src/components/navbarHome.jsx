@@ -1,9 +1,6 @@
 import React, { useState } from "react";
-import { useAuth } from "../contexts/AuthContext";
 import { FaRegUserCircle } from "react-icons/fa";
-
-
-
+import { Link } from "react-router-dom";
 
 function NavbarHome() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -69,74 +66,73 @@ function NavbarHome() {
           </div>
 
           <div className="hidden sm:flex space-x-6">
-            <a
-              href="#"
+            <Link
+              to="/Mislibros"
               className="text-white lg:text-3xl md:text-xl sm:text-lg font-serif transition transform hover:scale-110"
             >
-              Inicio
-            </a>
+              Mis libros
+            </Link>
             <div className="h-13 w-0.5 bg-slate-400"></div>
-            <a
-              href="#"
+            <Link
+              to="/CatalogoLibros"
               className="text-white lg:text-3xl md:text-xl sm:text-lg font-serif transition transform hover:scale-110"
             >
               Catálogo
-            </a>
+            </Link>
             <div className="h-13 w-0.5 bg-slate-400"></div>
-            <a
-              href="#"
+            <Link
+              to="/nosotros"
               className="text-white lg:text-3xl md:text-xl sm:text-lg font-serif transition transform hover:scale-110"
             >
               Acerca de
-            </a>
+            </Link>
           </div>
 
           <div className="relative ml-3 flex flex-col items-center text-white">
-              <div>
-                <a
-                  href={`/Signin`}
-                  type="button"
-                  className="relative flex rounded-full  text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-                  id="user-menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                >
-                  <span className="absolute -inset-1.5"></span>
-                  <span className="sr-only">Open user menu</span>
-                  <div className="flex-shrink-0 w-10 h-10">
-                    <FaRegUserCircle className="w-full h-full text-white rounded-full" />
-                  </div>
-                </a>
-              </div>
+            <div>
+              <Link
+                to="/Mislibros"
+                className="relative flex rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                id="user-menu-button"
+                aria-expanded="false"
+                aria-haspopup="true"
+              >
+                <span className="absolute -inset-1.5"></span>
+                <span className="sr-only">Open user menu</span>
+                <div className="flex-shrink-0 w-10 h-10">
+                  <FaRegUserCircle className="w-full h-full text-white rounded-full" />
+                </div>
+              </Link>
             </div>
+          </div>
         </div>
       </div>
 
       {menuOpen && (
         <div className="sm:hidden bg-transparent text-white " id="mobile-menu">
           <div className="space-y-2 px-4 pb-4 pt-2">
-            <a
-              href="#"
+            <Link
+              to="/Mislibros"
               className="block px-3 py-2 text-base font-medium hover:bg-gray-200"
             >
-              Inicio
-            </a>
+              Mis libros
+            </Link>
             <div className="h-0.5 w-full bg-slate-400"></div>
 
-            <a
-              href="#"
+            <Link
+              to="/CatalogoLibros"
               className="block px-3 py-2 text-base font-medium hover:bg-gray-200"
             >
               Catálogo
-            </a>
+            </Link>
             <div className="h-0.5 w-full bg-slate-400"></div>
 
-            <a
-              href="#"
+            <Link
+              to="/nosotros"
               className="block px-3 py-2 text-base font-medium hover:bg-gray-200"
             >
               Acerca de
-            </a>
+            </Link>
           </div>
         </div>
       )}
@@ -144,4 +140,4 @@ function NavbarHome() {
   );
 }
 
-export default NavbarHome;
+export default NavbarHome;

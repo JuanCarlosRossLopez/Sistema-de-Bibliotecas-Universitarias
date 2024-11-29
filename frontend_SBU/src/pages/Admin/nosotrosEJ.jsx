@@ -1,48 +1,88 @@
 import React from "react";
-import { Link } from "react-router-dom";
-
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 function Nosotros() {
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    // Lógica para redirigir dependiendo de la ruta actual
+    React.useEffect(() => {
+        if (location.pathname === "/CatalogoLibros") {
+            // Si la ruta es /CatalogoLibros, no hacemos nada (te quedas en la misma página)
+            return;
+        } else if (location.pathname === "/Mislibros") {
+            // Si la ruta es /Mislibros, rediriges a esa vista
+            navigate("/Mislibros");
+        }
+    }, [location.pathname, navigate]);
+
     return (
-        <div className=" bg-slate-600 min-h-screen">
-            <div className=" h-24 ">
+        <div className="bg-[#FFEFE5] min-h-screen text-gray-600 px-4 py-8">
+            {/* Título Principal */}
+            <div className="text-center text-4xl md:text-5xl text-black font-bold mb-8">
+                <h1>Acerca de Nosotros</h1>
             </div>
-            <div className=" text-center justify-center items-center text-5xl h-20 text-fuchsia-700 gap-14 font-bold mt-16">
-                <h1>Acerca de nosotros</h1>
+
+            {/* Descripción */}
+            <div className="text-center text-base md:text-lg mb-12 px-2 sm:px-8 lg:px-20">
+                <p>
+                    The Big Library es una plataforma que facilita la gestión de libros de
+                    una biblioteca universitaria,<br /> permitiendo el control de libros,
+                    préstamos y devoluciones.<br /> Además, los estudiantes pueden hacer
+                    reservaciones digitales y consultar la disponibilidad de recursos,<br />
+                    mejorando la eficiencia y accesibilidad para todos los usuarios.
+                </p>
             </div>
-            <div className=" text-center  text-white h-40">
-                <p>Nosotros somos una Aplicación Web dirigida a la venta de gadgets. Markdget se crea en el año 2023,
-                    esta idea surge entre 3 compañeros.
-                    <br />Esto como un proyecto, en el cuál nos basamos en la problemática de las tiendas físicas de
-                    gadgets, ya que no tienen buenas ventas. Al
-                    <br />igual se analizó la parte del usuario, y nos dimos cuenta que se les dificulta encontrar sus
-                    productos en tiendas físicas, al igual que el pago
-                    <br />suele ser díficil, ya que puede ser que la tienda no tenga cambio. Así que con este proyecto
-                    tratamos de que las tiendas suban sus ventas de
-                    <br />sus productos y sean reconocidas a nivel nacional, y también que los usuarios tengan una manera
-                    muy accesible de adquirir sus productos en
-                    <br />línea, al igual que los métodos de pago sean de manera fácil y sencilla para ellos.</p>
+
+            {/* Misión, Visión y Valores */}
+            <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 max-w-7xl mx-auto">
+                {/* Misión */}
+                <div className="bg-[#FFEFE5] text-black rounded-lg shadow-2xl p-4 sm:p-6 border-gray-300 border-2">
+                    <h2 className="text-xl md:text-2xl font-bold mb-3 text-center">Misión</h2>
+                    <p className="text-justify text-sm md:text-base">
+                        Facilitar la gestión eficiente y accesible de los recursos
+                        bibliográficos de las bibliotecas universitarias, ofreciendo
+                        herramientas digitales que optimicen el control de libros,
+                        préstamos, devoluciones y reservaciones para enriquecer la
+                        experiencia de aprendizaje de los estudiantes y la comunidad
+                        académica.
+                    </p>
+                </div>
+
+                {/* Visión */}
+                <div className="bg-[#FFEFE5] text-black rounded-lg shadow-2xl p-4 sm:p-6  border-gray-300 border-2">
+                    <h2 className="text-xl md:text-2xl font-bold mb-3 text-center">Visión</h2>
+                    <p className="text-justify text-sm md:text-base">
+                        Ser la plataforma líder en la transformación digital de bibliotecas
+                        universitarias, promoviendo la innovación y el acceso equitativo al
+                        conocimiento mediante soluciones tecnológicas de vanguardia.
+                    </p>
+                </div>
+
+                {/* Valores */}
+                <div className="bg-[#FFEFE5] text-black rounded-lg shadow-2xl p-4 sm:p-6  border-gray-300 border-2">
+                    <h2 className="text-xl md:text-2xl font-bold mb-3 text-center">Valores</h2>
+                    <ul className="list-disc ml-4 text-justify text-sm md:text-base">
+                        <li className="mb-2">Accesibilidad: Garantizamos que todos los usuarios puedan acceder fácilmente a los recursos de la biblioteca.</li>
+                        <li className="mb-2">Innovación: Impulsamos la transformación digital en la gestión bibliotecaria.</li>
+                        <li className="mb-2">Eficiencia: Optimizamos los procesos para simplificar y agilizar las operaciones.</li>
+                        <li className="mb-2">Compromiso con la educación: Apoyamos el desarrollo académico mediante herramientas tecnológicas.</li>
+                        <li>Colaboración: Fomentamos una conexión más efectiva entre la biblioteca y la comunidad universitaria.</li>
+                    </ul>
+                </div>
             </div>
-            <div className=" text-fuchsia-700 ml-44 text-2xl h-14 font-bold  text-center">
-                <h2>Desarrolladores de la Aplicación Web</h2>
-            </div>
-            <div className="text-white text-center font-semibold">
-                <ul className="">
-                    <li className="h-10">Wilberth Cahuich</li>
-                    <img className="w-80 mx-auto block" src="/img/coronao.jpeg" alt="Buiiild"/>
-                    <Link to="https://instagram.com/kawy40?igshid=MzRlODBiNWFlZA=="><box-icon name='instagram' type='logo' flip='vertical' animation='tada' color='#a21ca5'></box-icon></Link>
-                    <Link to=""><box-icon name='linkedin-square' type='logo' flip='vertical' animation='tada' color='#a21ca5' ></box-icon></Link>
-                    <li className="h-10">Jose Coronado</li>
-                    <img className="w-80 mx-auto block" src="/img/coronao.jpeg" alt=""/>
-                    <Link to="https://instagram.com/coronado_ja04?igshid=ZDc4ODBmNjlmNQ=="><box-icon name='instagram' type='logo' flip='vertical' animation='tada' color='#a21ca5'></box-icon></Link>
-                    <Link to=""><box-icon name='linkedin-square' type='logo' flip='vertical' animation='tada' color='#a21ca5' ></box-icon></Link>
-                </ul>
-            </div>
-            <div>
+
+            {/* Botón para regresar */}
+            <div className="mt-8 text-center">
+                <Link
+                    to={location.pathname === "/CatalogoLibros" ? "/CatalogoLibros" : "/Mislibros"}
+                    className="px-4 sm:px-6 py-2 sm:py-3 bg-yellow-800 text-white font-semibold rounded-lg shadow-md hover:bg-[#FFEFE5] hover:text-black transition duration-300"
+                >
+                    Regresar
+                </Link>
             </div>
         </div>
-    )
-
+    );
 }
 
 export default Nosotros;
