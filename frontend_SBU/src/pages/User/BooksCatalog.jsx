@@ -90,9 +90,13 @@ const BooksCatalog = () => {
 
   return (
     <div className="flex flex-col items-center min-h-screen" style={{ backgroundColor: '#FFEFE5' }}>
-      <NavbarHomeN />
-
-      <div className="flex flex-col md:flex-row items-start justify-center w-full p-4 mt-32">
+      
+      
+      <div className=" sticky top-0 z-10 bg-white">
+  <NavbarHomeN />
+</div>
+      {/* Añadir un margen superior adecuado para evitar que el contenido se sobreponga al navbar */}
+      <div className="content flex flex-col md:flex-row items-start justify-center w-full p-4 mt-32">
         <div className="w-full md:w-1/4 p-4">
           <Etiquetas
             categorias={categorias}
@@ -100,10 +104,10 @@ const BooksCatalog = () => {
             onToggleEtiqueta={handleToggleEtiqueta}
           />
         </div>
-
+  
         <div className="w-full md:w-3/4 p-4">
           <BarraBusqueda onSearch={handleSearch} />
-
+  
           <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-6">
             {filteredLibros.length > 0 ? (
               filteredLibros.map((libro) => (
@@ -154,8 +158,7 @@ const BooksCatalog = () => {
           </div>
         </div>
       </div>
-    </div>
-  );
-};
+    </div>
+  );};
 
 export default BooksCatalog;

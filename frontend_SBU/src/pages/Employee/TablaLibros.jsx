@@ -18,16 +18,21 @@ const TablaLibros = () => {
   const booksPerPage = 4;
 
   useEffect(() => {
-    fetchBooks();
     fetchTypeofbook();
   }, []);
+
+  useEffect(() => {
+    if (typeofbook.length > 0) {
+      fetchBooks();
+    }
+  }, [typeofbook]);
 
   const fetchBooks = async () => {
     try {
       const response = await axios.get("http://localhost:3000/books");
       const booksData = response.data.map(book => ({
         ...book,
-        type_of_book: typeofbook.find(type => type.id_type === book.id_typeofbook_id)?.type_of_book
+        type_of_book: typeofbook.find(type => type.id_type === book.id_typeofbook_id)?.type_of_book || "Tipo Desconocido"
       }));
       setBooks(booksData);
       setFilteredBooks(booksData);
